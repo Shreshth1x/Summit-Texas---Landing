@@ -169,17 +169,6 @@ main {
   margin-top: 1em;
 }
 
-.hero__label {
-  font-family: var(--font-mono);
-  font-size: 0.72em;
-  font-weight: 400;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-  margin-top: 2em;
-  opacity: 0; /* revealed by the intro timeline */
-}
-
 /* Learn More CTA — sits in the hero content stack, directly below the mono
    label. Centred by the flex column; margin gives comfortable breathing room. */
 .hero__cta {
@@ -439,5 +428,209 @@ main {
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   .hero.is--hidden { visibility: visible; }
-  [data-hero-fade], .hero__label, .hero__cta, .sticker-item { opacity: 1 !important; }
+  [data-hero-fade], .hero__cta, .sticker-item { opacity: 1 !important; }
+  [data-fade] { opacity: 1 !important; }
+}
+
+/* ============================================================
+   Form pages (support / contact) — same single-viewport family
+   ============================================================ */
+/* Entrance targets start hidden; form.js fades them up (JS-reveal). */
+[data-fade] { opacity: 0; }
+
+.formpage {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(3em, 9vh, 6em) 2em;
+  overflow: hidden;
+}
+
+.formpage__inner {
+  width: 100%;
+  max-width: 36em;
+  text-align: left;
+  font-size: clamp(0.85rem, 0.55rem + 0.62vw, 1rem);
+}
+
+.formpage__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: clamp(1em, 2.6vh, 1.6em);
+}
+
+.formpage__intro {
+  font-family: var(--font-body);
+  font-size: 1em;
+  line-height: clamp(1.5, 1.35 + 0.5vh, 1.7);
+  color: var(--ink-dim);
+  margin-bottom: clamp(1.8em, 4.4vh, 2.6em);
+}
+
+/* Persistent corner mark (non-draggable logo, mirrors the sticker slot). */
+.corner-mark {
+  position: fixed;
+  top: 3em;
+  right: 4em;
+  width: 2.75em;
+  height: 2.75em;
+  z-index: 100;
+  display: block;
+}
+
+.corner-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Top meta bar — same footprint as the hero one. */
+.pagebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 3em 4em;
+  pointer-events: none;
+}
+
+/* ---- Form ---- */
+.form { display: flex; flex-direction: column; }
+
+.field { display: flex; flex-direction: column; }
+.field + .field { margin-top: clamp(1.1em, 3vh, 1.7em); }
+
+.field__label {
+  font-family: var(--font-mono);
+  font-size: 0.62em;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 0.7em;
+}
+
+/* Minimal underline inputs — transparent, single hairline, orange on focus. */
+.field__input,
+.field__textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--ink-faint);
+  border-radius: 0;
+  padding: 0.55em 0;
+  font-family: var(--font-body);
+  font-size: 1em;
+  color: var(--basalt);
+  transition: border-color 0.3s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.field__input:focus,
+.field__textarea:focus {
+  outline: none;
+  border-bottom-color: var(--orange);
+}
+
+.field__input::placeholder,
+.field__textarea::placeholder { color: var(--ink-faint); }
+
+.field__textarea { resize: vertical; min-height: 5.5em; line-height: 1.5; }
+
+.form__actions { margin-top: clamp(1.8em, 4.6vh, 2.6em); }
+
+.form__status {
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  margin-top: 1.4em;
+  min-height: 1.2em;
+}
+
+.form__status--ok { color: var(--orange); }
+.form__status--err { color: #A5402C; } /* muted brick red, harmonizes with terracotta */
+
+/* Honeypot — visually + AT hidden, still submitted so bots reveal themselves. */
+._honey {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* BACK link — same as the manifesto one. */
+.formpage__back {
+  position: absolute;
+  bottom: 3em;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink-faint);
+  transition: color 0.3s ease;
+}
+
+.formpage__back:hover { color: var(--terracotta); }
+
+.formpage__copyright {
+  position: absolute;
+  bottom: clamp(1.4em, 3.6vh, 2.4em);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 36rem;
+  padding: 0;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: clamp(0.6rem, 0.5rem + 0.2vw, 0.7rem);
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+}
+
+@media screen and (max-width: 640px) {
+  .formpage__copyright { padding: 0 1.5em; }
+}
+
+@media screen and (max-width: 768px) {
+  /* Fit if we can; if the form genuinely can't, this one view scrolls. */
+  .formpage {
+    justify-content: flex-start;
+    padding: 13vh 1.5em 8.5em;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .corner-mark {
+    top: 1.75em;
+    right: 2em;
+    width: 2.25em;
+    height: 2.25em;
+  }
+
+  .pagebar { padding: 2em; }
+
+  .formpage__back { bottom: 4.5em; }
+
+  .formpage__copyright {
+    bottom: 1.8em;
+    padding: 0 1.5em;
+  }
 }

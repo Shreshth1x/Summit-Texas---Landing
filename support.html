@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>support · summit texas</title>
+  <meta name="description" content="Support Summit, Texas — help us build the Mesa House in West Campus, Austin.">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Paper texture / film grain -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Corner mark (links home) -->
+  <a class="corner-mark" href="/" aria-label="summit texas — home" data-fade>
+    <img src="assets/logo.png" alt="summit texas mesa mark" draggable="false">
+  </a>
+
+  <main>
+    <section class="formpage">
+      <div class="pagebar">
+        <span class="meta" data-fade>AUSTIN, TX · 2026</span>
+      </div>
+
+      <div class="formpage__inner">
+        <p class="formpage__eyebrow" data-fade>SUPPORT US</p>
+        <p class="formpage__intro" data-fade>We're immensely grateful for all of the support that we get. Every dollar is put back into the program and making the experience better to redefine what UT is as a startup ecosystem.</p>
+
+        <form class="form" data-form data-subject="Summit Texas · Support form" data-fade>
+          <div class="field">
+            <label class="field__label" for="name">Name</label>
+            <input class="field__input" id="name" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label class="field__label" for="email">Email</label>
+            <input class="field__input" id="email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label class="field__label" for="message">How would you like to support?</label>
+            <textarea class="field__textarea" id="message" name="message" rows="4" required></textarea>
+          </div>
+
+          <!-- Honeypot -->
+          <input type="text" name="_honey" class="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <div class="form__actions">
+            <button type="submit" class="btn btn--primary">Send</button>
+          </div>
+
+          <p class="form__status" data-status role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <a href="/" class="formpage__back">[ BACK ]</a>
+      <span class="formpage__copyright">© Summit, Texas · Austin</span>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="form.js"></script>
+</body>
+</html>

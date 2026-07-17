@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
-  <!-- Placeholder mesa mark — minimal flat-topped mesa silhouette. Owner will replace. -->
-  <g fill="#C75B1F">
-    <!-- Main flat-topped mesa -->
-    <path d="M20 78 L20 44 L30 44 L34 34 L66 34 L70 44 L80 44 L80 78 Z"/>
-    <!-- Lower foreground butte, offset -->
-    <path d="M6 78 L6 58 L12 58 L15 52 L27 52 L30 58 L30 78 Z" opacity="0.55"/>
-  </g>
-</svg>

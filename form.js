@@ -31,6 +31,37 @@
     }
   }
 
+  /* ---- Auto-grow single-line textareas (underline hugs the last line). ---- */
+  function sizeTextarea(el) {
+    el.style.height = "auto";
+    var cs = window.getComputedStyle(el);
+    var borders =
+      parseFloat(cs.borderTopWidth || "0") + parseFloat(cs.borderBottomWidth || "0");
+    var max = parseFloat(cs.maxHeight);
+    var target = el.scrollHeight + borders;
+    if (!isNaN(max) && target > max) {
+      // Capped — scroll internally past ~8 lines.
+      el.style.height = max + "px";
+      el.style.overflowY = "auto";
+    } else {
+      el.style.height = target + "px";
+      el.style.overflowY = "hidden";
+    }
+  }
+
+  function resetTextarea(el) {
+    el.style.height = "";
+    el.style.overflowY = "";
+  }
+
+  function initAutoGrow() {
+    var areas = document.querySelectorAll(".field__textarea");
+    Array.prototype.forEach.call(areas, function (el) {
+      sizeTextarea(el); // match the inputs' single-line height on load
+      el.addEventListener("input", function () { sizeTextarea(el); });
+    });
+  }
+
   /* ---- Form submission via FormSubmit AJAX. ---- */
   function initForm() {
     var form = document.querySelector("[data-form]");
@@ -96,6 +127,10 @@
           // Any 2xx is treated as success (first-ever submit may return an
           // activation-required message; FormSubmit still 200s).
           form.reset();
+          Array.prototype.forEach.call(
+            form.querySelectorAll(".field__textarea"),
+            resetTextarea
+          );
           form.style.display = "none";
           setStatus("Thank you. We will be in touch.", "ok");
         })
@@ -114,6 +149,7 @@
 
   function boot() {
     reveal();
+    initAutoGrow();
     initForm();
   }
 

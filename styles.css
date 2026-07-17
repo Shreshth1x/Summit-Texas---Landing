@@ -579,12 +579,16 @@ main {
   text-transform: none;
 }
 
-/* ~4 lines tall, text hugging the top, underline right beneath the block. */
+/* Starts as a single line identical to the inputs, then JS auto-grows it
+   downward so the underline always hugs the last line. Capped at ~8 lines. */
 .field__textarea {
-  resize: vertical;
+  resize: none;
+  overflow: hidden;
   height: auto;
   min-height: 0;
+  max-height: 13.8em; /* ~8 lines (1.6em) + 1em vertical padding */
   vertical-align: top;
+  display: block;
 }
 
 .form__actions { margin-top: clamp(1.8em, 4.6vh, 2.6em); }

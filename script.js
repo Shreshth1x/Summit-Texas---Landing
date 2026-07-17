@@ -279,10 +279,54 @@
   }
 
   /* ----------------------------------------------------------
+     Deep link — arrive straight at the settled manifesto
+     (from the support/contact "← BACK" links → /#manifesto).
+     Skips the intro + MESA; the hero waits settled but hidden
+     underneath so its own [ BACK ] and a Learn More replay work.
+     ---------------------------------------------------------- */
+  function showManifestoDirect() {
+    var h = document.querySelector(".hero");
+    if (h) h.classList.remove("is--hidden");
+    // Settle the hero underneath so a later BACK reveals it cleanly.
+    gsap.set(
+      document.querySelectorAll("[data-hero-fade], .hero__cta, .sticker-item"),
+      { opacity: 1 }
+    );
+    document.body.classList.remove("is--loading");
+
+    initInteractive();
+
+    // Hero hidden; manifesto shown in its "arrived" state.
+    gsap.set(hero, { autoAlpha: 0 });
+    if (learnBtn) learnBtn.disabled = true;
+    gsap.set(manifestoView, { autoAlpha: 1 });
+
+    if (reduceMotion) {
+      gsap.set(mFadeTargets, { autoAlpha: 1, y: 0 });
+    } else {
+      isAnimating = true;
+      gsap.set(mFadeTargets, { autoAlpha: 0, y: 24 });
+      gsap.to(mFadeTargets, {
+        autoAlpha: 1, y: 0, duration: 0.7, ease: "power2.out", stagger: 0.1,
+        onComplete: function () { isAnimating = false; }
+      });
+    }
+
+    // Drop the hash so the hero <-> manifesto cycle has no stale state.
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(
+        null, "", window.location.pathname + window.location.search
+      );
+    }
+  }
+
+  /* ----------------------------------------------------------
      Boot — wait for fonts so SplitText measures correctly.
      ---------------------------------------------------------- */
   function boot() {
-    if (reduceMotion) {
+    if (window.location.hash === "#manifesto") {
+      showManifestoDirect();
+    } else if (reduceMotion) {
       initReducedMotion();
     } else {
       initIntro();

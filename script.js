@@ -15,7 +15,7 @@
     var hero = document.querySelector(".hero");
     if (hero) hero.classList.remove("is--hidden");
     document
-      .querySelectorAll("[data-hero-fade], .hero__label, .sticker-item")
+      .querySelectorAll("[data-hero-fade], .hero__label, .hero__cta, .sticker-item")
       .forEach(function (el) { el.style.opacity = "1"; });
     document.body.classList.remove("is--loading");
   }
@@ -213,7 +213,7 @@
     var h = document.querySelector(".hero");
     if (h) h.classList.remove("is--hidden");
     gsap.set(
-      document.querySelectorAll("[data-hero-fade], .hero__label, .sticker-item"),
+      document.querySelectorAll("[data-hero-fade], .hero__label, .hero__cta, .sticker-item"),
       { opacity: 1 }
     );
     document.body.classList.remove("is--loading");
@@ -228,6 +228,7 @@
     var wordmark = document.querySelector("[data-hero-words]");
     var subline = document.querySelector("[data-hero-lines]");
     var label = document.querySelector("[data-hero-label]");
+    var cta = document.querySelector("[data-learn-more]");
     var fades = document.querySelectorAll("[data-hero-fade]");
     var sticker = document.querySelector('[data-sticker="item"]');
 
@@ -244,6 +245,7 @@
     }
 
     if (label) gsap.set(label, { y: 12 });
+    if (cta) gsap.set(cta, { y: 12 });
 
     var tl = gsap.timeline({
       defaults: { ease: "expo.out" },
@@ -266,9 +268,12 @@
       tl.to(lines, { yPercent: 0, duration: 0.9, stagger: 0.1 }, "-=0.55");
     }
 
-    // c. mono label fades up 12px
-    if (label) {
-      tl.to(label, { opacity: 1, y: 0, duration: 0.6 }, "-=0.5");
+    // c. mono label fades up 12px, then the CTA right behind it
+    var labelBits = [];
+    if (label) labelBits.push(label);
+    if (cta) labelBits.push(cta);
+    if (labelBits.length) {
+      tl.to(labelBits, { opacity: 1, y: 0, duration: 0.6, stagger: 0.12 }, "-=0.5");
     }
 
     // d. meta, CTA button and sticker fade in together

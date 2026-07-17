@@ -180,14 +180,10 @@ main {
   opacity: 0; /* revealed by the intro timeline */
 }
 
-/* Learn More CTA — sits where the scroll cue used to, centred at the bottom.
-   Centred with auto margins (not transform) so GSAP can animate y freely. */
+/* Learn More CTA — sits in the hero content stack, directly below the mono
+   label. Centred by the flex column; margin gives comfortable breathing room. */
 .hero__cta {
-  position: absolute;
-  bottom: 3em;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
+  margin-top: 2.5em;
   width: max-content;
   cursor: pointer;
   opacity: 0; /* revealed by the intro timeline */
@@ -406,7 +402,6 @@ main {
   .hero { padding: 4em 2em; }
   .hero__top, .hero__bottom { padding: 2em; }
   .hero__sub { font-size: 1.2em; }
-  .hero__cta { bottom: 2.5em; }
 
   .sticker-item {
     top: 1.75em;
@@ -425,6 +420,8 @@ main {
 
   .manifesto__actions { flex-direction: column; width: 100%; max-width: 20em; }
   .btn { width: 100%; }
+  /* Keep the hero CTA a hugging pill, not a full-width bar. */
+  .hero__cta { width: max-content; }
 
   /* Stack the bottom bars so they never collide on narrow screens. */
   .manifesto__back { bottom: 4.5em; }
@@ -442,5 +439,5 @@ main {
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   .hero.is--hidden { visibility: visible; }
-  [data-hero-fade], .hero__label, .sticker-item { opacity: 1 !important; }
+  [data-hero-fade], .hero__label, .hero__cta, .sticker-item { opacity: 1 !important; }
 }

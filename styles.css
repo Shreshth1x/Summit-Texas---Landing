@@ -1,0 +1,446 @@
+/* ============================================================
+   summit texas — mesa house (light sand palette)
+   ============================================================ */
+
+/* Reset */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --sand: #EFE8DB;          /* page background — warm sand */
+  --basalt: #2A2620;        /* primary text / headings */
+  --ink-dim: #5C554A;       /* body paragraphs */
+  --ink-faint: rgba(42, 38, 32, 0.28); /* hairlines, copyright, scroll cue */
+  --orange: #C75B1F;        /* burnt orange */
+  --terracotta: #B85A38;    /* hovers, selection, glow */
+  --terracotta-glow: rgba(184, 90, 56, 0.28);
+
+  --font-display: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+::selection { background: var(--terracotta); color: var(--sand); }
+::-moz-selection { background: var(--terracotta); color: var(--sand); }
+
+html { height: 100%; }
+
+body {
+  background-color: var(--sand);
+  color: var(--basalt);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100dvh;
+  overflow: hidden; /* single fixed viewport — never scrolls */
+  overscroll-behavior: none;
+}
+
+/* One fixed stage holding the three stacked views. */
+main {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* Three full-viewport views occupy the same spot; JS toggles visibility. */
+.hero,
+.mesa,
+.manifesto {
+  position: absolute;
+  inset: 0;
+}
+
+/* Mesa + manifesto start hidden (JS drives autoAlpha); prevents a pre-JS flash. */
+.mesa,
+.manifesto { visibility: hidden; }
+
+/* Shared mono meta label */
+.meta {
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+/* ============================================================
+   Paper texture overlay
+   ============================================================ */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   Sticker (draggable mesa mark)
+   ============================================================ */
+.sticker-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  overflow: clip;
+}
+
+.sticker-item {
+  pointer-events: auto;
+  position: absolute;
+  top: 3em;
+  right: 4em;
+  width: 2.75em;
+  height: 2.75em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+  opacity: 0; /* revealed by the intro timeline */
+}
+
+.sticker-item:active { cursor: grabbing; }
+
+.sticker-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ============================================================
+   Hero (crisp intro animation lives + settles here)
+   ============================================================ */
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 4em;
+}
+
+/* Hidden until the intro timeline starts, to avoid a flash before split. */
+.hero.is--hidden { visibility: hidden; }
+
+.hero__top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 3em 4em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* Full-width decorative bar (mono meta only) — keep it out of hit-testing. */
+  pointer-events: none;
+}
+
+.hero__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero__wordmark {
+  font-family: var(--font-display);
+  font-size: clamp(3.5em, 8vw, 6.5em);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--orange);
+}
+
+.hero__sub {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.4em;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--basalt);
+  max-width: 22em;
+  margin-top: 1em;
+}
+
+.hero__label {
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-top: 2em;
+  opacity: 0; /* revealed by the intro timeline */
+}
+
+/* Learn More CTA — sits where the scroll cue used to, centred at the bottom.
+   Centred with auto margins (not transform) so GSAP can animate y freely. */
+.hero__cta {
+  position: absolute;
+  bottom: 3em;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: max-content;
+  cursor: pointer;
+  opacity: 0; /* revealed by the intro timeline */
+}
+
+.hero__cta:disabled { cursor: default; pointer-events: none; }
+
+.hero__bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 3em 4em;
+  text-align: left;
+  /* Decorative full-width bar overlapping the centred CTA — must never
+     intercept pointer events meant for .hero__cta (it holds only text). */
+  pointer-events: none;
+}
+
+.copyright {
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+}
+
+/* Meta fades in with the intro timeline */
+[data-hero-fade] { opacity: 0; }
+
+/* ============================================================
+   MESA transition (button-driven)
+   ============================================================ */
+.mesa {
+  overflow: clip; /* clips letters while below / after they lift out */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.mesa__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform, opacity;
+}
+
+.mesa__word {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(6em, 18vw, 18em);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--orange);
+  white-space: nowrap;
+}
+
+/* SplitText chars animate vertically through the viewport. */
+.mesa-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.mesa__horizon {
+  margin-top: 0.35em;
+  width: min(80vw, 40em);
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--terracotta) 50%, transparent 100%);
+  transform: scaleX(0);
+  transform-origin: center;
+}
+
+.mesa__label {
+  margin-top: 2em;
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange);
+  opacity: 0;
+}
+
+/* ============================================================
+   Manifesto (one viewport — left column, vertically centered)
+   ============================================================ */
+.manifesto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(3em, 9vh, 6em) 2em;
+  overflow: hidden;
+}
+
+.manifesto__inner {
+  width: 100%;
+  max-width: 52em;
+  font-size: clamp(0.85rem, 0.55rem + 0.62vw, 1rem);
+}
+
+.manifesto__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: clamp(1.2em, 3.4vh, 2.2em);
+}
+
+.manifesto__p {
+  font-family: var(--font-body);
+  font-size: 1em;
+  line-height: clamp(1.5, 1.35 + 0.5vh, 1.7);
+  color: var(--ink-dim);
+}
+
+.manifesto__p + .manifesto__p { margin-top: clamp(0.8em, 2.2vh, 1.4em); }
+
+.manifesto__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  margin-top: clamp(1.6em, 4.2vh, 2.6em);
+}
+
+.manifesto__copyright {
+  position: absolute;
+  bottom: clamp(1.4em, 3.6vh, 2.4em);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 52rem; /* rem (not em) so it tracks the content column, not its own font */
+  padding: 0;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: clamp(0.6rem, 0.5rem + 0.2vw, 0.7rem);
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+  /* Full-width absolute bar painted after (and over) the BACK link + pills —
+     it holds only text, so it must never intercept their pointer events. */
+  pointer-events: none;
+}
+
+/* BACK link — sits where the hero scroll cue lived, centred at the bottom. */
+.manifesto__back {
+  position: absolute;
+  bottom: 3em;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink-faint);
+  transition: color 0.3s ease;
+}
+
+.manifesto__back:hover { color: var(--terracotta); }
+
+/* ============================================================
+   Buttons (shared)
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.74em;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1.05em 2em;
+  border-radius: 999px;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  min-width: 13em;
+}
+
+.btn--primary {
+  border: 1px solid var(--orange);
+  color: var(--basalt);
+}
+
+.btn--primary:hover {
+  background: var(--terracotta);
+  border-color: var(--terracotta);
+  color: var(--sand);
+  box-shadow: 0 0 40px var(--terracotta-glow);
+}
+
+.btn--secondary {
+  border: 1px solid var(--ink-faint);
+  color: var(--basalt);
+}
+
+.btn--secondary:hover {
+  border-color: var(--terracotta);
+  color: var(--terracotta);
+  box-shadow: 0 0 24px var(--terracotta-glow);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+/* Below the column cap the content gets a side gutter — match it. */
+@media screen and (max-width: 896px) {
+  .manifesto__copyright { padding: 0 2em; }
+}
+
+@media screen and (max-width: 768px) {
+  .hero { padding: 4em 2em; }
+  .hero__top, .hero__bottom { padding: 2em; }
+  .hero__sub { font-size: 1.2em; }
+  .hero__cta { bottom: 2.5em; }
+
+  .sticker-item {
+    top: 1.75em;
+    right: 2em;
+    width: 2.25em;
+    height: 2.25em;
+  }
+
+  /* Fit if we can; if the content genuinely can't, this one view scrolls. */
+  .manifesto {
+    justify-content: flex-start;
+    padding: 12vh 1.5em 9em;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .manifesto__actions { flex-direction: column; width: 100%; max-width: 20em; }
+  .btn { width: 100%; }
+
+  /* Stack the bottom bars so they never collide on narrow screens. */
+  .manifesto__back { bottom: 4.5em; }
+
+  .manifesto__copyright {
+    position: absolute;
+    bottom: 1.8em;
+    padding: 0 1.5em;
+  }
+}
+
+/* ============================================================
+   Reduced motion — JS runs a plain crossfade; just avoid the
+   intro flash and keep the settled hero visible on boot.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .hero.is--hidden { visibility: visible; }
+  [data-hero-fade], .hero__label, .sticker-item { opacity: 1 !important; }
+}

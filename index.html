@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>summit texas</title>
+  <meta name="description" content="Summit is a hacker house near UT Austin. We are building our first house, the Mesa House, in West Campus.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C75B1F' d='M20 78 L20 44 L30 44 L34 34 L66 34 L70 44 L80 44 L80 78 Z'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="is--loading">
+
+  <!-- Paper texture / film grain -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Draggable sticker -->
+  <div data-sticker="wrap" class="sticker-wrap">
+    <div data-sticker="item" class="sticker-item">
+      <img src="assets/mesa-mark.svg" alt="summit texas mesa mark" class="sticker-img" draggable="false">
+    </div>
+  </div>
+
+  <main>
+
+    <!-- Hero (the crisp intro animation settles into this view in place) -->
+    <section class="hero is--hidden">
+      <div class="hero__top">
+        <span class="meta" data-hero-fade>AUSTIN, TX · 2026</span>
+      </div>
+
+      <div class="hero__center">
+        <h1 class="hero__wordmark" data-hero-words>Summit, Texas</h1>
+        <p class="hero__sub" data-hero-lines>Building our flagship MESA house in the heart of West Campus, Austin.</p>
+        <span class="hero__label" data-hero-label>mesa house · west campus · austin, tx</span>
+      </div>
+
+      <button type="button" class="hero__cta btn btn--primary" data-hero-fade data-learn-more>Learn More</button>
+
+      <div class="hero__bottom">
+        <span class="copyright">© Summit, Texas</span>
+      </div>
+    </section>
+
+    <!-- MESA transition (button-driven) -->
+    <section class="mesa">
+      <div class="mesa__stage">
+        <div class="mesa__word">MESA</div>
+        <div class="mesa__horizon"></div>
+        <div class="mesa__label">THE FLAGSHIP HOUSE · WEST CAMPUS</div>
+      </div>
+    </section>
+
+    <!-- Manifesto (single viewport) -->
+    <section class="manifesto">
+      <div class="manifesto__inner">
+        <p class="manifesto__eyebrow" data-m-fade>WHY WE ARE BUILDING THIS</p>
+        <p class="manifesto__p" data-m-fade>Summit is a hacker house near UT Austin. Our first house, the Mesa House, is coming to West Campus.</p>
+        <p class="manifesto__p" data-m-fade>The idea is simple. Take a great house near campus and turn it into the place where the best builders at UT want to spend their time. Good desks, quiet rooms, fast internet, and doors that never close. Members pay a small monthly fee for 24/7 access.</p>
+        <p class="manifesto__p" data-m-fade>The fee keeps the lights on. What it really buys is the people. UT's talent is scattered across dorm rooms, libraries, and coffee shops that close at ten. When ambitious people work next to each other every day, ideas move faster, teams form naturally, and projects turn into real companies.</p>
+        <p class="manifesto__p" data-m-fade>The first house is the start. If it works, we grow: more houses, then founder houses where teams live and build together. A network of builder houses, starting in Austin.</p>
+        <div class="manifesto__actions" data-m-fade>
+          <a href="#" class="btn btn--primary">Support Us</a>
+          <a href="#" class="btn btn--secondary">Contact Us</a>
+        </div>
+      </div>
+      <a href="#" class="manifesto__back" data-manifesto-back>[ BACK ]</a>
+      <span class="manifesto__copyright">© Summit, Texas · Austin</span>
+    </section>
+
+  </main>
+
+  <!-- GSAP + plugins -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Draggable.min.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>

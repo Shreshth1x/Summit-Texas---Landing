@@ -1,8 +1,8 @@
 /* ============================================================
-   summit texas — interactions
-   One fixed viewport, three stacked views (hero / mesa / manifesto).
-   The Learn More button plays a single master GSAP timeline that
-   hands hero -> MESA -> manifesto. BACK crossfades home. No scroll.
+   silicon hills project — interactions
+   One fixed viewport, three stacked views (hero / summit / mission).
+   The mission button plays a single master GSAP timeline that
+   hands hero -> SUMMIT -> mission. BACK crossfades home. No scroll.
    ============================================================ */
 
 (function () {
@@ -37,7 +37,7 @@
   function liftTo() { return -window.innerHeight * 0.7; }    // -70vh above
 
   /* ----------------------------------------------------------
-     Draggable sticker (mesa mark) — the persistent overlay.
+     Draggable sticker (summit mark) — the persistent overlay.
      ---------------------------------------------------------- */
   function initDraggableSticker() {
     var wrapper = document.querySelector('[data-sticker="wrap"]');
@@ -86,7 +86,7 @@
   }
 
   /* ----------------------------------------------------------
-     Learn More — the master timeline (hero -> MESA -> manifesto).
+     Our Mission — the master timeline (hero -> SUMMIT -> mission).
      ---------------------------------------------------------- */
   function playForward() {
     if (isAnimating) return;
@@ -108,7 +108,7 @@
     }, 0);
     tl.set(hero, { autoAlpha: 0 }, 0.9);
 
-    // b. Mesa appears; M, E, S, A rise from below one by one.
+    // b. Summit appears; S, U, M, M, I, T rise from below one by one.
     tl.set(mesaView, { autoAlpha: 1 }, 0.35);
     tl.to(chars, {
       y: 0, autoAlpha: 1, duration: 0.9, ease: "expo.out", stagger: 0.15
@@ -130,7 +130,7 @@
     }, 3.65);
   }
 
-  /* Reduced motion — plain crossfade hero -> manifesto, skip MESA. */
+  /* Reduced motion — plain crossfade hero -> mission, skip SUMMIT. */
   function reducedForward() {
     setManifestoStart();
     gsap.set(mFadeTargets, { autoAlpha: 1, y: 0 }); // no stagger; show at once
@@ -140,7 +140,7 @@
   }
 
   /* ----------------------------------------------------------
-     BACK — crossfade to the settled hero, no replay of MESA/intro.
+     BACK — crossfade to the settled hero, no replay of SUMMIT/intro.
      ---------------------------------------------------------- */
   function goBack() {
     if (isAnimating) return;
@@ -155,7 +155,7 @@
       onComplete: function () {
         isAnimating = false;
         learnBtn.disabled = false;
-        setMesaStart(); // reset so the next Learn More is clean
+        setMesaStart(); // reset so the next Our Mission transition is clean
       }
     });
     tl.to(manifestoView, { autoAlpha: 0, duration: dur, ease: "power2.inOut" }, 0);
@@ -281,8 +281,8 @@
   /* ----------------------------------------------------------
      Deep link — arrive straight at the settled manifesto
      (from the support/contact "← BACK" links → /#manifesto).
-     Skips the intro + MESA; the hero waits settled but hidden
-     underneath so its own [ BACK ] and a Learn More replay work.
+     Skips the intro + SUMMIT; the hero waits settled but hidden
+     underneath so its own [ BACK ] and an Our Mission replay work.
      ---------------------------------------------------------- */
   function showManifestoDirect() {
     var h = document.querySelector(".hero");

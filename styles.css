@@ -1,5 +1,5 @@
 /* ============================================================
-   summit texas — mesa house (light sand palette)
+   silicon hills project — Summit House (light sand palette)
    ============================================================ */
 
 /* Reset */
@@ -54,7 +54,7 @@ main {
   inset: 0;
 }
 
-/* Mesa + manifesto start hidden (JS drives autoAlpha); prevents a pre-JS flash. */
+/* Summit + mission views start hidden (JS drives autoAlpha); prevents a pre-JS flash. */
 .mesa,
 .manifesto { visibility: hidden; }
 
@@ -81,7 +81,7 @@ main {
 }
 
 /* ============================================================
-   Sticker (draggable mesa mark)
+   Sticker (draggable summit mark)
    ============================================================ */
 .sticker-wrap {
   position: fixed;
@@ -169,7 +169,7 @@ main {
   margin-top: 1em;
 }
 
-/* Learn More CTA — sits in the hero content stack, directly below the mono
+/* Our Mission CTA — sits in the hero content stack, directly below the mono
    label. Centred by the flex column; margin gives comfortable breathing room. */
 .hero__cta {
   margin-top: 2.5em;
@@ -203,7 +203,7 @@ main {
 [data-hero-fade] { opacity: 0; }
 
 /* ============================================================
-   MESA transition (button-driven)
+   SUMMIT transition (button-driven)
    ============================================================ */
 .mesa {
   overflow: clip; /* clips letters while below / after they lift out */
@@ -223,7 +223,7 @@ main {
 .mesa__word {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(6em, 18vw, 18em);
+  font-size: clamp(3.5em, 16vw, 16em);
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: 0.04em;

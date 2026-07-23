@@ -1,5 +1,5 @@
 /* ============================================================
-   summit texas — form pages (support / contact)
+   silicon hills project — form pages (support / contact)
    Staggered entrance + FormSubmit.co AJAX submission. No backend.
    ============================================================ */
 
@@ -98,7 +98,7 @@
           if (el.name) payload[el.name] = el.value;
         }
       );
-      payload._subject = form.getAttribute("data-subject") || "Summit Texas · Form";
+      payload._subject = form.getAttribute("data-subject") || "Silicon Hills Project · Form";
       payload._template = "table";
 
       var originalLabel = submitBtn ? submitBtn.textContent : "";

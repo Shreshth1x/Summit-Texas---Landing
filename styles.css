@@ -179,7 +179,8 @@ main {
   opacity: 0; /* revealed by the intro timeline */
 }
 
-.hero__cta:disabled { cursor: default; pointer-events: none; }
+.hero__cta:disabled,
+.hero__cta[aria-disabled="true"] { cursor: default; pointer-events: none; }
 
 .hero__bottom {
   position: absolute;

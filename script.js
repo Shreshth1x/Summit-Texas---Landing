@@ -9,11 +9,80 @@
   "use strict";
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var ROOT_PATH = "/";
+  var MISSION_PATH = "/mission";
+  var ROOT_TITLE = "Silicon Hills Project";
+  var MISSION_TITLE = "Our Mission · Silicon Hills Project";
+  var ROOT_DESCRIPTION = "Building the Summit House in West Campus at UT Austin.";
+  var MISSION_DESCRIPTION = "The Silicon Hills Project is bringing Austin's young builders under one roof, starting with the Summit House at UT Austin.";
+  var SITE_URL = "https://www.siliconhillsproject.com";
+
+  function currentPath() {
+    return window.location.pathname.replace(/\/+$/, "") || "/";
+  }
+
+  function isMissionPath() {
+    var path = currentPath();
+    return path === MISSION_PATH || path === "/mission.html";
+  }
+
+  function setMetaContent(selector, value) {
+    var element = document.querySelector(selector);
+    if (element) element.setAttribute("content", value);
+  }
+
+  function setShareMetadata(path, title) {
+    var isMission = path === MISSION_PATH;
+    var description = isMission ? MISSION_DESCRIPTION : ROOT_DESCRIPTION;
+    var url = SITE_URL + path;
+    var canonical = document.querySelector('link[rel="canonical"]');
+
+    if (canonical) canonical.setAttribute("href", url);
+    setMetaContent('meta[name="description"]', description);
+    setMetaContent('meta[property="og:title"]', title);
+    setMetaContent('meta[property="og:description"]', description);
+    setMetaContent('meta[property="og:url"]', url);
+    setMetaContent('meta[name="twitter:title"]', title);
+    setMetaContent('meta[name="twitter:description"]', description);
+  }
+
+  function setViewUrl(path, title, replace) {
+    if (window.history) {
+      var method = replace ? "replaceState" : "pushState";
+      if (window.history[method]) {
+        window.history[method](null, "", path);
+      }
+    }
+    document.title = title;
+    setShareMetadata(path, title);
+  }
+
+  function setLearnDisabled(disabled) {
+    if (!learnBtn) return;
+    learnBtn.setAttribute("aria-disabled", disabled ? "true" : "false");
+    learnBtn.style.pointerEvents = disabled ? "none" : "";
+  }
 
   /* Reveal the settled hero with no animation (no-GSAP fallback). */
   function revealStaticNoGsap() {
     var hero = document.querySelector(".hero");
     if (hero) hero.classList.remove("is--hidden");
+
+    if (isMissionPath() || window.location.hash === "#manifesto") {
+      var manifesto = document.querySelector(".manifesto");
+      if (hero) hero.style.visibility = "hidden";
+      if (manifesto) manifesto.style.visibility = "visible";
+      document.querySelectorAll("[data-m-fade]").forEach(function (el) {
+        el.style.opacity = "1";
+        el.style.transform = "none";
+      });
+      document.body.classList.remove("is--loading");
+      if (window.location.hash === "#manifesto") {
+        setViewUrl(MISSION_PATH, MISSION_TITLE, true);
+      }
+      return;
+    }
+
     document
       .querySelectorAll("[data-hero-fade], .hero__cta, .sticker-item")
       .forEach(function (el) { el.style.opacity = "1"; });
@@ -91,7 +160,12 @@
   function playForward() {
     if (isAnimating) return;
     isAnimating = true;
-    learnBtn.disabled = true;
+    setLearnDisabled(true);
+    if (!isMissionPath()) {
+      setViewUrl(MISSION_PATH, MISSION_TITLE, false);
+    } else {
+      document.title = MISSION_TITLE;
+    }
 
     if (reduceMotion) { reducedForward(); return; }
 
@@ -145,6 +219,7 @@
   function goBack() {
     if (isAnimating) return;
     isAnimating = true;
+    setViewUrl(ROOT_PATH, ROOT_TITLE, false);
 
     var dur = reduceMotion ? 0.4 : 0.6;
 
@@ -154,7 +229,7 @@
     var tl = gsap.timeline({
       onComplete: function () {
         isAnimating = false;
-        learnBtn.disabled = false;
+        setLearnDisabled(false);
         setMesaStart(); // reset so the next Our Mission transition is clean
       }
     });
@@ -196,7 +271,12 @@
     setMesaStart();
     setManifestoStart();
 
-    if (learnBtn) learnBtn.addEventListener("click", playForward);
+    if (learnBtn) {
+      learnBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        playForward();
+      });
+    }
     if (backLink) {
       backLink.addEventListener("click", function (e) {
         e.preventDefault();
@@ -279,8 +359,7 @@
   }
 
   /* ----------------------------------------------------------
-     Deep link — arrive straight at the settled manifesto
-     (from the support/contact "← BACK" links → /#manifesto).
+     Mission route — arrive straight at the settled manifesto.
      Skips the intro + SUMMIT; the hero waits settled but hidden
      underneath so its own [ BACK ] and an Our Mission replay work.
      ---------------------------------------------------------- */
@@ -298,7 +377,7 @@
 
     // Hero hidden; manifesto shown in its "arrived" state.
     gsap.set(hero, { autoAlpha: 0 });
-    if (learnBtn) learnBtn.disabled = true;
+    setLearnDisabled(true);
     gsap.set(manifestoView, { autoAlpha: 1 });
 
     if (reduceMotion) {
@@ -312,11 +391,11 @@
       });
     }
 
-    // Drop the hash so the hero <-> manifesto cycle has no stale state.
-    if (window.history && window.history.replaceState) {
-      window.history.replaceState(
-        null, "", window.location.pathname + window.location.search
-      );
+    // Normalize the legacy hash and local clean-URL filename.
+    if (window.location.hash === "#manifesto" || currentPath() === "/mission.html") {
+      setViewUrl(MISSION_PATH, MISSION_TITLE, true);
+    } else {
+      document.title = MISSION_TITLE;
     }
   }
 
@@ -324,7 +403,7 @@
      Boot — wait for fonts so SplitText measures correctly.
      ---------------------------------------------------------- */
   function boot() {
-    if (window.location.hash === "#manifesto") {
+    if (isMissionPath() || window.location.hash === "#manifesto") {
       showManifestoDirect();
     } else if (reduceMotion) {
       initReducedMotion();
@@ -338,4 +417,9 @@
   } else {
     boot();
   }
+
+  // Browser back/forward loads the correct server-rendered route and metadata.
+  window.addEventListener("popstate", function () {
+    window.location.reload();
+  });
 })();

@@ -402,23 +402,44 @@ main {
   /* Fit if we can; if the content genuinely can't, this one view scrolls. */
   .manifesto {
     justify-content: flex-start;
-    padding: 12vh 1.5em 9em;
+    padding: 12vh 1.5em max(2em, env(safe-area-inset-bottom));
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
 
-  .manifesto__actions { flex-direction: column; width: 100%; max-width: 20em; }
+  .manifesto__inner { flex: 0 0 auto; }
+
+  .manifesto__actions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 20em;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .btn { width: 100%; }
   /* Keep the hero CTA a hugging pill, not a full-width bar. */
   .hero__cta { width: max-content; }
 
-  /* Stack the bottom bars so they never collide on narrow screens. */
-  .manifesto__back { bottom: 4.5em; }
+  /* Keep the whole mobile footer stack in the scroll flow so it cannot
+     cover the action buttons on short screens. */
+  .manifesto__back {
+    position: static;
+    flex: 0 0 auto;
+    width: 100%;
+    margin-top: 2.5em;
+    padding: 0.75em 0;
+  }
 
   .manifesto__copyright {
-    position: absolute;
-    bottom: 1.8em;
-    padding: 0 1.5em;
+    position: static;
+    flex: 0 0 auto;
+    transform: none;
+    width: 100%;
+    max-width: 52rem;
+    margin-top: 1em;
+    padding: 0 0 max(0.5em, env(safe-area-inset-bottom));
+    text-align: center;
   }
 }
 

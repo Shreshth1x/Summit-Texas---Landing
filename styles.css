@@ -345,6 +345,7 @@ main {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.65em;
   background: transparent;
   font-family: var(--font-mono);
   font-size: 0.74em;
@@ -356,7 +357,16 @@ main {
   border-radius: 999px;
   transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
   min-width: 13em;
+  min-height: 44px;
 }
+
+.btn__external {
+  display: inline-block;
+  line-height: 1;
+  transition: transform 0.25s ease;
+}
+
+.btn:hover .btn__external { transform: translate(2px, -2px); }
 
 .btn--primary {
   border: 1px solid var(--orange);
@@ -481,6 +491,8 @@ main {
   font-size: clamp(0.85rem, 0.55rem + 0.62vw, 1rem);
 }
 
+.formpage__inner--wide { max-width: 46em; }
+
 .formpage__eyebrow {
   font-family: var(--font-mono);
   font-size: 0.72em;
@@ -497,6 +509,95 @@ main {
   line-height: clamp(1.5, 1.35 + 0.5vh, 1.7);
   color: var(--ink-dim);
   margin-bottom: clamp(1.8em, 4.4vh, 2.6em);
+}
+
+/* Form destinations stay native to Google; these rows are the site's
+   quiet wayfinding layer around them. */
+.form-options {
+  width: 100%;
+  border-top: 1px solid var(--ink-faint);
+}
+
+.form-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1.25em, 4vw, 3em);
+  padding: clamp(1em, 2.7vh, 1.5em) 0.2em;
+  border-bottom: 1px solid var(--ink-faint);
+  color: var(--basalt);
+  text-decoration: none;
+}
+
+.form-option__copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.form-option__meta {
+  font-family: var(--font-mono);
+  font-size: 0.62em;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+  color: var(--orange);
+}
+
+.form-option__title {
+  margin-top: 0.3em;
+  font-family: var(--font-display);
+  font-size: clamp(1.05em, 0.96em + 0.35vw, 1.25em);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--basalt);
+  transition: color 0.25s ease;
+}
+
+.form-option__description {
+  margin-top: 0.35em;
+  font-family: var(--font-body);
+  font-size: 0.88em;
+  line-height: 1.5;
+  color: var(--ink-dim);
+}
+
+.form-option__arrow {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 1em;
+  color: var(--orange);
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.form-option:hover .form-option__title { color: var(--terracotta); }
+.form-option:hover .form-option__arrow {
+  color: var(--terracotta);
+  transform: translate(3px, -3px);
+}
+
+.formpage__all {
+  display: inline-flex;
+  margin-top: 1.5em;
+  padding: 0.4em 0;
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--orange);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.formpage__all:hover { color: var(--terracotta); }
+
+.btn:focus-visible,
+.form-option:focus-visible,
+.formpage__all:focus-visible,
+.pagebar__back:focus-visible {
+  outline: 1px solid var(--orange);
+  outline-offset: 4px;
 }
 
 /* Persistent corner mark (non-draggable logo, mirrors the sticker slot). */
@@ -663,10 +764,12 @@ main {
   /* Fit if we can; if the form genuinely can't, this one view scrolls. */
   .formpage {
     justify-content: flex-start;
-    padding: 13vh 1.5em 8.5em;
+    padding: 13vh 1.5em max(2em, env(safe-area-inset-bottom));
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
+
+  .formpage__inner { flex: 0 0 auto; }
 
   .corner-mark {
     top: 1.75em;
@@ -678,8 +781,19 @@ main {
   .pagebar { padding: 2em; }
 
   .formpage__copyright {
-    bottom: 1.8em;
-    padding: 0 1.5em;
+    position: static;
+    flex: 0 0 auto;
+    transform: none;
+    width: 100%;
+    max-width: 46rem;
+    margin-top: 2.5em;
+    padding: 0 0 0.5em;
+    text-align: center;
+  }
+
+  .form-option {
+    gap: 1em;
+    padding: 1.15em 0.1em;
   }
 }
 

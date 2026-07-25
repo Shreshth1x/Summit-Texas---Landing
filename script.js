@@ -256,7 +256,8 @@
       document.querySelector(".hero__sub"),
       document.querySelector(".meta"),
       document.querySelector(".copyright"),
-      learnBtn
+      learnBtn,
+      document.querySelector(".hero__quicklinks")
     ].filter(Boolean);
 
     mFadeTargets = document.querySelectorAll("[data-m-fade]");

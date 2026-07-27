@@ -98,7 +98,7 @@
   gsap.registerPlugin(SplitText, Draggable);
 
   /* Shared element references + animation state. */
-  var hero, mesaView, manifestoView, stage, word, horizon, mLabel,
+  var hero, mesaView, manifestoView, stage, word,
     learnBtn, backLink, split, chars, heroBits, mFadeTargets;
   var isAnimating = false;
 
@@ -145,8 +145,6 @@
     gsap.set(mesaView, { autoAlpha: 0 });
     gsap.set(stage, { y: 0, autoAlpha: 1 });
     if (chars) gsap.set(chars, { y: riseFrom, autoAlpha: 0 });
-    gsap.set(horizon, { scaleX: 0 });
-    gsap.set(mLabel, { autoAlpha: 0, y: 12 });
   }
 
   function setManifestoStart() {
@@ -178,30 +176,27 @@
 
     // a. Hero content fades out + drifts up.
     tl.to(heroBits, {
-      y: -30, autoAlpha: 0, duration: 0.5, ease: "power2.in", stagger: 0.06
+      y: -30, autoAlpha: 0, duration: 0.45, ease: "power2.in", stagger: 0.05
     }, 0);
-    tl.set(hero, { autoAlpha: 0 }, 0.9);
+    tl.set(hero, { autoAlpha: 0 }, 0.75);
 
     // b. Summit appears; S, U, M, M, I, T rise from below one by one.
-    tl.set(mesaView, { autoAlpha: 1 }, 0.35);
+    tl.set(mesaView, { autoAlpha: 1 }, 0.25);
     tl.to(chars, {
-      y: 0, autoAlpha: 1, duration: 0.9, ease: "expo.out", stagger: 0.15
-    }, 0.4);
-    tl.to(horizon, { scaleX: 1, duration: 0.6, ease: "power2.out" }, 1.45);
-    tl.to(mLabel, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out" }, 1.6);
-
-    // c. Hold the assembled word (~0.7s gap before the lift).
+      y: 0, autoAlpha: 1, duration: 0.75, ease: "expo.out", stagger: 0.12
+    }, 0.3);
+    // c. Hold the assembled word for 0.42s before the lift.
 
     // d. The whole stage lifts up and out, fading at the tail.
-    tl.to(stage, { y: liftTo, duration: 1.0, ease: "power3.inOut" }, 2.75);
-    tl.to(stage, { autoAlpha: 0, duration: 0.35, ease: "power1.in" }, 3.4);
-    tl.set(mesaView, { autoAlpha: 0 }, 3.75);
+    tl.to(stage, { y: liftTo, duration: 0.85, ease: "power3.inOut" }, 2.07);
+    tl.to(stage, { autoAlpha: 0, duration: 0.3, ease: "power1.in" }, 2.67);
+    tl.set(mesaView, { autoAlpha: 0 }, 3.02);
 
     // e. Manifesto fades in with the staggered 24px entrance.
-    tl.set(manifestoView, { autoAlpha: 1 }, 3.6);
+    tl.set(manifestoView, { autoAlpha: 1 }, 2.87);
     tl.to(mFadeTargets, {
-      y: 0, autoAlpha: 1, duration: 0.7, ease: "power2.out", stagger: 0.1
-    }, 3.65);
+      y: 0, autoAlpha: 1, duration: 0.65, ease: "power2.out", stagger: 0.08
+    }, 2.92);
   }
 
   /* Reduced motion — plain crossfade hero -> mission, skip SUMMIT. */
@@ -246,15 +241,12 @@
     manifestoView = document.querySelector(".manifesto");
     stage = document.querySelector(".mesa__stage");
     word = document.querySelector(".mesa__word");
-    horizon = document.querySelector(".mesa__horizon");
-    mLabel = document.querySelector(".mesa__label");
     learnBtn = document.querySelector("[data-learn-more]");
     backLink = document.querySelector("[data-manifesto-back]");
 
     heroBits = [
       document.querySelector(".hero__wordmark"),
       document.querySelector(".hero__sub"),
-      document.querySelector(".meta"),
       document.querySelector(".copyright"),
       learnBtn,
       document.querySelector(".hero__quicklinks")
@@ -313,8 +305,8 @@
 
     var words = [];
     if (wordmark) {
-      words = new SplitText(wordmark, { type: "words", mask: "words" }).words;
-      gsap.set(words, { yPercent: 110 });
+      words = new SplitText(wordmark, { type: "words" }).words;
+      gsap.set(words, { yPercent: 55, autoAlpha: 0 });
     }
 
     var lines = [];
@@ -338,7 +330,12 @@
 
     // a. wordmark pops up after a short beat
     if (words.length) {
-      tl.to(words, { yPercent: 0, duration: 1.1, stagger: 0.08 }, 0.3);
+      tl.to(words, {
+        yPercent: 0,
+        autoAlpha: 1,
+        duration: 0.9,
+        stagger: 0.08
+      }, 0.3);
     }
 
     // b. sub-line masked line reveal
@@ -351,7 +348,7 @@
       tl.to(cta, { opacity: 1, y: 0, duration: 0.6 }, "-=0.5");
     }
 
-    // d. meta, CTA button and sticker fade in together
+    // d. Quick links and sticker fade in together
     var fadeTargets = Array.prototype.slice.call(fades);
     if (sticker) fadeTargets.push(sticker);
     if (fadeTargets.length) {

@@ -18,6 +18,7 @@
   --terracotta: #B85A38;    /* hovers, selection, glow */
   --terracotta-glow: rgba(184, 90, 56, 0.28);
 
+  --font-hero: "Libre Baskerville", Georgia, "Times New Roman", serif;
   --font-display: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -57,16 +58,6 @@ main {
 /* Summit + mission views start hidden (JS drives autoAlpha); prevents a pre-JS flash. */
 .mesa,
 .manifesto { visibility: hidden; }
-
-/* Shared mono meta label */
-.meta {
-  font-family: var(--font-mono);
-  font-size: 0.72em;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--orange);
-}
 
 /* ============================================================
    Paper texture overlay
@@ -130,19 +121,6 @@ main {
 /* Hidden until the intro timeline starts, to avoid a flash before split. */
 .hero.is--hidden { visibility: hidden; }
 
-.hero__top {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: 3em 4em;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  /* Full-width decorative bar (mono meta only) — keep it out of hit-testing. */
-  pointer-events: none;
-}
-
 .hero__center {
   display: flex;
   flex-direction: column;
@@ -150,24 +128,26 @@ main {
 }
 
 .hero__wordmark {
-  font-family: var(--font-display);
-  font-size: clamp(3.5em, 8vw, 6.5em);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1;
+  font-family: var(--font-hero);
+  font-size: clamp(2.35em, 5.4vw, 4.65em);
+  font-weight: 400;
+  letter-spacing: 0.055em;
+  line-height: 1.08;
+  text-transform: uppercase;
+  white-space: nowrap;
   color: var(--orange);
 }
 
 .hero__sub {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(0.65em, 3.1vw, 1.4em);
-  line-height: 1.4;
-  letter-spacing: -0.01em;
+  font-family: var(--font-hero);
+  font-weight: 400;
+  font-size: clamp(0.72em, 2vw, 1.05em);
+  line-height: 1.55;
+  letter-spacing: 0.045em;
   color: var(--basalt);
   max-width: none;
   white-space: nowrap;
-  margin-top: 1em;
+  margin-top: 1.3em;
 }
 
 /* Our Mission CTA — sits in the hero content stack, directly below the mono
@@ -256,12 +236,12 @@ main {
 }
 
 .mesa__word {
-  font-family: var(--font-display);
-  font-weight: 700;
+  font-family: var(--font-hero);
+  font-weight: 400;
   font-size: clamp(3.5em, 16vw, 16em);
-  line-height: 1;
+  line-height: 1.08;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.075em;
   color: var(--orange);
   white-space: nowrap;
 }
@@ -270,25 +250,6 @@ main {
 .mesa-char {
   display: inline-block;
   will-change: transform, opacity;
-}
-
-.mesa__horizon {
-  margin-top: 0.35em;
-  width: min(80vw, 40em);
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, var(--terracotta) 50%, transparent 100%);
-  transform: scaleX(0);
-  transform-origin: center;
-}
-
-.mesa__label {
-  margin-top: 2em;
-  font-family: var(--font-mono);
-  font-size: 0.72em;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--orange);
-  opacity: 0;
 }
 
 /* ============================================================
@@ -434,7 +395,18 @@ main {
 
 @media screen and (max-width: 768px) {
   .hero { padding: 4em 2em; }
-  .hero__top, .hero__bottom { padding: 2em; }
+  .hero__bottom { padding: 2em; }
+  .hero__wordmark {
+    width: 100%;
+    max-width: 10em;
+    font-size: clamp(2em, 9.5vw, 2.5em);
+    letter-spacing: 0.04em;
+    white-space: normal;
+  }
+  .hero__sub {
+    max-width: 28em;
+    white-space: normal;
+  }
   .sticker-item {
     top: 1.75em;
     right: 2em;

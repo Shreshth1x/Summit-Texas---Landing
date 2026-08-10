@@ -1073,6 +1073,7 @@ body.sponsorship-page main {
   padding-left: 1rem;
   font-size: clamp(0.78rem, 1vw, 0.88rem);
   line-height: 1.46;
+  text-wrap: pretty;
   color: var(--ink-dim);
 }
 
@@ -1155,6 +1156,10 @@ body.sponsorship-page main {
 }
 
 @media screen and (max-width: 768px) {
+  .sponsorship-page .corner-mark {
+    position: absolute;
+  }
+
   .manifesto__sponsorship {
     display: flex;
     justify-content: center;
@@ -1203,6 +1208,14 @@ body.sponsorship-page main {
 
   .sponsor-tier__descriptor {
     grid-column: 1 / -1;
+  }
+
+  .sponsor-tier--title {
+    padding-right: 0.75rem;
+  }
+
+  .sponsor-tier--title .sponsor-tier__detail {
+    margin-left: 0.75rem;
   }
 
   .sponsor-tier__detail--outcome {

@@ -998,7 +998,11 @@ body.sponsorship-page main {
   --tier-price-size: clamp(2.25rem, 3.4vw, 2.8rem);
   --tier-pad-block: clamp(1.9rem, 3.8vh, 2.3rem);
   position: relative;
+  margin-top: -1px;
+  margin-left: -0.75rem;
+  padding-left: 0.75rem;
   background: rgba(199, 91, 31, 0.065);
+  border-top: 1px solid var(--ink-faint);
   border-bottom-color: rgba(199, 91, 31, 0.42);
 }
 
@@ -1212,10 +1216,6 @@ body.sponsorship-page main {
 
   .sponsor-tier--title {
     padding-right: 0.75rem;
-  }
-
-  .sponsor-tier--title .sponsor-tier__detail {
-    margin-left: 0.75rem;
   }
 
   .sponsor-tier__detail--outcome {

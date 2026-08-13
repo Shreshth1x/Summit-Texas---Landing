@@ -84,7 +84,7 @@
     }
 
     document
-      .querySelectorAll("[data-hero-fade], .hero__cta, .sticker-item")
+      .querySelectorAll("[data-hero-fade], .hero__actions, .sticker-item")
       .forEach(function (el) { el.style.opacity = "1"; });
     document.body.classList.remove("is--loading");
   }
@@ -248,7 +248,7 @@
       document.querySelector(".hero__wordmark"),
       document.querySelector(".hero__sub"),
       document.querySelector(".copyright"),
-      learnBtn,
+      document.querySelector(".hero__actions"),
       document.querySelector(".hero__quicklinks")
     ].filter(Boolean);
 
@@ -285,7 +285,7 @@
     var h = document.querySelector(".hero");
     if (h) h.classList.remove("is--hidden");
     gsap.set(
-      document.querySelectorAll("[data-hero-fade], .hero__cta, .sticker-item"),
+      document.querySelectorAll("[data-hero-fade], .hero__actions, .sticker-item"),
       { opacity: 1 }
     );
     document.body.classList.remove("is--loading");
@@ -299,7 +299,7 @@
     var h = document.querySelector(".hero");
     var wordmark = document.querySelector("[data-hero-words]");
     var subline = document.querySelector("[data-hero-lines]");
-    var cta = document.querySelector("[data-learn-more]");
+    var actions = document.querySelector(".hero__actions");
     var fades = document.querySelectorAll("[data-hero-fade]");
     var sticker = document.querySelector('[data-sticker="item"]');
 
@@ -315,7 +315,7 @@
       gsap.set(lines, { yPercent: 110 });
     }
 
-    if (cta) gsap.set(cta, { y: 12 });
+    if (actions) gsap.set(actions, { y: 12 });
 
     var tl = gsap.timeline({
       defaults: { ease: "expo.out" },
@@ -343,9 +343,9 @@
       tl.to(lines, { yPercent: 0, duration: 0.9, stagger: 0.1 }, "-=0.55");
     }
 
-    // c. CTA fades up 12px below the sub-line
-    if (cta) {
-      tl.to(cta, { opacity: 1, y: 0, duration: 0.6 }, "-=0.5");
+    // c. The paired hero actions fade up 12px below the sub-line
+    if (actions) {
+      tl.to(actions, { opacity: 1, y: 0, duration: 0.6 }, "-=0.5");
     }
 
     // d. Quick links and sticker fade in together
@@ -366,7 +366,7 @@
     if (h) h.classList.remove("is--hidden");
     // Settle the hero underneath so a later BACK reveals it cleanly.
     gsap.set(
-      document.querySelectorAll("[data-hero-fade], .hero__cta, .sticker-item"),
+      document.querySelectorAll("[data-hero-fade], .hero__actions, .sticker-item"),
       { opacity: 1 }
     );
     document.body.classList.remove("is--loading");

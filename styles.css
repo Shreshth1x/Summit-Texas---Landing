@@ -15,6 +15,7 @@
   --ink-dim: #5C554A;       /* body paragraphs */
   --ink-faint: rgba(42, 38, 32, 0.28); /* hairlines, copyright, scroll cue */
   --orange: #C75B1F;        /* burnt orange */
+  --orange-deep: #9E4318;   /* accessible filled action */
   --terracotta: #B85A38;    /* hovers, selection, glow */
   --terracotta-glow: rgba(184, 90, 56, 0.28);
 
@@ -150,13 +151,20 @@ main {
   margin-top: 1.3em;
 }
 
-/* Our Mission CTA — sits in the hero content stack, directly below the mono
-   label. Centred by the flex column; margin gives comfortable breathing room. */
-.hero__cta {
+/* Primary hero actions — the launch post is treated like a posted notice,
+   while Our Mission stays as the quieter outlined path. */
+.hero__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85em;
   margin-top: 2.5em;
+  opacity: 0; /* revealed by the intro timeline */
+}
+
+.hero__cta {
   width: max-content;
   cursor: pointer;
-  opacity: 0; /* revealed by the intro timeline */
 }
 
 .hero__cta:disabled,
@@ -385,6 +393,24 @@ main {
   box-shadow: 0 0 24px var(--terracotta-glow);
 }
 
+.btn--launch {
+  border: 1px solid var(--basalt);
+  background: var(--orange-deep);
+  color: var(--sand);
+  box-shadow: 4px 4px 0 rgba(42, 38, 32, 0.24);
+  transform: translate(-1px, -1px);
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease,
+    box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.btn--launch:hover {
+  border-color: var(--basalt);
+  background: var(--basalt);
+  color: var(--sand);
+  box-shadow: 6px 6px 0 rgba(199, 91, 31, 0.34);
+  transform: translate(-3px, -3px);
+}
+
 /* ============================================================
    Responsive
    ============================================================ */
@@ -433,8 +459,15 @@ main {
   }
 
   .btn { width: 100%; }
-  /* Keep the hero CTA a hugging pill, not a full-width bar. */
-  .hero__cta { width: max-content; }
+  /* Keep both hero actions together instead of inheriting the form buttons'
+     full-width mobile treatment. */
+  .hero__actions { gap: 0.65em; margin-top: 2em; }
+  .hero__actions .btn {
+    width: auto;
+    min-width: 0;
+    padding-right: 1.45em;
+    padding-left: 1.45em;
+  }
 
   .hero__quicklinks {
     flex-direction: column;
@@ -471,14 +504,27 @@ main {
   .hero { padding-left: 1em; padding-right: 1em; }
 }
 
+@media screen and (max-width: 460px) {
+  .hero__actions .btn {
+    padding-right: 1.3em;
+    padding-left: 1.3em;
+    font-size: 0.68em;
+    letter-spacing: 0.11em;
+  }
+
+  .hero__launch-prefix { display: none; }
+}
+
 /* ============================================================
    Reduced motion — JS runs a plain crossfade; just avoid the
    intro flash and keep the settled hero visible on boot.
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   .hero.is--hidden { visibility: visible; }
-  [data-hero-fade], .hero__cta, .sticker-item { opacity: 1 !important; }
+  [data-hero-fade], .hero__actions, .sticker-item { opacity: 1 !important; }
   [data-fade] { opacity: 1 !important; }
+  .btn--launch { transition: background 0.25s ease, color 0.25s ease; }
+  .btn--launch:hover { transform: translate(-1px, -1px); }
 }
 
 /* ============================================================

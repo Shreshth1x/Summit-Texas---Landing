@@ -1276,3 +1276,97 @@ body.sponsorship-page main {
     transition: none;
   }
 }
+
+/* ============================================================
+   Pagebar nav — persistent wayfinding on inner pages, sitting
+   in the same row as BACK so the bar stays two lines tall.
+   ============================================================ */
+.pagebar .meta {
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.pagebar__row {
+  pointer-events: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4em 1.7em;
+}
+
+.pagebar__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em 1.4em;
+}
+
+.pagebar__navlink {
+  font-family: var(--font-mono);
+  font-size: 0.66em;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink-dim);
+  padding: 0.35em 0.1em;
+  border-bottom: 1px solid transparent;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.pagebar__navlink:hover {
+  color: var(--terracotta);
+  border-bottom-color: var(--terracotta);
+}
+
+.pagebar__navlink[aria-current="page"] {
+  color: var(--basalt);
+  border-bottom-color: var(--orange);
+}
+
+.pagebar__navlink:focus-visible {
+  outline: 1px solid var(--orange);
+  outline-offset: 4px;
+}
+
+@media screen and (max-width: 768px) {
+  .pagebar__row { gap: 0.3em 1.2em; }
+
+  /* The nav row makes the pagebar taller than the pages' fixed top
+     padding accounts for — on small screens let it flow above the
+     content instead of floating over it. */
+  .pagebar {
+    position: static;
+    width: 100%; /* formpage centers flex items — stay flush with the column */
+    padding: 2em 0 2.4em;
+  }
+
+  /* Keep the meta line clear of the fixed corner logo (em of its 0.7em font). */
+  .pagebar .meta { padding-right: 6.5em; }
+
+  .formpage { padding-top: 1.25em; }
+
+  .sponsorpage {
+    flex-direction: column;
+    padding-top: 1.25rem;
+  }
+}
+
+/* ============================================================
+   SHP Notes index — note rows reuse the form-option idiom;
+   only the empty-state line is new.
+   ============================================================ */
+.notes-soon {
+  display: block;
+  padding: 1.5em 0.2em;
+  border-bottom: 1px solid var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: 0.66em;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-dim); /* --ink-faint fails contrast on sand */
+}

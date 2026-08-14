@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Note to Investors and Innovators — The Silicon Hills Project</title>
+<meta name="description" content="A founder's letter from the Silicon Hills Project: bridging UT's hardware and AI talent with Austin's tech ecosystem under one principle — Clustering Clarity.">
+<meta property="og:title" content="Our Note to Investors and Innovators — The Silicon Hills Project">
+<meta property="og:description" content="Bridging UT's talent with Austin's tech scene. Clustering Clarity.">
+<meta property="og:type" content="article">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M6 22h6l6-6h5' stroke='%23B4702F' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='6' cy='22' r='3.4' fill='%23B4702F'/%3E%3Ccircle cx='25' cy='16' r='3.4' fill='%23B4702F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F8F9F7;
+    --ink:#1A1D1F;
+    --ink-soft:#4C5257;
+    --hairline:#DCDED8;
+    --wafer:#EDEFEA;
+    --copper:#B4702F;
+    --copper-ink:#8C511B;
+    --serif:"Newsreader", Georgia, "Times New Roman", serif;
+    --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    font-size:1.155rem;
+    line-height:1.72;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:#EAD9C2;color:var(--ink)}
+  a{color:var(--copper-ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+  a:focus-visible{outline:2px solid var(--copper-ink);outline-offset:3px;border-radius:2px}
+
+  .page{max-width:43rem;margin-inline:auto;padding:clamp(2.75rem,7vw,5.25rem) 1.35rem 3.5rem}
+
+  /* ---------- Masthead ---------- */
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:.72rem;
+    font-weight:500;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .eyebrow b{color:var(--copper-ink);font-weight:600}
+  h1{
+    font-size:clamp(2.35rem,6.5vw,3.5rem);
+    font-weight:500;
+    line-height:1.08;
+    letter-spacing:-.015em;
+    margin:.85rem 0 1.1rem;
+    text-wrap:balance;
+  }
+  .byline{font-style:italic;font-size:1.2rem;color:var(--ink)}
+  .byline small{
+    display:block;
+    font-style:normal;
+    font-family:var(--mono);
+    font-size:.68rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-top:.45rem;
+  }
+
+  /* ---------- Cluster diagram (signature) ---------- */
+  .cluster{display:block;width:100%;max-width:34rem;height:auto;margin:2.2rem 0 .4rem}
+  .cluster .t{
+    stroke:var(--copper);stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round;
+    stroke-dasharray:170;stroke-dashoffset:170;
+    animation:draw 1.4s cubic-bezier(.5,0,.2,1) forwards;
+  }
+  .cluster .drift{
+    stroke:#B9BCB4;stroke-width:1.3;fill:none;stroke-linecap:round;stroke-linejoin:round;
+    stroke-dasharray:3 7;opacity:0;animation:fade .9s ease-out .25s forwards;
+  }
+  .cluster .n{opacity:0;animation:fade .6s ease-out forwards}
+  .cluster .scatter{fill:#C4C7C0}
+  .cluster .joined{fill:var(--copper)}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes fade{to{opacity:1}}
+  @media (prefers-reduced-motion: reduce){
+    .cluster .t{animation:none;stroke-dashoffset:0}
+    .cluster .drift,.cluster .n{animation:none;opacity:1}
+  }
+
+  /* ---------- Article ---------- */
+  article{margin-top:1.4rem}
+  h2{
+    font-size:1.45rem;
+    font-weight:600;
+    letter-spacing:-.008em;
+    margin:3rem 0 1.1rem;
+    padding-top:2.2rem;
+    border-top:1px solid var(--hairline);
+  }
+  p{margin:0 0 1.25rem}
+  article > p:last-of-type{margin-bottom:0}
+
+  .lead::first-letter{
+    font-size:3.4em;
+    font-weight:500;
+    float:left;
+    line-height:.82;
+    padding:.08em .09em 0 0;
+  }
+
+  /* Dialogue inset */
+  .dialogue{
+    margin:1.9rem 0;
+    padding-left:1.2rem;
+    border-left:2px solid var(--hairline);
+  }
+  .dialogue p{margin-bottom:1.05rem;font-size:.985em}
+  .dialogue p:last-child{margin-bottom:0}
+  .dialogue .aside{font-style:italic;color:var(--ink-soft)}
+
+  /* Parallel comparisons */
+  .strophe{
+    margin:2.1rem 0;
+    padding-left:1.2rem;
+    border-left:2px solid var(--copper);
+  }
+  .strophe p{margin-bottom:.55rem;font-size:1.03em;line-height:1.55}
+  .strophe p:last-child{margin-bottom:0}
+
+  /* Margin timeline */
+  .has-note{position:relative}
+  .marginal{
+    display:block;
+    font-family:var(--mono);
+    font-size:.66rem;
+    line-height:1.5;
+    letter-spacing:.06em;
+    color:var(--ink-soft);
+    margin:0 0 .5rem;
+  }
+  .marginal b{color:var(--copper-ink);font-weight:600}
+  @media (min-width:1150px){
+    .marginal{
+      position:absolute;
+      top:.4em;
+      right:calc(100% + 2.4rem);
+      width:10.5rem;
+      text-align:right;
+      margin:0;
+    }
+  }
+
+  /* Pull quote */
+  .pull{margin:3.1rem 0;text-align:center}
+  .pull p{
+    font-size:clamp(1.7rem,4.5vw,2.15rem);
+    font-style:italic;
+    font-weight:500;
+    letter-spacing:-.01em;
+    margin:0;
+  }
+  .pull::before,.pull::after{
+    content:"";
+    display:block;
+    width:2.6rem;
+    height:1px;
+    background:var(--copper);
+    margin:1.05rem auto;
+  }
+
+  /* Sign-off */
+  .signoff{margin-top:2.6rem}
+  .signoff .name{
+    font-style:italic;
+    font-size:1.5rem;
+    margin-top:.35rem;
+  }
+
+  footer{
+    margin-top:4.2rem;
+    padding-top:1.3rem;
+    border-top:1px solid var(--hairline);
+    display:flex;
+    justify-content:space-between;
+    gap:1rem;
+    flex-wrap:wrap;
+    font-family:var(--mono);
+    font-size:.66rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <p class="eyebrow"><b>The Silicon Hills Project</b> · Austin, Texas</p>
+    <h1>Our Note to Investors and&nbsp;Innovators</h1>
+    <p class="byline">Jaden George <small>Founder’s Letter</small></p>
+
+    <svg class="cluster" viewBox="0 0 560 96" role="img" aria-label="Scattered points on the left joining into a connected cluster on the right — Clustering Clarity">
+      <!-- drift path: from scatter toward the cluster -->
+      <path class="drift" d="M205 44 h56 l20 12 h77 l12 -8 h20"/>
+      <!-- copper traces (45° PCB routing) -->
+      <path class="t" style="animation-delay:.45s" d="M390 48 h12 l24 -24"/>
+      <path class="t" style="animation-delay:.55s" d="M390 48 h20 l24 24"/>
+      <path class="t" style="animation-delay:.7s"  d="M426 24 h24 l24 24"/>
+      <path class="t" style="animation-delay:.8s"  d="M434 72 h16 l24 -24"/>
+      <path class="t" style="animation-delay:.95s" d="M474 48 h12 l24 24"/>
+      <path class="t" style="animation-delay:1.05s" d="M474 48 h8 l32 -32"/>
+      <path class="t" style="animation-delay:1.15s" d="M474 48 h64 l8 -8"/>
+      <!-- scattered nodes -->
+      <circle class="n scatter" style="animation-delay:.05s" cx="18"  cy="72" r="3"/>
+      <circle class="n scatter" style="animation-delay:.12s" cx="58"  cy="30" r="3"/>
+      <circle class="n scatter" style="animation-delay:.19s" cx="96"  cy="60" r="3"/>
+      <circle class="n scatter" style="animation-delay:.26s" cx="138" cy="22" r="3"/>
+      <circle class="n scatter" style="animation-delay:.33s" cx="168" cy="70" r="3"/>
+      <circle class="n scatter" style="animation-delay:.4s"  cx="205" cy="44" r="3"/>
+      <!-- clustered nodes -->
+      <circle class="n joined" style="animation-delay:.5s"  cx="390" cy="48" r="3.6"/>
+      <circle class="n joined" style="animation-delay:.75s" cx="426" cy="24" r="3.6"/>
+      <circle class="n joined" style="animation-delay:.85s" cx="434" cy="72" r="3.6"/>
+      <circle class="n joined" style="animation-delay:1s"   cx="474" cy="48" r="3.6"/>
+      <circle class="n joined" style="animation-delay:1.2s" cx="510" cy="72" r="3.6"/>
+      <circle class="n joined" style="animation-delay:1.3s" cx="514" cy="16" r="3.6"/>
+      <circle class="n joined" style="animation-delay:1.4s" cx="546" cy="40" r="3.6"/>
+    </svg>
+  </header>
+
+  <article>
+
+    <h2>Our Mission and Ideals</h2>
+
+    <p class="lead">Often progress is driven by a need. Progress can be accelerated if one frames it as a group of needs the greatest number of people have. The reason is that framing it as such tends to attract people with various styles of thinking, which can give a more complete picture or holistic advancement towards ‘progress’. Da Vinci exemplified the image of a Renaissance man; Steve Jobs made personal computing more accessible through simple design principles; Jensen Huang conceived of an alternative to the CPU as the processing mode of the future. All of these people amassed a huge following by framing the needs of many as a simple, distilled principle that many could identify and build on. We at the Silicon Hills Project claim no mankind-defining principle (at least, not yet!). But we are the first in the Austin area to have a set of distilled principles we operate on, with the selfless goal of bridging UT’s talent with the emerging and fast-moving tech scene of Austin.</p>
+
+    <h2>The Defining Conversation That Makes Us Different</h2>
+
+    <p class="has-note"><span class="marginal"><b>1957</b> — the “traitorous eight” leave Shockley; Fairchild is born</span>Our motto is ‘Clustering Clarity,’ and this goes back to what I was saying regarding the acceleration of progress. The motto struck me when, in the early stages of the project, I was in a conversation with one of the early engineers of Fairchild Semiconductor. For those who don’t know, Fairchild Semiconductor was founded by the “traitorous eight,” a group of highly skilled engineers who walked out on William Shockley (co-inventor of the transistor) over how he ran his lab. They basically triggered the first form of venture capital through a financier named Arthur Rock, who brokered them backing from Sherman Fairchild’s East Coast camera company. The engineer gave me this background, and I asked him:</p>
+
+    <div class="dialogue">
+      <p>“At what point did people realize that Fairchild Semiconductor meaningfully contributed to the Valley’s development?”</p>
+      <p>“Well, the split from Shockley, over his attitude towards employees, is what created Fairchild in the first place,” he said, “and then Fairchild’s own engineers went on to found Intel, AMD, and dozens of other companies that bolstered progress.”</p>
+      <p class="aside">I thought about it for a while.</p>
+      <p>“But still, this is all in retrospect! Other than to people in the engineering fields, it might not have been so obvious. Arthur Rock being an exception, at what point did other important people start realizing that what was being done at Fairchild was important?”</p>
+      <p>“Well, I was a junior engineer then,” he said, “but the people I talked to remembered it the same way: first came the realization that these engineers were serious. Then non-engineers like Arthur Rock got involved. And slowly it stopped being an engineering problem at all. It became a multidisciplinary one. Everyone making sure an environment existed where the semiconductor industry could succeed.”</p>
+    </div>
+
+    <p>I was kind of struck by these statements, mainly because, as a student at UT who had been hearing that Austin has the bandwidth to compete with the rate of innovation at Silicon Valley, I felt kind of underwhelmed. We had no shortage of good talent; we had all the land, proximity to resources, and a lot of institutionalized support systems; but somehow something felt missing: there was no connectivity, or the lines that the Austin tech scene progressed under were more makeshift (provided for as opportunities came). No matter where I searched, I could not find that unifying principle that the Fairchild era birthed. And I took a step back and looked at the bigger picture: the differences between Austin and Silicon Valley.</p>
+
+    <div class="strophe">
+      <p>Fairchild invented the technology that accelerated everything after it. Austin holds startups and companies with the same potential, not yet compounding.</p>
+      <p>The Valley grew its companies at home. Austin imported them — IBM in 1967, Motorola in 1974, AMD in 1979, Samsung in 1996 — each drawn by an optimal site, none born of one.</p>
+    </div>
+
+    <p>Where was Austin’s Arthur Rock? What parallels can we find with the capital ecosystem that powered Fairchild and then Silicon Valley? What capital ecosystem can transform Austin into a Silicon Hills known for connectivity, collaboration, and accelerated clarity?</p>
+
+    <p>These are questions I had pondered for a while before starting the Silicon Hills Project, and it’s honestly daunting, because the first instinct when finding parallels between two powerful tech ecosystems is to think in terms of where the other lacks or where the other gains. If you identify a lack, you essentially end up with a long-term infrastructure problem that might need the coordination of a lot of people to pipeline millions (or even billions!) so that this lack can be addressed — Samsung’s fab in Taylor began as a seventeen-billion-dollar commitment, which is the price tag on closing one such lack. If it’s a gain, we try to understand how people in that ecosystem end up coordinating more efficiently than us, or how they account for or reason through every dollar spent — the Valley’s rival engineers famously traded process fixes over beers at the Wagon Wheel, a coordination advantage no budget line could buy. Both of these scenarios essentially frame the innovation problem as a way to identify what adjustments to make to how people currently coordinate. Once a proper adjustment is found to be fit for a specific time period, we then decide to strengthen that adjustment, foresee any possible ways this adjustment can fail, and then readjust accordingly. Once a unifying and stable adjustment, or combination of adjustments, is found that bolsters innovation, it ends up acting as a bridge: people can identify where they themselves can contribute, and see clearly what others besides themselves can contribute.</p>
+
+    <p class="has-note"><span class="marginal"><b>1959</b> — Hoerni’s planar process; <b>1969</b> — Sunnyvale, 400 engineers</span>Fairchild-era Silicon Valley is the emergent case. Jean Hoerni’s planar process (1959) stabilized how silicon devices were made and became the shared technical foundation on which Noyce’s integrated circuit, and everyone else’s, was built. Around it settled a matching set of social adjustments: the capital-for-equity deal Arthur Rock brokered to fund Fairchild’s eight founders became the template for every venture-backed startup after it, and California courts’ refusal to enforce non-competes let engineers carry what they knew across company lines. Together these made the ecosystem legible. A Fairchild engineer knew where he fit — process, design, sales — and when he left to found one of the “Fairchildren” (Intel, AMD, National Semiconductor), he knew which colleagues to recruit, which investors understood the technology, and which customers could absorb it. By 1969, it was famously said that of the four hundred people at an industry conference in Sunnyvale, fewer than two dozen had never worked for Fairchild. The adjustment hadn’t just enabled innovation; it made everyone’s potential contribution visible to everyone else.</p>
+
+    <p class="has-note"><span class="marginal"><b>1983</b> — MCC chooses Austin; <b>1988</b> — SEMATECH follows</span>Austin’s Silicon Hills ran the same play deliberately. When MCC chose Austin in 1983 over more than fifty rival cities, it was because a coalition — the governor’s office, the University of Texas, and local business — had pre-sorted who would contribute what: endowed chairs and lab space from the university, incentives from the state, financing and housing help from business. George Kozmetsky’s IC² Institute then drew the bridge explicitly as the “Technopolis Wheel,” a framework assigning distinct roles to the university, large firms, startups, government at every level, and support organizations. SEMATECH followed in 1988 on the same logic — fourteen competing chipmakers pooling manufacturing research, each in a defined lane — and, closing the loop, it was Robert Noyce, Fairchild’s own co-founder, who moved to Austin to run it. Dell’s rise then recycled wealth and talent back through these channels, as Fairchild alumni had done a generation earlier. The Valley stumbled into its adjustments; Austin, having studied the Valley, installed them on purpose. That the bridge formed either way is the point: once the adjustment is stable and shared, people stop guessing at their place in the system and start slotting in — themselves, and one another.</p>
+
+    <figure class="pull">
+      <p>“Clustering Clarity.”</p>
+    </figure>
+
+    <p>The Silicon Hills Project will act as this bridge between UT’s hardware/AI talent and the rest of Austin’s tech scene, and it will frame our motto of ‘Clustering Clarity’ as the distilled principle innovators in the Austin area can identify and build on.</p>
+
+    <!-- Tip: link your email here, e.g. <a href="mailto:you@example.com">available 24/7</a> -->
+    <p>I am available 24/7 to discuss any ideas related to AI or hardware that may help further our mission.</p>
+
+    <div class="signoff">
+      <p>Sincerely,</p>
+      <p class="name">Jaden George</p>
+    </div>
+
+  </article>
+
+  <footer>
+    <span>The Silicon Hills Project</span>
+    <span>Austin, TX</span>
+  </footer>
+
+</div>
+</body>
+</html>

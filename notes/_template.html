@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     SHP NOTES — WRITEUP TEMPLATE
+     ============================================================
+     HOW TO PUBLISH A NEW NOTE
+
+     1. Copy this file into notes/ under a lowercase-hyphen name:
+          notes/why-west-campus.html
+        Never use spaces or capital letters in the filename —
+        the live server is case-sensitive even though your Mac
+        is not.
+     2. Replace everything marked ★ below: <title>, the two
+        descriptions, TITLE, the date, and the article body.
+        Every content block you might want (dialogue, margin
+        notes, pull quote, comparisons) is demonstrated in the
+        article — keep what you need, delete the rest.
+     3. The header diagram: keep the default "ridge" drawing, or
+        sketch a new one for this note in the same language
+        (copper traces + nodes; see the SVG comments).
+     4. Add one row for this note at the marked spot in
+        notes/index.html (newest on top).
+     5. Commit and push. The note goes live at
+          siliconhillsproject.com/notes/why-west-campus
+     ============================================================ -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ★ Page title: "Note title — SHP Notes" -->
+<title>TITLE — SHP Notes · Silicon Hills Project</title>
+<!-- ★ One-sentence description of this note (shows in search + link previews) -->
+<meta name="description" content="DESCRIPTION.">
+<!-- ★ Canonical: replace SLUG with this file's name (no .html) -->
+<link rel="canonical" href="https://www.siliconhillsproject.com/notes/SLUG">
+<meta property="og:title" content="TITLE — SHP Notes">
+<meta property="og:description" content="DESCRIPTION.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Silicon Hills Project">
+<link rel="icon" type="image/png" href="/assets/favicon.png?v=3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F8F9F7;
+    --ink:#1A1D1F;
+    --ink-soft:#4C5257;
+    --hairline:#DCDED8;
+    --wafer:#EDEFEA;
+    --copper:#B4702F;
+    --copper-ink:#8C511B;
+    --serif:"Newsreader", Georgia, "Times New Roman", serif;
+    --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    font-size:1.155rem;
+    line-height:1.72;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:#EAD9C2;color:var(--ink)}
+  a{color:var(--copper-ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+  a:focus-visible{outline:2px solid var(--copper-ink);outline-offset:3px;border-radius:2px}
+
+  .page{max-width:43rem;margin-inline:auto;padding:clamp(2.75rem,7vw,5.25rem) 1.35rem 3.5rem}
+
+  /* ---------- Breadcrumbs ---------- */
+  .crumbs{
+    display:flex;
+    justify-content:space-between;
+    gap:1rem;
+    flex-wrap:wrap;
+    margin-bottom:2.6rem;
+    font-family:var(--mono);
+    font-size:.66rem;
+    font-weight:500;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+  }
+  .crumbs a{color:var(--ink-soft);text-decoration:none}
+  .crumbs a:hover{color:var(--copper-ink)}
+
+  /* ---------- Masthead ---------- */
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:.72rem;
+    font-weight:500;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .eyebrow b{color:var(--copper-ink);font-weight:600}
+  h1{
+    font-size:clamp(2.35rem,6.5vw,3.5rem);
+    font-weight:500;
+    line-height:1.08;
+    letter-spacing:-.015em;
+    margin:.85rem 0 1.1rem;
+    text-wrap:balance;
+  }
+  .byline{font-style:italic;font-size:1.2rem;color:var(--ink)}
+  .byline small{
+    display:block;
+    font-style:normal;
+    font-family:var(--mono);
+    font-size:.68rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-top:.45rem;
+  }
+
+  /* ---------- Header diagram (self-drawing) ----------
+     .t      copper traces that draw themselves in
+     .drift  faint dashed guide line
+     .n      nodes that fade in (stagger with animation-delay)
+     .scatter gray nodes · .joined copper nodes            */
+  .diagram{display:block;width:100%;max-width:34rem;height:auto;margin:2.2rem 0 .4rem}
+  .diagram .t{
+    stroke:var(--copper);stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round;
+    stroke-dasharray:170;stroke-dashoffset:170;
+    animation:draw 1.4s cubic-bezier(.5,0,.2,1) forwards;
+  }
+  .diagram .drift{
+    stroke:#B9BCB4;stroke-width:1.3;fill:none;stroke-linecap:round;stroke-linejoin:round;
+    stroke-dasharray:3 7;opacity:0;animation:fade .9s ease-out .25s forwards;
+  }
+  .diagram .n{opacity:0;animation:fade .6s ease-out forwards}
+  .diagram .scatter{fill:#C4C7C0}
+  .diagram .joined{fill:var(--copper)}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes fade{to{opacity:1}}
+  @media (prefers-reduced-motion: reduce){
+    .diagram .t{animation:none;stroke-dashoffset:0}
+    .diagram .drift,.diagram .n{animation:none;opacity:1}
+  }
+
+  /* ---------- Article ---------- */
+  article{margin-top:1.4rem}
+  h2{
+    font-size:1.45rem;
+    font-weight:600;
+    letter-spacing:-.008em;
+    margin:3rem 0 1.1rem;
+    padding-top:2.2rem;
+    border-top:1px solid var(--hairline);
+  }
+  p{margin:0 0 1.25rem}
+  article > p:last-of-type{margin-bottom:0}
+
+  .lead::first-letter{
+    font-size:3.4em;
+    font-weight:500;
+    float:left;
+    line-height:.82;
+    padding:.08em .09em 0 0;
+  }
+
+  /* Dialogue inset */
+  .dialogue{
+    margin:1.9rem 0;
+    padding-left:1.2rem;
+    border-left:2px solid var(--hairline);
+  }
+  .dialogue p{margin-bottom:1.05rem;font-size:.985em}
+  .dialogue p:last-child{margin-bottom:0}
+  .dialogue .aside{font-style:italic;color:var(--ink-soft)}
+
+  /* Parallel comparisons */
+  .strophe{
+    margin:2.1rem 0;
+    padding-left:1.2rem;
+    border-left:2px solid var(--copper);
+  }
+  .strophe p{margin-bottom:.55rem;font-size:1.03em;line-height:1.55}
+  .strophe p:last-child{margin-bottom:0}
+
+  /* Margin timeline */
+  .has-note{position:relative}
+  .marginal{
+    display:block;
+    font-family:var(--mono);
+    font-size:.66rem;
+    line-height:1.5;
+    letter-spacing:.06em;
+    color:var(--ink-soft);
+    margin:0 0 .5rem;
+  }
+  .marginal b{color:var(--copper-ink);font-weight:600}
+  @media (min-width:1150px){
+    .marginal{
+      position:absolute;
+      top:.4em;
+      right:calc(100% + 2.4rem);
+      width:10.5rem;
+      text-align:right;
+      margin:0;
+    }
+  }
+
+  /* Pull quote */
+  .pull{margin:3.1rem 0;text-align:center}
+  .pull p{
+    font-size:clamp(1.7rem,4.5vw,2.15rem);
+    font-style:italic;
+    font-weight:500;
+    letter-spacing:-.01em;
+    margin:0;
+  }
+  .pull::before,.pull::after{
+    content:"";
+    display:block;
+    width:2.6rem;
+    height:1px;
+    background:var(--copper);
+    margin:1.05rem auto;
+  }
+
+  /* Sign-off */
+  .signoff{margin-top:2.6rem}
+  .signoff .name{
+    font-style:italic;
+    font-size:1.5rem;
+    margin-top:.35rem;
+  }
+
+  footer{
+    margin-top:4.2rem;
+    padding-top:1.3rem;
+    border-top:1px solid var(--hairline);
+    display:flex;
+    justify-content:space-between;
+    gap:1rem;
+    flex-wrap:wrap;
+    font-family:var(--mono);
+    font-size:.66rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  footer a{color:var(--ink-soft);text-decoration:none}
+  footer a:hover{color:var(--copper-ink)}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="/notes">&larr; SHP Notes</a>
+    <a href="/">Silicon Hills Project</a>
+  </nav>
+
+  <header>
+    <p class="eyebrow"><b>SHP Notes</b> · The Silicon Hills Project · Austin, Texas</p>
+    <!-- ★ The note's title -->
+    <h1>TITLE</h1>
+    <!-- ★ Byline + date -->
+    <p class="byline">Jaden George <small>SHP Note · Month D, 2026</small></p>
+
+    <!-- Header diagram — the note's "signature". Default motif: a ridge
+         climbing to a summit. To draw your own, keep the same pieces:
+         one dashed .drift guide, a few .t traces routed at 45° angles
+         (like PCB tracks), gray .scatter nodes, copper .joined nodes.
+         Stagger the animation-delay values so it assembles left to right.
+         ★ If you redraw it, also rewrite the aria-label below so screen
+         readers hear a description of YOUR drawing, not the default ridge. -->
+    <svg class="diagram" viewBox="0 0 560 96" role="img" aria-label="A copper trace climbing from a flat baseline to a summit, nodes joining along the way">
+      <path class="drift" d="M20 76 h120"/>
+      <path class="t" style="animation-delay:.45s" d="M140 76 h24 l24 -24"/>
+      <path class="t" style="animation-delay:.6s"  d="M188 52 h24 l24 -24"/>
+      <path class="t" style="animation-delay:.75s" d="M236 28 h56"/>
+      <path class="t" style="animation-delay:.9s"  d="M292 28 l24 24 h24"/>
+      <path class="t" style="animation-delay:1.05s" d="M340 52 l24 24 h176"/>
+      <circle class="n scatter" style="animation-delay:.05s" cx="20"  cy="76" r="3"/>
+      <circle class="n scatter" style="animation-delay:.12s" cx="56"  cy="76" r="3"/>
+      <circle class="n scatter" style="animation-delay:.19s" cx="92"  cy="76" r="3"/>
+      <circle class="n scatter" style="animation-delay:.26s" cx="120" cy="76" r="3"/>
+      <circle class="n joined" style="animation-delay:.55s" cx="188" cy="52" r="3.6"/>
+      <circle class="n joined" style="animation-delay:.8s"  cx="236" cy="28" r="4"/>
+      <circle class="n joined" style="animation-delay:.95s" cx="292" cy="28" r="4"/>
+      <circle class="n joined" style="animation-delay:1.1s" cx="340" cy="52" r="3.6"/>
+      <circle class="n joined" style="animation-delay:1.3s" cx="404" cy="76" r="3.6"/>
+    </svg>
+  </header>
+
+  <article>
+
+    <!-- ★ ARTICLE BODY — everything below is sample structure.
+         Keep the blocks you need, delete the rest. -->
+
+    <h2>First Section Heading</h2>
+
+    <!-- The class="lead" paragraph gets the big drop cap. Use it once,
+         on the opening paragraph. -->
+    <p class="lead">Opening paragraph of the note. The first letter becomes a drop cap, so start with a strong sentence.</p>
+
+    <!-- A dated margin note: on wide screens the <span class="marginal">
+         sits in the left margin next to this paragraph; on small screens
+         it appears just above it. -->
+    <p class="has-note"><span class="marginal"><b>2026</b> — a short dated annotation</span>A paragraph that carries a margin note. Use these for dates, sources, or side facts that support the paragraph without interrupting it.</p>
+
+    <!-- Quoted conversation -->
+    <div class="dialogue">
+      <p>“A line of quoted conversation.”</p>
+      <p class="aside">An italic aside between lines.</p>
+      <p>“The reply.”</p>
+    </div>
+
+    <!-- Parallel comparison block (copper left border) — good for
+         X-vs-Y contrasts stated in consecutive sentences. -->
+    <div class="strophe">
+      <p>First statement of the comparison.</p>
+      <p>Second statement, the counterpart.</p>
+    </div>
+
+    <!-- Centered pull quote with copper rules -->
+    <figure class="pull">
+      <p>“A short line worth pulling out.”</p>
+    </figure>
+
+    <p>Closing paragraph.</p>
+
+    <div class="signoff">
+      <p>Sincerely,</p>
+      <p class="name">Jaden George</p>
+    </div>
+
+  </article>
+
+  <footer>
+    <span>The Silicon Hills Project</span>
+    <a href="/notes">More SHP Notes &rarr;</a>
+    <span>Austin, TX</span>
+  </footer>
+
+</div>
+</body>
+</html>

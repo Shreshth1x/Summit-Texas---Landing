@@ -14,94 +14,165 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Silicon Hills Project">
   <meta name="twitter:description" content="Building the Summit House in West Campus at UT Austin.">
-  <link rel="icon" type="image/png" href="assets/favicon.png?v=3">
-  <noscript>
-    <style>
-      .hero.is--hidden { visibility: visible !important; }
-      [data-hero-fade], .hero__actions, .sticker-item { opacity: 1 !important; }
-      .mesa { display: none !important; }
-    </style>
-  </noscript>
+  <link rel="icon" type="image/svg+xml" href="assets/silicon-hills-mark.svg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&amp;family=Space+Grotesk:wght@500;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=51">
 
-  <link rel="stylesheet" href="styles.css?v=14">
+  <noscript>
+    <style>
+      .home-page { visibility: visible !important; }
+    </style>
+  </noscript>
 </head>
-<body class="is--loading">
+<body class="landing-page is-loading">
+  <script>
+    (function () {
+      var shouldSettle = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  <!-- Paper texture / film grain -->
+      try {
+        shouldSettle = shouldSettle || new URL(window.location.href).searchParams.get("skip-intro") === "1";
+      } catch (error) {
+        /* The regular boot path will resolve the state below. */
+      }
+
+      try {
+        shouldSettle = shouldSettle || window.sessionStorage.getItem("shp:skip-intro") === "1";
+      } catch (error) {
+        /* Navigation timing remains available below. */
+      }
+
+      try {
+        var navigation = window.performance && window.performance.getEntriesByType
+          ? window.performance.getEntriesByType("navigation")[0]
+          : null;
+        shouldSettle = shouldSettle || Boolean(navigation && navigation.type === "back_forward");
+      } catch (error) {
+        /* The regular boot path will resolve the state below. */
+      }
+
+      document.body.classList.remove("is-loading");
+      document.body.classList.add(shouldSettle ? "is-home-settled" : "is-home-ready");
+    })();
+  </script>
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="grain" aria-hidden="true"></div>
+  <span class="route-progress" data-route-progress aria-hidden="true"></span>
 
-  <!-- Draggable sticker -->
-  <div data-sticker="wrap" class="sticker-wrap">
-    <div data-sticker="item" class="sticker-item">
-      <img src="assets/logo.png?v=3" alt="Silicon Hills Project block pyramid mark" class="sticker-img" draggable="false">
-    </div>
-  </div>
-
-  <main>
-
-    <!-- Hero (the crisp intro animation settles into this view in place) -->
-    <section class="hero is--hidden">
-      <div class="hero__center">
-        <h1 class="hero__wordmark" data-hero-words>Silicon Hills Project</h1>
-        <p class="hero__sub" data-hero-lines>Building the Summit House in West Campus at UT Austin</p>
-        <div class="hero__actions">
-          <a href="/mission" class="hero__cta btn btn--primary" data-learn-more>Our Mission</a>
-          <a href="https://www.linkedin.com/feed/update/urn:li:activity:7486579369260249088/" class="hero__launch btn btn--launch" aria-label="Check out our launch post on LinkedIn">
-            <span class="hero__launch-label"><span class="hero__launch-prefix">Check Out Our </span>Launch Post</span>
-            <span class="btn__external" aria-hidden="true">↗</span>
-          </a>
-        </div>
-        <nav class="hero__quicklinks" aria-label="Explore Summit House" data-hero-fade>
-          <a class="hero__quicklink" href="/notes">SHP Notes <span aria-hidden="true">&rarr;</span></a>
-          <a class="hero__quicklink" href="/letter">Note to Innovators and Investors <span aria-hidden="true">&rarr;</span></a>
-          <a class="hero__quicklink" href="https://docs.google.com/forms/d/e/1FAIpQLSeu21XV7tdXPx4cWwrU_HVPpdCBE9-lQK49R8-C4MZm4vE30Q/viewform">Join Summit House <span aria-hidden="true">&#8599;</span></a>
-          <a class="hero__quicklink" href="/sponsorships">Sponsorship Packages <span aria-hidden="true">&rarr;</span></a>
-          <a class="hero__quicklink" href="/get-involved">Get Involved <span aria-hidden="true">&rarr;</span></a>
-        </nav>
-      </div>
-
-      <div class="hero__bottom">
-        <span class="copyright">© Silicon Hills Project</span>
-      </div>
+  <main class="home-page" id="main-content">
+    <section class="home-screen logo-only-screen" aria-labelledby="home-title">
+      <h1 class="visually-hidden" id="home-title">Silicon Hills Project</h1>
+      <nav class="logo-mosaic" data-logo-mosaic aria-label="Explore the Silicon Hills Project">
+        <a href="/notes" class="logo-mosaic__tile logo-mosaic__tile--a" data-peel-tile>
+          <span class="logo-mosaic__fill logo-mosaic__fill--notes hero-art__tile--filldown" style="--d: 0ms" aria-hidden="true"></span>
+          <span class="logo-mosaic__meta">01 / From the project</span>
+          <span class="logo-mosaic__title">SHP Notes</span>
+          <span class="logo-mosaic__arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="/letter" class="logo-mosaic__tile logo-mosaic__tile--b" data-peel-tile aria-label="Note to Innovators and Investors">
+          <span class="logo-mosaic__fill logo-mosaic__fill--orange-soft hero-art__tile--filldown" style="--d: 588ms" aria-hidden="true"></span>
+          <span class="logo-mosaic__meta">02 / Note to innovators + investors</span>
+          <span class="logo-mosaic__title">Letter</span>
+          <span class="logo-mosaic__arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeu21XV7tdXPx4cWwrU_HVPpdCBE9-lQK49R8-C4MZm4vE30Q/viewform" class="logo-mosaic__tile logo-mosaic__tile--c" data-peel-tile>
+          <svg class="logo-mosaic__line-field logo-mosaic__line-field--dense" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <line pathLength="1" x1="0" x2="100" y1="0" y2="0" style="--d:1176ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="3.85" y2="3.85" style="--d:1322ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="7.69" y2="7.69" style="--d:1187ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="11.54" y2="11.54" style="--d:1333ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="15.38" y2="15.38" style="--d:1197ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="19.23" y2="19.23" style="--d:1343ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="23.08" y2="23.08" style="--d:1208ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="26.92" y2="26.92" style="--d:1354ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="30.77" y2="30.77" style="--d:1218ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="34.62" y2="34.62" style="--d:1364ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="38.46" y2="38.46" style="--d:1228ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="42.31" y2="42.31" style="--d:1375ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="46.15" y2="46.15" style="--d:1239ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="50" y2="50" style="--d:1385ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="53.85" y2="53.85" style="--d:1249ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="57.69" y2="57.69" style="--d:1395ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="61.54" y2="61.54" style="--d:1260ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="65.38" y2="65.38" style="--d:1406ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="69.23" y2="69.23" style="--d:1270ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="73.08" y2="73.08" style="--d:1416ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="76.92" y2="76.92" style="--d:1281ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="80.77" y2="80.77" style="--d:1427ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="84.62" y2="84.62" style="--d:1291ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="88.46" y2="88.46" style="--d:1437ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="92.31" y2="92.31" style="--d:1302ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="96.15" y2="96.15" style="--d:1448ms;--lndur:261ms;--off:100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="100" y2="100" style="--d:1312ms;--lndur:261ms;--off:100"></line>
+          </svg>
+          <span class="logo-mosaic__meta">03 / Students + founders</span>
+          <span class="logo-mosaic__title">Join Summit House</span>
+          <span class="logo-mosaic__arrow" aria-hidden="true">↗</span>
+        </a>
+        <a href="/get-involved" class="logo-mosaic__tile logo-mosaic__tile--d" data-peel-tile>
+          <span class="logo-mosaic__fill logo-mosaic__fill--orange-soft-strong hero-art__tile--fillup" style="--d: 452ms" aria-hidden="true"></span>
+          <span class="logo-mosaic__meta">06 / Build with us</span>
+          <span class="logo-mosaic__title">Get involved</span>
+          <span class="logo-mosaic__arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="/sponsorships" class="logo-mosaic__tile logo-mosaic__tile--e" data-peel-tile>
+          <svg class="logo-mosaic__line-field logo-mosaic__line-field--sparse" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <line pathLength="1" x1="0" x2="100" y1="0" y2="0" style="--d:1695ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="4.55" y2="4.55" style="--d:1677ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="9.09" y2="9.09" style="--d:1660ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="13.64" y2="13.64" style="--d:1643ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="18.18" y2="18.18" style="--d:1625ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="22.73" y2="22.73" style="--d:1608ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="27.27" y2="27.27" style="--d:1590ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="31.82" y2="31.82" style="--d:1573ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="36.36" y2="36.36" style="--d:1556ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="40.91" y2="40.91" style="--d:1538ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="45.45" y2="45.45" style="--d:1521ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="50" y2="50" style="--d:1503ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="54.55" y2="54.55" style="--d:1486ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="59.09" y2="59.09" style="--d:1469ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="63.64" y2="63.64" style="--d:1451ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="68.18" y2="68.18" style="--d:1434ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="72.73" y2="72.73" style="--d:1416ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="77.27" y2="77.27" style="--d:1399ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="81.82" y2="81.82" style="--d:1382ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="86.36" y2="86.36" style="--d:1364ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="90.91" y2="90.91" style="--d:1347ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="95.45" y2="95.45" style="--d:1329ms;--lndur:348ms;--off:-100"></line>
+            <line pathLength="1" x1="0" x2="100" y1="100" y2="100" style="--d:1312ms;--lndur:348ms;--off:-100"></line>
+          </svg>
+          <span class="logo-mosaic__meta">05 / Companies + funds</span>
+          <span class="logo-mosaic__title">Sponsor</span>
+          <span class="logo-mosaic__arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="/mission" class="logo-mosaic__tile logo-mosaic__tile--f" data-peel-tile data-mission-link>
+          <span class="logo-mosaic__fill logo-mosaic__fill--mission hero-art__tile--fillup" style="--d: 0ms" aria-hidden="true"></span>
+          <span class="logo-mosaic__meta">04 / Why this exists</span>
+          <span class="logo-mosaic__title">Our mission</span>
+          <span class="logo-mosaic__arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7486579369260249088/" class="logo-mosaic__tile logo-mosaic__tile--g" data-peel-tile>
+          <span class="logo-mosaic__fill logo-mosaic__fill--launch hero-art__tile--swipeR" style="--d: 905ms" aria-hidden="true"></span>
+          <span class="logo-mosaic__meta">07 / The announcement</span>
+          <span class="logo-mosaic__title">Launch post</span>
+          <span class="logo-mosaic__arrow" aria-hidden="true">↗</span>
+        </a>
+        <a href="/mission" class="logo-mosaic__core" data-logo-core data-mission-link aria-label="Read the Silicon Hills Project mission">
+          <span class="logo-mosaic__core-ghost" aria-hidden="true">
+            <img src="assets/silicon-hills-lockup-stacked.svg" alt="">
+          </span>
+          <span class="logo-mosaic__core-lockup">
+            <img src="assets/silicon-hills-lockup-stacked.svg" alt="Silicon Hills Project">
+          </span>
+          <span class="logo-mosaic__core-edge" aria-hidden="true"></span>
+        </a>
+      </nav>
     </section>
-
-    <!-- SUMMIT transition (button-driven) -->
-    <section class="mesa">
-      <div class="mesa__stage">
-        <div class="mesa__word">SUMMIT</div>
-      </div>
-    </section>
-
-    <!-- Manifesto (single viewport) -->
-    <section class="manifesto">
-      <div class="manifesto__inner">
-        <p class="manifesto__eyebrow" data-m-fade>OUR MISSION</p>
-        <p class="manifesto__p" data-m-fade>The Silicon Hills Project is bringing Austin's young builders under one roof. Our first house, the Summit House, is coming to West Campus at UT Austin.</p>
-        <p class="manifesto__p" data-m-fade>The idea is simple: bring ambitious students and founders together and give them a place where they can meet, work, and build side by side. Good desks, stocked fridges, fast internet, and doors that stay open 24/7. It's a place they want to return to every day.</p>
-        <p class="manifesto__p" data-m-fade>The house is only the setting. What matters is the people inside it. UT Austin's young talent is scattered across campus, West Campus apartments, office buildings, and coffee shops that close at 10:00.</p>
-        <p class="manifesto__p" data-m-fade>When ambitious people work next to each other every day, ideas move faster, teams form naturally, and projects turn into real companies. The first house is just the start. If it works, we grow more houses, then founder houses, where teams live and build together, a network where Austin's youngest talent can build and stay.</p>
-        <div class="manifesto__actions" data-m-fade>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSeu21XV7tdXPx4cWwrU_HVPpdCBE9-lQK49R8-C4MZm4vE30Q/viewform" class="btn btn--primary" aria-label="Join Summit House — opens the Summit House Interest Form">Join Summit House <span class="btn__external" aria-hidden="true">↗</span></a>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSehQwJLAGl3Kgd_16XXiszbTHMQUSv03d4ZNyqB-37w_TKQBg/viewform" class="btn btn--secondary" aria-label="Partner with Summit House — opens the Summit House Partnerships Form">Partner With Us <span class="btn__external" aria-hidden="true">↗</span></a>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSe6DRoBZ8ouBYYWKlYskCt6bb2nHCyCJ9ZoeR33tFmHGMf_ig/viewform" class="btn btn--secondary" aria-label="Help run Summit House — opens the Summit House team application">Help Run Summit House <span class="btn__external" aria-hidden="true">↗</span></a>
-        </div>
-        <a href="/sponsorships" class="manifesto__sponsorship" data-m-fade>View sponsorship packages <span aria-hidden="true">→</span></a>
-      </div>
-      <a href="/" class="manifesto__back" data-manifesto-back>[ BACK ]</a>
-      <span class="manifesto__copyright">© Silicon Hills Project · Austin</span>
-    </section>
-
   </main>
 
-  <!-- GSAP + plugins -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Draggable.min.js"></script>
-
-  <script src="script.js?v=7"></script>
+  <script src="script.js?v=25"></script>
 </body>
 </html>

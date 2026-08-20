@@ -1,423 +1,338 @@
 /* ============================================================
-   silicon hills project — interactions
-   One fixed viewport, three stacked views (hero / summit / mission).
-   The mission button plays a single master GSAP timeline that
-   hands hero -> SUMMIT -> mission. BACK crossfades home. No scroll.
+   Silicon Hills Project — tile build + tile-peel transition
+
+   The mosaic constructs immediately. Its real tiles peel away on
+   the way to Mission, with no separate loading interstitial.
    ============================================================ */
 
 (function () {
   "use strict";
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var ROOT_PATH = "/";
-  var MISSION_PATH = "/mission";
-  var ROOT_TITLE = "Silicon Hills Project";
-  var MISSION_TITLE = "Our Mission · Silicon Hills Project";
-  var ROOT_DESCRIPTION = "Building the Summit House in West Campus at UT Austin.";
-  var MISSION_DESCRIPTION = "The Silicon Hills Project is bringing Austin's young builders under one roof, starting with the Summit House at UT Austin.";
-  var SITE_URL = "https://www.siliconhillsproject.com";
+  var resetMissionTransition = function () {};
+  var resetRouteTransition = function () {};
+  var resetHeaderBehavior = function () {};
 
-  function currentPath() {
-    return window.location.pathname.replace(/\/+$/, "") || "/";
+  function setHomeState(shouldAnimate) {
+    document.body.classList.remove(shouldAnimate ? "is-home-settled" : "is-home-ready");
+    document.body.classList.add(shouldAnimate ? "is-home-ready" : "is-home-settled");
+    document.body.classList.remove("is-loading");
   }
 
-  function isMissionPath() {
-    var path = currentPath();
-    return path === MISSION_PATH || path === "/mission.html";
+  function revealStatic() {
+    setHomeState(false);
   }
 
-  function setMetaContent(selector, value) {
-    var element = document.querySelector(selector);
-    if (element) element.setAttribute("content", value);
-  }
+  function consumeIntroSkip() {
+    var shouldSkip = false;
 
-  function setShareMetadata(path, title) {
-    var isMission = path === MISSION_PATH;
-    var description = isMission ? MISSION_DESCRIPTION : ROOT_DESCRIPTION;
-    var url = SITE_URL + path;
-    var canonical = document.querySelector('link[rel="canonical"]');
-
-    if (canonical) canonical.setAttribute("href", url);
-    setMetaContent('meta[name="description"]', description);
-    setMetaContent('meta[property="og:title"]', title);
-    setMetaContent('meta[property="og:description"]', description);
-    setMetaContent('meta[property="og:url"]', url);
-    setMetaContent('meta[name="twitter:title"]', title);
-    setMetaContent('meta[name="twitter:description"]', description);
-  }
-
-  function setViewUrl(path, title, replace) {
-    if (window.history) {
-      var method = replace ? "replaceState" : "pushState";
-      if (window.history[method]) {
-        window.history[method](null, "", path);
+    try {
+      var currentUrl = new URL(window.location.href);
+      if (currentUrl.searchParams.get("skip-intro") === "1") {
+        currentUrl.searchParams.delete("skip-intro");
+        window.history.replaceState(null, "", currentUrl.pathname + currentUrl.search + currentUrl.hash);
+        shouldSkip = true;
       }
+    } catch (error) {
+      /* Continue with the session fallback below. */
     }
-    document.title = title;
-    setShareMetadata(path, title);
-  }
 
-  function setLearnDisabled(disabled) {
-    if (!learnBtn) return;
-    learnBtn.setAttribute("aria-disabled", disabled ? "true" : "false");
-    learnBtn.style.pointerEvents = disabled ? "none" : "";
-  }
-
-  /* Reveal the settled hero with no animation (no-GSAP fallback). */
-  function revealStaticNoGsap() {
-    var hero = document.querySelector(".hero");
-    if (hero) hero.classList.remove("is--hidden");
-
-    if (isMissionPath() || window.location.hash === "#manifesto") {
-      var manifesto = document.querySelector(".manifesto");
-      if (hero) hero.style.visibility = "hidden";
-      if (manifesto) manifesto.style.visibility = "visible";
-      document.querySelectorAll("[data-m-fade]").forEach(function (el) {
-        el.style.opacity = "1";
-        el.style.transform = "none";
-      });
-      document.body.classList.remove("is--loading");
-      if (window.location.hash === "#manifesto") {
-        setViewUrl(MISSION_PATH, MISSION_TITLE, true);
+    try {
+      if (window.sessionStorage.getItem("shp:skip-intro") === "1") {
+        window.sessionStorage.removeItem("shp:skip-intro");
+        shouldSkip = true;
       }
+    } catch (error) {
+      /* Performance navigation detection remains available below. */
+    }
+
+    return shouldSkip;
+  }
+
+  function initHeaderBehavior() {
+    var header = document.querySelector(".home-header");
+    if (!header) return;
+
+    var lastScrollY = window.scrollY;
+    var ticking = false;
+
+    function updateHeader() {
+      var currentScrollY = Math.max(0, window.scrollY);
+      var isPastRail = currentScrollY > header.offsetHeight + 16;
+      var isMovingDown = currentScrollY > lastScrollY;
+
+      header.classList.toggle("is-scrolled", currentScrollY > 8);
+      header.classList.toggle("is-hidden", !reduceMotion && isPastRail && isMovingDown);
+
+      if (currentScrollY < lastScrollY || currentScrollY <= 8) {
+        header.classList.remove("is-hidden");
+      }
+
+      lastScrollY = currentScrollY;
+      ticking = false;
+    }
+
+    function requestHeaderUpdate() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateHeader);
+    }
+
+    resetHeaderBehavior = function () {
+      lastScrollY = Math.max(0, window.scrollY);
+      header.classList.remove("is-hidden");
+      header.classList.toggle("is-scrolled", lastScrollY > 8);
+    };
+
+    window.addEventListener("scroll", requestHeaderUpdate, { passive: true });
+    resetHeaderBehavior();
+  }
+
+  function initRouteTransitions() {
+    var progress = document.querySelector("[data-route-progress]");
+    var page = document.querySelector(".home-page");
+
+    if (reduceMotion || !progress || !page || typeof window.gsap === "undefined") {
       return;
     }
 
-    document
-      .querySelectorAll("[data-hero-fade], .hero__actions, .sticker-item")
-      .forEach(function (el) { el.style.opacity = "1"; });
-    document.body.classList.remove("is--loading");
-  }
+    var routeTimeline = null;
+    var isNavigating = false;
 
-  /* If GSAP failed to load, degrade gracefully to a static hero. */
-  if (typeof window.gsap === "undefined") {
-    revealStaticNoGsap();
-    return;
-  }
+    resetRouteTransition = function () {
+      if (routeTimeline) {
+        routeTimeline.kill();
+        routeTimeline = null;
+      }
 
-  gsap.registerPlugin(SplitText, Draggable);
+      window.gsap.set(progress, { clearProps: "opacity,visibility,transform,transformOrigin" });
+      window.gsap.set(page, { clearProps: "opacity,visibility,transform" });
+      isNavigating = false;
+    };
 
-  /* Shared element references + animation state. */
-  var hero, mesaView, manifestoView, stage, word,
-    learnBtn, backLink, split, chars, heroBits, mFadeTargets;
-  var isAnimating = false;
+    Array.from(document.querySelectorAll("a[href]")).forEach(function (link) {
+      link.addEventListener("click", function (event) {
+        if (
+          event.defaultPrevented ||
+          event.button !== 0 ||
+          event.metaKey ||
+          event.ctrlKey ||
+          event.shiftKey ||
+          event.altKey ||
+          link.target === "_blank" ||
+          link.hasAttribute("download") ||
+          link.hasAttribute("data-mission-link") ||
+          link.classList.contains("skip-link")
+        ) {
+          return;
+        }
 
-  function riseFrom() { return window.innerHeight * 0.6; }   // +60vh below
-  function liftTo() { return -window.innerHeight * 0.7; }    // -70vh above
+        var destination;
+        try {
+          destination = new URL(link.href, window.location.href);
+        } catch (error) {
+          return;
+        }
 
-  /* ----------------------------------------------------------
-     Draggable sticker (summit mark) — the persistent overlay.
-     ---------------------------------------------------------- */
-  function initDraggableSticker() {
-    var wrapper = document.querySelector('[data-sticker="wrap"]');
-    var sticker = document.querySelector('[data-sticker="item"]');
-    if (!wrapper || !sticker) return;
+        if (
+          destination.origin !== window.location.origin ||
+          destination.pathname === window.location.pathname &&
+            destination.search === window.location.search &&
+            destination.hash === window.location.hash
+        ) {
+          return;
+        }
 
-    Draggable.create(sticker, {
-      bounds: wrapper,
-      dragResistance: 0.05,
-      onPress: function () {
-        gsap.to(this.target, {
-          scale: 1.15,
-          rotation: gsap.utils.random(-15, 15),
-          filter: "drop-shadow(0px 8px 12px rgba(0,0,0,0.15))",
-          duration: 0.15,
-          ease: "power2.out"
+        event.preventDefault();
+        if (isNavigating) return;
+        isNavigating = true;
+
+        routeTimeline = window.gsap.timeline({
+          onComplete: function () {
+            window.location.assign(destination.href);
+          }
         });
-      },
-      onRelease: function () {
-        gsap.to(this.target, {
-          scale: 1,
-          rotation: 0,
-          filter: "drop-shadow(0px 0px 0px rgba(0,0,0,0))",
-          duration: 0.3,
-          ease: "back.out(2)"
+
+        routeTimeline
+          .set(progress, { autoAlpha: 1, scaleX: 0, transformOrigin: "left center" }, 0)
+          .to(progress, { scaleX: 1, duration: 0.52, ease: "power3.inOut" }, 0)
+          .to(page, { y: -10, autoAlpha: 0, duration: 0.28, ease: "power2.in" }, 0.12);
+      });
+    });
+
+    resetRouteTransition();
+  }
+
+  function initMissionTransition() {
+    var mosaic = document.querySelector("[data-logo-mosaic]");
+    var core = document.querySelector("[data-logo-core]");
+    var tiles = Array.from(document.querySelectorAll("[data-peel-tile]"));
+    var links = Array.from(document.querySelectorAll("[data-mission-link]"));
+    var chrome = Array.from(document.querySelectorAll("[data-home-chrome]"));
+
+    if (
+      reduceMotion ||
+      !mosaic ||
+      !core ||
+      tiles.length === 0 ||
+      links.length === 0 ||
+      typeof window.gsap === "undefined"
+    ) {
+      return;
+    }
+
+    var isAnimating = false;
+    var transitionTimeline = null;
+
+    function tileExit(tile) {
+      var mosaicBounds = mosaic.getBoundingClientRect();
+      var tileBounds = tile.getBoundingClientRect();
+      var dx = tileBounds.left + tileBounds.width / 2 - (mosaicBounds.left + mosaicBounds.width / 2);
+      var dy = tileBounds.top + tileBounds.height / 2 - (mosaicBounds.top + mosaicBounds.height / 2);
+      var distance = Math.max(1, Math.hypot(dx, dy));
+      var travel = window.innerWidth <= 560 ? 28 : 48;
+
+      return {
+        x: dx / distance * travel,
+        y: dy / distance * travel,
+        rotationX: dy < 0 ? 13 : -13,
+        rotationY: dx < 0 ? -16 : 16
+      };
+    }
+
+    resetMissionTransition = function () {
+      if (transitionTimeline) {
+        transitionTimeline.kill();
+        transitionTimeline = null;
+      }
+
+      document.body.classList.remove("is-mission-leaving");
+      window.gsap.set(tiles, {
+        clearProps: "transform,opacity,visibility,filter,clipPath,transformOrigin,transformStyle"
+      });
+      window.gsap.set(core, {
+        clearProps: "transform,opacity,visibility,filter,clipPath,transformOrigin"
+      });
+      if (chrome.length > 0) {
+        window.gsap.set(chrome, { clearProps: "transform,opacity,visibility" });
+      }
+      window.gsap.set(mosaic, { clearProps: "opacity,visibility,pointerEvents,perspective" });
+      links.forEach(function (link) {
+        link.removeAttribute("aria-disabled");
+      });
+      isAnimating = false;
+    };
+
+    resetMissionTransition();
+
+    links.forEach(function (link) {
+      link.addEventListener("click", function (event) {
+        if (
+          event.defaultPrevented ||
+          event.button !== 0 ||
+          event.metaKey ||
+          event.ctrlKey ||
+          event.shiftKey ||
+          event.altKey ||
+          link.target === "_blank"
+        ) {
+          return;
+        }
+
+        event.preventDefault();
+        if (isAnimating) return;
+
+        isAnimating = true;
+        links.forEach(function (missionLink) {
+          missionLink.setAttribute("aria-disabled", "true");
         });
-      }
-    });
-  }
+        document.body.classList.add("is-mission-leaving");
 
-  /* ----------------------------------------------------------
-     Start-state setters — called before every (re)play so nothing
-     is ever left half-animated.
-     ---------------------------------------------------------- */
-  function setMesaStart() {
-    gsap.set(mesaView, { autoAlpha: 0 });
-    gsap.set(stage, { y: 0, autoAlpha: 1 });
-    if (chars) gsap.set(chars, { y: riseFrom, autoAlpha: 0 });
-  }
+        var exits = tiles.map(tileExit);
 
-  function setManifestoStart() {
-    gsap.set(manifestoView, { autoAlpha: 0 });
-    gsap.set(mFadeTargets, { autoAlpha: 0, y: 24 });
-  }
+        transitionTimeline = window.gsap.timeline({
+          onComplete: function () {
+            window.location.assign(link.href);
+          }
+        });
 
-  /* ----------------------------------------------------------
-     Our Mission — the master timeline (hero -> SUMMIT -> mission).
-     ---------------------------------------------------------- */
-  function playForward() {
-    if (isAnimating) return;
-    isAnimating = true;
-    setLearnDisabled(true);
-    if (!isMissionPath()) {
-      setViewUrl(MISSION_PATH, MISSION_TITLE, false);
-    } else {
-      document.title = MISSION_TITLE;
-    }
+        transitionTimeline
+          .set(mosaic, { pointerEvents: "none", perspective: 900 }, 0)
+          .set(tiles, { transformStyle: "preserve-3d" }, 0)
+          .to(tiles, {
+            x: function (index) { return exits[index].x; },
+            y: function (index) { return exits[index].y; },
+            rotationX: function (index) { return exits[index].rotationX; },
+            rotationY: function (index) { return exits[index].rotationY; },
+            scale: window.innerWidth <= 560 ? 0.9 : 0.82,
+            clipPath: "inset(46% 46% 46% 46%)",
+            filter: window.innerWidth <= 560 ? "blur(4px)" : "blur(7px)",
+            autoAlpha: 0,
+            duration: 0.42,
+            ease: "power2.in",
+            stagger: { amount: window.innerWidth <= 560 ? 0.34 : 0.48, from: "random" }
+          }, 0.08);
 
-    if (reduceMotion) { reducedForward(); return; }
+        if (chrome.length > 0) {
+          transitionTimeline.to(chrome, {
+            y: -12,
+            autoAlpha: 0,
+            duration: 0.3,
+            ease: "power2.in",
+            stagger: 0.025
+          }, 0.48);
+        }
 
-    setMesaStart();
-    setManifestoStart();
-
-    var tl = gsap.timeline({
-      onComplete: function () { isAnimating = false; }
-    });
-
-    // a. Hero content fades out + drifts up.
-    tl.to(heroBits, {
-      y: -30, autoAlpha: 0, duration: 0.45, ease: "power2.in", stagger: 0.05
-    }, 0);
-    tl.set(hero, { autoAlpha: 0 }, 0.75);
-
-    // b. Summit appears; S, U, M, M, I, T rise from below one by one.
-    tl.set(mesaView, { autoAlpha: 1 }, 0.25);
-    tl.to(chars, {
-      y: 0, autoAlpha: 1, duration: 0.75, ease: "expo.out", stagger: 0.12
-    }, 0.3);
-    // c. Hold the assembled word for 0.42s before the lift.
-
-    // d. The whole stage lifts up and out, fading at the tail.
-    tl.to(stage, { y: liftTo, duration: 0.85, ease: "power3.inOut" }, 2.07);
-    tl.to(stage, { autoAlpha: 0, duration: 0.3, ease: "power1.in" }, 2.67);
-    tl.set(mesaView, { autoAlpha: 0 }, 3.02);
-
-    // e. Manifesto fades in with the staggered 24px entrance.
-    tl.set(manifestoView, { autoAlpha: 1 }, 2.87);
-    tl.to(mFadeTargets, {
-      y: 0, autoAlpha: 1, duration: 0.65, ease: "power2.out", stagger: 0.08
-    }, 2.92);
-  }
-
-  /* Reduced motion — plain crossfade hero -> mission, skip SUMMIT. */
-  function reducedForward() {
-    setManifestoStart();
-    gsap.set(mFadeTargets, { autoAlpha: 1, y: 0 }); // no stagger; show at once
-    var tl = gsap.timeline({ onComplete: function () { isAnimating = false; } });
-    tl.to(hero, { autoAlpha: 0, duration: 0.4, ease: "power1.inOut" }, 0);
-    tl.to(manifestoView, { autoAlpha: 1, duration: 0.4, ease: "power1.inOut" }, 0);
-  }
-
-  /* ----------------------------------------------------------
-     BACK — crossfade to the settled hero, no replay of SUMMIT/intro.
-     ---------------------------------------------------------- */
-  function goBack() {
-    if (isAnimating) return;
-    isAnimating = true;
-    setViewUrl(ROOT_PATH, ROOT_TITLE, false);
-
-    var dur = reduceMotion ? 0.4 : 0.6;
-
-    // Restore hero content underneath (hero container still hidden).
-    gsap.set(heroBits, { autoAlpha: 1, y: 0 });
-
-    var tl = gsap.timeline({
-      onComplete: function () {
-        isAnimating = false;
-        setLearnDisabled(false);
-        setMesaStart(); // reset so the next Our Mission transition is clean
-      }
-    });
-    tl.to(manifestoView, { autoAlpha: 0, duration: dur, ease: "power2.inOut" }, 0);
-    tl.to(hero, { autoAlpha: 1, duration: dur, ease: "power2.inOut" }, 0);
-  }
-
-  /* ----------------------------------------------------------
-     Wire up refs, sticker, split, start states and buttons.
-     ---------------------------------------------------------- */
-  function initInteractive() {
-    hero = document.querySelector(".hero");
-    mesaView = document.querySelector(".mesa");
-    manifestoView = document.querySelector(".manifesto");
-    stage = document.querySelector(".mesa__stage");
-    word = document.querySelector(".mesa__word");
-    learnBtn = document.querySelector("[data-learn-more]");
-    backLink = document.querySelector("[data-manifesto-back]");
-
-    heroBits = [
-      document.querySelector(".hero__wordmark"),
-      document.querySelector(".hero__sub"),
-      document.querySelector(".copyright"),
-      document.querySelector(".hero__actions"),
-      document.querySelector(".hero__quicklinks")
-    ].filter(Boolean);
-
-    mFadeTargets = document.querySelectorAll("[data-m-fade]");
-
-    initDraggableSticker();
-
-    if (word) {
-      split = new SplitText(word, { type: "chars", charsClass: "mesa-char" });
-      chars = split.chars;
-    }
-
-    setMesaStart();
-    setManifestoStart();
-
-    if (learnBtn) {
-      learnBtn.addEventListener("click", function (e) {
-        e.preventDefault();
-        playForward();
+        transitionTimeline
+          .to(core, {
+            clipPath: "inset(49% 0% 49% 0%)",
+            scale: 0.985,
+            autoAlpha: 0,
+            duration: 0.3,
+            ease: "power3.inOut"
+          }, 0.56)
+          .to(mosaic, { autoAlpha: 0, duration: 0.16, ease: "power1.in" }, 0.7);
       });
-    }
-    if (backLink) {
-      backLink.addEventListener("click", function (e) {
-        e.preventDefault();
-        goBack();
-      });
-    }
-  }
-
-  /* ----------------------------------------------------------
-     Reduced motion — settled hero on boot, then interactive.
-     ---------------------------------------------------------- */
-  function initReducedMotion() {
-    var h = document.querySelector(".hero");
-    if (h) h.classList.remove("is--hidden");
-    gsap.set(
-      document.querySelectorAll("[data-hero-fade], .hero__actions, .sticker-item"),
-      { opacity: 1 }
-    );
-    document.body.classList.remove("is--loading");
-    initInteractive();
-  }
-
-  /* ----------------------------------------------------------
-     Crisp intro timeline (unchanged), then go interactive.
-     ---------------------------------------------------------- */
-  function initIntro() {
-    var h = document.querySelector(".hero");
-    var wordmark = document.querySelector("[data-hero-words]");
-    var subline = document.querySelector("[data-hero-lines]");
-    var actions = document.querySelector(".hero__actions");
-    var fades = document.querySelectorAll("[data-hero-fade]");
-    var sticker = document.querySelector('[data-sticker="item"]');
-
-    var words = [];
-    if (wordmark) {
-      words = new SplitText(wordmark, { type: "words" }).words;
-      gsap.set(words, { yPercent: 55, autoAlpha: 0 });
-    }
-
-    var lines = [];
-    if (subline) {
-      lines = new SplitText(subline, { type: "lines", mask: "lines", linesClass: "line" }).lines;
-      gsap.set(lines, { yPercent: 110 });
-    }
-
-    if (actions) gsap.set(actions, { y: 12 });
-
-    var tl = gsap.timeline({
-      defaults: { ease: "expo.out" },
-      onStart: function () {
-        if (h) h.classList.remove("is--hidden");
-      },
-      onComplete: function () {
-        document.body.classList.remove("is--loading");
-        initInteractive();
-      }
     });
-
-    // a. wordmark pops up after a short beat
-    if (words.length) {
-      tl.to(words, {
-        yPercent: 0,
-        autoAlpha: 1,
-        duration: 0.9,
-        stagger: 0.08
-      }, 0.3);
-    }
-
-    // b. sub-line masked line reveal
-    if (lines.length) {
-      tl.to(lines, { yPercent: 0, duration: 0.9, stagger: 0.1 }, "-=0.55");
-    }
-
-    // c. The paired hero actions fade up 12px below the sub-line
-    if (actions) {
-      tl.to(actions, { opacity: 1, y: 0, duration: 0.6 }, "-=0.5");
-    }
-
-    // d. Quick links and sticker fade in together
-    var fadeTargets = Array.prototype.slice.call(fades);
-    if (sticker) fadeTargets.push(sticker);
-    if (fadeTargets.length) {
-      tl.to(fadeTargets, { opacity: 1, duration: 0.6 }, "-=0.4");
-    }
   }
 
-  /* ----------------------------------------------------------
-     Mission route — arrive straight at the settled manifesto.
-     Skips the intro + SUMMIT; the hero waits settled but hidden
-     underneath so its own [ BACK ] and an Our Mission replay work.
-     ---------------------------------------------------------- */
-  function showManifestoDirect() {
-    var h = document.querySelector(".hero");
-    if (h) h.classList.remove("is--hidden");
-    // Settle the hero underneath so a later BACK reveals it cleanly.
-    gsap.set(
-      document.querySelectorAll("[data-hero-fade], .hero__actions, .sticker-item"),
-      { opacity: 1 }
-    );
-    document.body.classList.remove("is--loading");
+  function boot() {
+    var shouldSkipIntro = consumeIntroSkip();
 
-    initInteractive();
-
-    // Hero hidden; manifesto shown in its "arrived" state.
-    gsap.set(hero, { autoAlpha: 0 });
-    setLearnDisabled(true);
-    gsap.set(manifestoView, { autoAlpha: 1 });
+    initHeaderBehavior();
 
     if (reduceMotion) {
-      gsap.set(mFadeTargets, { autoAlpha: 1, y: 0 });
-    } else {
-      isAnimating = true;
-      gsap.set(mFadeTargets, { autoAlpha: 0, y: 24 });
-      gsap.to(mFadeTargets, {
-        autoAlpha: 1, y: 0, duration: 0.7, ease: "power2.out", stagger: 0.1,
-        onComplete: function () { isAnimating = false; }
-      });
+      revealStatic();
+      return;
     }
 
-    // Normalize the legacy hash and local clean-URL filename.
-    if (window.location.hash === "#manifesto" || currentPath() === "/mission.html") {
-      setViewUrl(MISSION_PATH, MISSION_TITLE, true);
-    } else {
-      document.title = MISSION_TITLE;
+    initMissionTransition();
+    initRouteTransitions();
+
+    var navigation = window.performance && window.performance.getEntriesByType
+      ? window.performance.getEntriesByType("navigation")[0]
+      : null;
+
+    if (shouldSkipIntro || (navigation && navigation.type === "back_forward")) {
+      revealStatic();
+      return;
     }
+
+    setHomeState(true);
   }
 
-  /* ----------------------------------------------------------
-     Boot — wait for fonts so SplitText measures correctly.
-     ---------------------------------------------------------- */
-  function boot() {
-    if (isMissionPath() || window.location.hash === "#manifesto") {
-      showManifestoDirect();
-    } else if (reduceMotion) {
-      initReducedMotion();
-    } else {
-      initIntro();
+  window.addEventListener("pageshow", function (event) {
+    if (event.persisted) {
+      revealStatic();
+      resetMissionTransition();
+      resetRouteTransition();
+      resetHeaderBehavior();
     }
-  }
+  });
 
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(boot);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
   } else {
     boot();
   }
-
-  // Browser back/forward loads the correct server-rendered route and metadata.
-  window.addEventListener("popstate", function () {
-    window.location.reload();
-  });
 })();

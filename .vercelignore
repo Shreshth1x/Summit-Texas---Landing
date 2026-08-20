@@ -1,0 +1,11 @@
+.git/
+.vercel/
+.playwright-mcp/
+output/
+outputs/
+tmp/
+assets/asset-4.svg
+EF_SPONSORSHIP_BRIEF.md
+Summit_House_Partnership_Model_Internal_Working_Draft.docx
+.DS_Store
+**/.DS_Store

@@ -14,88 +14,55 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Our Mission · Silicon Hills Project">
   <meta name="twitter:description" content="The Silicon Hills Project is bringing Austin's young builders under one roof, starting with the Summit House at UT Austin.">
-  <link rel="icon" type="image/png" href="assets/favicon.png?v=3">
-  <noscript>
-    <style>
-      .hero, .mesa { display: none !important; }
-      .manifesto { visibility: visible !important; }
-      .manifesto [data-m-fade] { opacity: 1 !important; transform: none !important; }
-    </style>
-  </noscript>
+  <link rel="icon" type="image/svg+xml" href="assets/silicon-hills-mark.svg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&amp;family=Space+Grotesk:wght@500;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="styles.css?v=14">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=51">
+  <noscript>
+    <style>.mission-page.is-reveal-pending [data-m-fade] { opacity: 1 !important; transform: none !important; }</style>
+  </noscript>
 </head>
-<body class="is--loading">
-
-  <!-- Paper texture / film grain -->
+<body class="mission-page is-reveal-pending">
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="grain" aria-hidden="true"></div>
 
-  <!-- Draggable sticker -->
-  <div data-sticker="wrap" class="sticker-wrap">
-    <div data-sticker="item" class="sticker-item">
-      <img src="assets/logo.png?v=3" alt="Silicon Hills Project block pyramid mark" class="sticker-img" draggable="false">
-    </div>
-  </div>
+  <a href="/?skip-intro=1" class="mission-back">← Back</a>
+  <a href="/?skip-intro=1" class="mission-logo" aria-label="Silicon Hills Project home">
+    <img src="assets/silicon-hills-lockup-stacked.svg" alt="Silicon Hills Project">
+  </a>
 
-  <main>
+  <main class="mission-main" id="main-content">
+    <section class="mission-screen" aria-labelledby="mission-title">
+      <div class="mission-content">
+        <header class="mission-heading" data-m-fade>
+          <h1 id="mission-title">Our mission</h1>
+        </header>
 
-    <!-- Hero (kept underneath so BACK can return home without a reload) -->
-    <section class="hero is--hidden">
-      <div class="hero__center">
-        <h1 class="hero__wordmark" data-hero-words>Silicon Hills Project</h1>
-        <p class="hero__sub" data-hero-lines>Building the Summit House in West Campus at UT Austin</p>
-        <a href="/mission" class="hero__cta btn btn--primary" data-learn-more>Our Mission</a>
-        <nav class="hero__quicklinks" aria-label="Explore Summit House" data-hero-fade>
-          <a class="hero__quicklink" href="/notes">SHP Notes <span aria-hidden="true">&rarr;</span></a>
-          <a class="hero__quicklink" href="/letter">Note to Innovators and Investors <span aria-hidden="true">&rarr;</span></a>
-          <a class="hero__quicklink" href="https://docs.google.com/forms/d/e/1FAIpQLSeu21XV7tdXPx4cWwrU_HVPpdCBE9-lQK49R8-C4MZm4vE30Q/viewform">Join Summit House <span aria-hidden="true">&#8599;</span></a>
-          <a class="hero__quicklink" href="/sponsorships">Sponsorship Packages <span aria-hidden="true">&rarr;</span></a>
-          <a class="hero__quicklink" href="/get-involved">Get Involved <span aria-hidden="true">&rarr;</span></a>
-        </nav>
-      </div>
-
-      <div class="hero__bottom">
-        <span class="copyright">© Silicon Hills Project</span>
-      </div>
-    </section>
-
-    <!-- SUMMIT transition (button-driven) -->
-    <section class="mesa">
-      <div class="mesa__stage">
-        <div class="mesa__word">SUMMIT</div>
-      </div>
-    </section>
-
-    <!-- Mission (single viewport) -->
-    <section class="manifesto">
-      <div class="manifesto__inner">
-        <p class="manifesto__eyebrow" data-m-fade>OUR MISSION</p>
-        <p class="manifesto__p" data-m-fade>The Silicon Hills Project is bringing Austin's young builders under one roof. Our first house, the Summit House, is coming to West Campus at UT Austin.</p>
-        <p class="manifesto__p" data-m-fade>The idea is simple: bring ambitious students and founders together and give them a place where they can meet, work, and build side by side. Good desks, stocked fridges, fast internet, and doors that stay open 24/7. It's a place they want to return to every day.</p>
-        <p class="manifesto__p" data-m-fade>The house is only the setting. What matters is the people inside it. UT Austin's young talent is scattered across campus, West Campus apartments, office buildings, and coffee shops that close at 10:00.</p>
-        <p class="manifesto__p" data-m-fade>When ambitious people work next to each other every day, ideas move faster, teams form naturally, and projects turn into real companies. The first house is just the start. If it works, we grow more houses, then founder houses, where teams live and build together, a network where Austin's youngest talent can build and stay.</p>
-        <div class="manifesto__actions" data-m-fade>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSeu21XV7tdXPx4cWwrU_HVPpdCBE9-lQK49R8-C4MZm4vE30Q/viewform" class="btn btn--primary" aria-label="Join Summit House — opens the Summit House Interest Form">Join Summit House <span class="btn__external" aria-hidden="true">↗</span></a>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSehQwJLAGl3Kgd_16XXiszbTHMQUSv03d4ZNyqB-37w_TKQBg/viewform" class="btn btn--secondary" aria-label="Partner with Summit House — opens the Summit House Partnerships Form">Partner With Us <span class="btn__external" aria-hidden="true">↗</span></a>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSe6DRoBZ8ouBYYWKlYskCt6bb2nHCyCJ9ZoeR33tFmHGMf_ig/viewform" class="btn btn--secondary" aria-label="Help run Summit House — opens the Summit House team application">Help Run Summit House <span class="btn__external" aria-hidden="true">↗</span></a>
+        <div class="mission-statement">
+          <p class="mission-lede" data-m-fade>The Silicon Hills Project is bringing Austin's young builders under one roof. Our first house, the Summit House, is coming to West Campus at UT Austin.</p>
+          <p data-m-fade>The idea is simple: bring ambitious students and founders together and give them a place where they can meet, work, and build side by side. Good desks, stocked fridges, fast internet, and doors that stay open 24/7. It's a place they want to return to every day.</p>
+          <p data-m-fade>The house is only the setting. What matters is the people inside it. UT Austin's young talent is scattered across campus, West Campus apartments, office buildings, and coffee shops that close at 10:00.</p>
+          <aside class="mission-callout" data-m-fade>
+            <p><strong>Austin is not priced in.</strong> Some of the best hard tech and deep tech founders in defense, robotics, energy, and space are already building here, surrounded by some of the most ambitious companies in the world. The people are here.</p>
+          </aside>
+          <p data-m-fade>When ambitious people work next to each other every day, ideas move faster, teams form naturally, and projects turn into real companies. The first house is just the start. If it works, we grow more houses, then founder houses, where teams live and build together, a network where Austin's youngest talent can build and stay.</p>
         </div>
-        <a href="/sponsorships" class="manifesto__sponsorship" data-m-fade>View sponsorship packages <span aria-hidden="true">→</span></a>
-      </div>
-      <a href="/" class="manifesto__back" data-manifesto-back>[ BACK ]</a>
-      <span class="manifesto__copyright">© Silicon Hills Project · Austin</span>
-    </section>
 
+        <div class="mission-actions" data-m-fade>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSeu21XV7tdXPx4cWwrU_HVPpdCBE9-lQK49R8-C4MZm4vE30Q/viewform" class="mission-action" aria-label="Join Summit House — opens the Summit House Interest Form"><span class="mission-action__meta">01 / Students + founders</span><span class="mission-action__title">Join Summit House</span><span class="mission-action__arrow" aria-hidden="true">↗</span></a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSehQwJLAGl3Kgd_16XXiszbTHMQUSv03d4ZNyqB-37w_TKQBg/viewform" class="mission-action" aria-label="Partner with Summit House — opens the Summit House Partnerships Form"><span class="mission-action__meta">02 / Companies + funds</span><span class="mission-action__title">Partner with us</span><span class="mission-action__arrow" aria-hidden="true">↗</span></a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSe6DRoBZ8ouBYYWKlYskCt6bb2nHCyCJ9ZoeR33tFmHGMf_ig/viewform" class="mission-action" aria-label="Help run Summit House — opens the Summit House team application"><span class="mission-action__meta">03 / Operators</span><span class="mission-action__title">Help run Summit House</span><span class="mission-action__arrow" aria-hidden="true">↗</span></a>
+        </div>
+
+        <a href="/sponsorships" class="mission-sponsorship" data-m-fade>View sponsorship packages <span aria-hidden="true">→</span></a>
+        <p class="mission-copyright" data-m-fade>© Silicon Hills Project · Austin</p>
+      </div>
+    </section>
   </main>
 
-  <!-- GSAP + plugins -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Draggable.min.js"></script>
-
-  <script src="script.js?v=7"></script>
+  <script src="mission.js?v=2"></script>
 </body>
 </html>

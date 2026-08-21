@@ -88,6 +88,35 @@
     resetHeaderBehavior();
   }
 
+  function initNeutralTileWaves() {
+    if (reduceMotion) return;
+
+    var columns = 10;
+    var rows = 6;
+    var columnStep = 42;
+    var jitter = [0, 28, 10, 42, 18, 34];
+
+    Array.from(document.querySelectorAll(".logo-mosaic__pixel-wave")).forEach(function (wave) {
+      if (wave.childElementCount > 0) return;
+
+      var isReverse = wave.getAttribute("data-wave-direction") === "reverse";
+      var fragment = document.createDocumentFragment();
+
+      for (var row = 0; row < rows; row += 1) {
+        for (var column = 0; column < columns; column += 1) {
+          var pixel = document.createElement("span");
+          var columnOrder = isReverse ? columns - 1 - column : column;
+          var delay = columnOrder * columnStep + jitter[(row + column * 3) % jitter.length];
+
+          pixel.style.setProperty("--pixel-d", delay + "ms");
+          fragment.appendChild(pixel);
+        }
+      }
+
+      wave.appendChild(fragment);
+    });
+  }
+
   function initRouteTransitions() {
     var progress = document.querySelector("[data-route-progress]");
     var page = document.querySelector(".home-page");
@@ -299,6 +328,7 @@
   function boot() {
     var shouldSkipIntro = consumeIntroSkip();
 
+    initNeutralTileWaves();
     initHeaderBehavior();
 
     if (reduceMotion) {

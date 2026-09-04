@@ -36,10 +36,10 @@
 <meta property="og:description" content="DESCRIPTION.">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Silicon Hills Project">
-<link rel="icon" type="image/svg+xml" href="/assets/silicon-hills-mark.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png?v=blacklogo-1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>
   :root{
     --paper:#FFFFFF;
@@ -50,7 +50,6 @@
     --copper:#C75B1F;
     --copper-ink:#2A2620;
     --serif:"Inter", Arial, sans-serif;
-    --mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -76,22 +75,22 @@
     gap:1rem;
     flex-wrap:wrap;
     margin-bottom:2.6rem;
-    font-family:var(--mono);
+    font-family:var(--serif);
     font-size:.66rem;
     font-weight:500;
-    letter-spacing:.14em;
-    text-transform:uppercase;
+    letter-spacing:normal;
+    text-transform:none;
   }
   .crumbs a{color:var(--ink-soft);text-decoration:none}
   .crumbs a:hover{color:var(--copper-ink)}
 
   /* ---------- Masthead ---------- */
   .eyebrow{
-    font-family:var(--mono);
+    font-family:var(--serif);
     font-size:.72rem;
     font-weight:500;
-    letter-spacing:.16em;
-    text-transform:uppercase;
+    letter-spacing:normal;
+    text-transform:none;
     color:var(--ink-soft);
   }
   .eyebrow b{color:var(--copper-ink);font-weight:600}
@@ -107,10 +106,10 @@
   .byline small{
     display:block;
     font-style:normal;
-    font-family:var(--mono);
+    font-family:var(--serif);
     font-size:.68rem;
-    letter-spacing:.12em;
-    text-transform:uppercase;
+    letter-spacing:normal;
+    text-transform:none;
     color:var(--ink-soft);
     margin-top:.45rem;
   }
@@ -184,10 +183,11 @@
   .has-note{position:relative}
   .marginal{
     display:block;
-    font-family:var(--mono);
+    font-family:var(--serif);
     font-size:.66rem;
     line-height:1.5;
-    letter-spacing:.06em;
+    letter-spacing:normal;
+    text-transform:none;
     color:var(--ink-soft);
     margin:0 0 .5rem;
   }
@@ -237,10 +237,10 @@
     justify-content:space-between;
     gap:1rem;
     flex-wrap:wrap;
-    font-family:var(--mono);
+    font-family:var(--serif);
     font-size:.66rem;
-    letter-spacing:.12em;
-    text-transform:uppercase;
+    letter-spacing:normal;
+    text-transform:none;
     color:var(--ink-soft);
   }
   footer a{color:var(--ink-soft);text-decoration:none}

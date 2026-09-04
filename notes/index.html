@@ -14,27 +14,27 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="SHP Notes · Silicon Hills Project">
   <meta name="twitter:description" content="Reports and writeups from inside the Silicon Hills Project, published several times a week.">
-  <link rel="icon" type="image/svg+xml" href="/assets/silicon-hills-mark.svg">
+  <link rel="icon" type="image/png" href="/assets/favicon.png?v=blacklogo-1">
   <noscript>
     <style>[data-fade] { opacity: 1 !important; transform: none !important; }</style>
   </noscript>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="/styles.css?v=52">
+  <link rel="stylesheet" href="/styles.css?v=53">
 </head>
-<body>
+<body class="notes-page">
 
   <!-- Paper texture / film grain -->
   <div class="grain" aria-hidden="true"></div>
 
-  <main>
-    <section class="formpage">
+  <main class="notes-main">
+    <section class="notespage" aria-labelledby="notes-title">
       <div class="pagebar">
         <div class="pagebar__row" data-fade>
-          <a href="/?skip-intro=1" class="pagebar__back">&larr; BACK</a>
+          <a href="/?skip-intro=1" class="pagebar__back">&larr; Back</a>
           <nav class="pagebar__nav" aria-label="Site">
             <a class="pagebar__navlink" href="/mission">Mission</a>
             <a class="pagebar__navlink" href="/notes" aria-current="page">SHP Notes</a>
@@ -45,41 +45,52 @@
         </div>
       </div>
 
-      <div class="formpage__inner formpage__inner--wide">
-        <h1 class="formpage__eyebrow" data-fade>SHP NOTES</h1>
-        <p class="formpage__intro" data-fade>Reports and writeups from inside the Silicon Hills Project — what we are building, learning, and watching in Austin. New notes several times a week.</p>
+      <div class="notespage__inner">
+        <header class="notespage__header" data-fade>
+          <h1 id="notes-title">SHP Notes</h1>
+          <p>Reports and writeups from inside the Silicon Hills Project — what we are building, learning, and watching in Austin. New notes several times a week.</p>
+        </header>
 
-        <div class="form-options" data-fade>
-          <a class="form-option" href="/letter" aria-label="Read the founder's letter — Our Note to Investors and Innovators">
-            <span class="form-option__copy">
-              <span class="form-option__meta">START HERE · FOUNDER'S LETTER</span>
-              <span class="form-option__title">Our Note to Investors and Innovators</span>
-              <span class="form-option__description">Why the Silicon Hills Project exists, and the principle we operate on: Clustering Clarity.</span>
-            </span>
-            <span class="form-option__arrow" aria-hidden="true">&rarr;</span>
+        <article class="notes-feature" data-fade>
+          <a class="notes-feature__link" href="/letter" aria-label="Read the founder's letter: Our Note to Investors and Innovators">
+            <span class="notes-ledger__label">Start here</span>
+            <div class="notes-feature__copy">
+              <h2 class="notes-feature__title">Our Note to Investors and Innovators</h2>
+              <p class="notes-feature__description">Why the Silicon Hills Project exists, and the principle we operate on: Clustering Clarity.</p>
+            </div>
+            <span class="notes-feature__action">Read letter <span aria-hidden="true">&rarr;</span></span>
           </a>
+        </article>
+
+        <section class="notes-latest" aria-labelledby="latest-notes-title" data-fade>
+          <header class="notes-latest__header">
+            <h2 id="latest-notes-title">Latest notes</h2>
+            <p data-notes-empty>First notes are on the way.</p>
+          </header>
 
           <!-- ================= HOW TO ADD A NOTE =================
                Newest notes go directly BELOW this comment (top of the
-               list). Copy the row, keep the slug lowercase-with-hyphens,
+               list). Copy the article, keep the slug lowercase-with-hyphens,
                and make sure the href matches the filename in /notes
                exactly (no spaces, no capitals, no .html in the href).
+               Remove the data-notes-empty paragraph above when the first
+               note is published.
 
-          <a class="form-option" href="/notes/example-slug" aria-label="Read: Example Title">
-            <span class="form-option__copy">
-              <span class="form-option__meta">AUG 14, 2026</span>
-              <span class="form-option__title">Example Title</span>
-              <span class="form-option__description">One-line summary of the note.</span>
-            </span>
-            <span class="form-option__arrow" aria-hidden="true">&rarr;</span>
-          </a>
+          <article class="notes-entry">
+            <a class="notes-entry__link" href="/notes/example-slug" aria-label="Read note: Example Title">
+              <time class="notes-ledger__label" datetime="2026-08-14">Aug 14, 2026</time>
+              <div class="notes-entry__copy">
+                <h3 class="notes-entry__title">Example Title</h3>
+                <p class="notes-entry__description">One-line summary of the note.</p>
+              </div>
+              <span class="notes-entry__action">Read note <span aria-hidden="true">&rarr;</span></span>
+            </a>
+          </article>
           ====================================================== -->
+        </section>
 
-          <span class="notes-soon" data-notes-empty>First notes are on the way</span>
-        </div>
+        <footer class="notespage__footer">© Silicon Hills Project · Austin</footer>
       </div>
-
-      <span class="formpage__copyright">© Silicon Hills Project · Austin</span>
     </section>
   </main>
 

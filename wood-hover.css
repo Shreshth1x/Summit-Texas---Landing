@@ -1,5 +1,9 @@
 /* Fitted blocks stay on their grid; cursor feedback marks selectable pieces. */
-.landing-page .logo-mosaic { gap: 0.55rem; }
+.landing-page .logo-mosaic {
+  gap: 0.55rem;
+  /* Keep tilted links above the grid's hit-test plane across their whole face. */
+  transform-style: flat;
+}
 
 /* Traveling blocks cross the screen edge without adding page scrollbars. */
 .landing-page .home-page { overflow: clip; }

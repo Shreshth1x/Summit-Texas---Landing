@@ -98,12 +98,12 @@
       }
       if (!response.ok) throw new Error('request_failed');
 
-      show('Request received. Check your inbox for a confirmation email. If it doesn’t arrive within a few minutes, check spam or contact contact@siliconhillsproject.com. The link expires after 24 hours.', 'success');
+      show('Request received. Check your inbox for a confirmation email. If it isn’t there in a few minutes, check your spam folder or email contact@siliconhillsproject.com. The link expires after 24 hours.', 'success');
       form.reset();
       submissionId = createSubmissionId();
       requestStarted = false;
     } catch {
-      show('We couldn’t send your confirmation email. Check your connection and try again, or contact contact@siliconhillsproject.com.', 'error');
+      show('We couldn’t send your confirmation email. Check your connection and try again, or email contact@siliconhillsproject.com.', 'error');
     } finally {
       window.clearTimeout(timer);
       formInputs.forEach((input) => { input.disabled = false; });

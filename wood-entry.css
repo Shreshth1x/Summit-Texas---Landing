@@ -1,0 +1,73 @@
+/* A small inscription on the wood, revealed after the last piece settles. */
+.landing-page .logo-mosaic__core-lockup {
+  inset: 8% 0 23%;
+}
+
+.landing-page .logo-mosaic__core img {
+  width: 70%;
+  height: 100%;
+}
+
+.wood-entry {
+  position: absolute;
+  z-index: 4;
+  right: clamp(0.875rem, 2vw, 1.75rem);
+  bottom: clamp(0.625rem, 1.3vw, 1.125rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #4c3924;
+  font-size: clamp(0.75rem, 0.95vw, 0.875rem);
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: nowrap;
+  opacity: 1;
+  pointer-events: none;
+}
+
+.wood-entry > span {
+  text-decoration: underline;
+  text-decoration-color: rgba(76, 57, 36, 0.35);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color 180ms ease;
+}
+
+.wood-entry__arrow {
+  flex: none;
+  width: 1em;
+  height: 1em;
+  transition: transform 180ms ease;
+}
+
+body[data-wood-state="pending"] .wood-entry,
+body[data-wood-state="assembling"] .wood-entry { opacity: 0; }
+
+/* Keep this selector stable through departure and history restoration. */
+body[data-wood-state="settled"]:not(.is-home-return) .wood-entry {
+  animation: wood-entry-reveal 280ms ease-out 80ms both;
+}
+
+@keyframes wood-entry-reveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.is-page-leaving .wood-entry { visibility: hidden; }
+
+@media (hover: hover) and (pointer: fine) {
+  .logo-mosaic__core:hover .wood-entry > span { text-decoration-color: currentColor; }
+  .logo-mosaic__core:hover .wood-entry__arrow { transform: translateX(2px); }
+}
+
+.logo-mosaic__core:focus-visible .wood-entry > span { text-decoration-color: currentColor; }
+
+@media (prefers-reduced-motion: reduce) {
+  body.landing-page .wood-entry {
+    opacity: 1;
+    animation: none !important;
+  }
+  .wood-entry > span,
+  .wood-entry__arrow { transition: none; }
+  .logo-mosaic__core:hover .wood-entry__arrow { transform: none; }
+}

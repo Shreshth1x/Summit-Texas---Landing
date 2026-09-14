@@ -1,6 +1,44 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/api/membership/join",
+      "destination": "https://us-central1-silicon-hills-memberships.cloudfunctions.net/requestMembershipJoin"
+    },
+    {
+      "source": "/api/membership/confirm",
+      "destination": "https://us-central1-silicon-hills-memberships.cloudfunctions.net/confirmMembershipJoin"
+    },
+    {
+      "source": "/member-access-agreement/v3.2",
+      "destination": "https://us-central1-silicon-hills-memberships.cloudfunctions.net/viewMembershipAgreementV32"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/join",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), geolocation=(), microphone=()"
+        },
+        { "key": "Referrer-Policy", "value": "strict-origin" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" }
+      ]
+    }
+  ],
   "redirects": [
+    {
+      "source": "/member-access-agreement",
+      "destination": "/member-access-agreement/v3.2",
+      "permanent": true
+    },
     {
       "source": "/SHP%20Notes/Publications%20and%20Writings/Note%20to%20Innovators%20and%20Investors",
       "destination": "/letter",

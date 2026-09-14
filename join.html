@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join · Silicon Hills Project</title>
+  <meta name="description" content="Review and accept the Silicon Hills Member Access Agreement, confirm your email, and continue to the member Slack.">
+  <link rel="canonical" href="https://www.siliconhillsproject.com/join">
+  <meta name="robots" content="noindex,follow">
+  <meta property="og:title" content="Join · Silicon Hills Project">
+  <meta property="og:description" content="Complete the member agreement, confirm your email, and continue to the member Slack.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.siliconhillsproject.com/join">
+  <meta property="og:site_name" content="Silicon Hills Project">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" type="image/png" href="/assets/favicon.png?v=blacklogo-1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/join.css?v=2">
+  <script src="/join.js?v=2" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#signup-form">Skip to signup</a>
+
+  <header class="join-header">
+    <a class="join-brand" href="/" aria-label="Silicon Hills Project home">
+      <img src="/assets/silicon-hills-lockup-horizontal.svg" alt="Silicon Hills Project">
+    </a>
+    <a class="join-header__link" href="mailto:contact@siliconhillsproject.com">Questions?</a>
+  </header>
+
+  <main class="join-main">
+    <section class="join-intro" aria-labelledby="join-title">
+      <p class="join-kicker">Member access</p>
+      <h1 id="join-title">One agreement.<br>Then Slack.</h1>
+      <p class="join-lede">Membership currently costs $0 per month. Read the agreement, sign electronically, and we’ll email a one-time confirmation link. Open it to continue to Slack.</p>
+
+      <ol class="join-steps" aria-label="Signup steps">
+        <li>
+          <span class="join-steps__number">1</span>
+          <span><strong>Read</strong> Version 3.2</span>
+        </li>
+        <li>
+          <span class="join-steps__number">2</span>
+          <span><strong>Accept</strong> with your legal name</span>
+        </li>
+        <li>
+          <span class="join-steps__number">3</span>
+          <span><strong>Confirm</strong> through your email</span>
+        </li>
+      </ol>
+
+      <dl class="join-facts">
+        <div><dt>Current rate</dt><dd>$0/month</dd></div>
+        <div><dt>Payment method</dt><dd>Not required</dd></div>
+        <div><dt>Agreement</dt><dd>Version 3.2</dd></div>
+      </dl>
+    </section>
+
+    <section class="join-panel" aria-labelledby="form-title">
+      <div class="join-panel__heading">
+        <div>
+          <p class="join-panel__step">Your agreement</p>
+          <h2 id="form-title">Confirm your membership</h2>
+        </div>
+        <a class="agreement-link" href="/member-access-agreement/v3.2" target="_blank" rel="noopener">Read the full agreement</a>
+      </div>
+
+      <div class="agreement-summary" aria-label="Important agreement terms">
+        <p><strong>No charge today.</strong> The current membership rate is $0 per month. A later dues change requires the notice described in Section 9.</p>
+        <p>The agreement includes conduct rules, incident charges, a release of claims, a limitation of liability, and Texas dispute terms.</p>
+      </div>
+
+      <form id="signup-form" class="join-form" action="/api/membership/join" method="post" novalidate
+        data-agreement-version="3.2"
+        data-agreement-sha256="925006d2f4707bfea89a10562dee951a4f9110dd287dd815f078a9d8d539a5fa"
+        data-acceptance-text-sha256="432c02aa7b8f3c643b947d6a033b6cedac0390d1b6e8340979adfcaf5cfbce87">
+        <div class="form-field">
+          <label for="name">Full legal name</label>
+          <input id="name" name="name" type="text" autocomplete="name" maxlength="120" aria-describedby="name-help" required>
+          <p class="field-help" id="name-help">Use the name that identifies you under the agreement.</p>
+        </div>
+
+        <div class="form-field">
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" aria-describedby="email-help" required>
+          <p class="field-help" id="email-help">Your one-time confirmation link goes here.</p>
+        </div>
+
+        <div class="form-trap" aria-hidden="true">
+          <label for="website">Website</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <label class="acceptance" for="agreementAccepted">
+          <input id="agreementAccepted" name="agreementAccepted" type="checkbox" value="true" required>
+          <span>I have read and agree to the <a href="/member-access-agreement/v3.2" target="_blank" rel="noopener">Silicon Hills Member Access Agreement, Version 3.2</a>, and I electronically sign it by checking this box, submitting this form, opening the link sent to my email, and selecting “Confirm and continue to Slack.” I specifically acknowledge the incident charges in Section 8, the recurring dues in Section 9, and the release and limitation of liability in Sections 11 and 12. I confirm that I am at least 18 and understand that the first monthly billing period and the current renewal rate are $0. Later changes to monthly dues require the notice described in Section 9. I understand that damages and incident charges are separately invoiced and are not automatically charged to a saved payment method.</span>
+        </label>
+
+        <div class="form-actions">
+          <button class="join-submit" type="submit">
+            <span>Email my confirmation link</span>
+            <span aria-hidden="true">↗</span>
+          </button>
+          <p class="form-note">Submitting this form will not charge you. The email link expires after 24 hours.</p>
+        </div>
+
+        <p class="form-privacy">Our Firebase database stores your name, email, the agreement version, and acceptance timestamps as your membership record. Resend receives your name and email only to deliver this confirmation. Questions or corrections: <a href="mailto:contact@siliconhillsproject.com">contact@siliconhillsproject.com</a>.</p>
+
+        <div class="form-status" role="status" aria-live="polite" tabindex="-1"></div>
+        <noscript><p class="form-status form-status--error">JavaScript is required to securely send your confirmation email.</p></noscript>
+      </form>
+    </section>
+  </main>
+
+  <footer class="join-footer">
+    <p>Silicon Hills Project, LLC</p>
+    <nav aria-label="Footer">
+      <a href="/member-access-agreement/v3.2">Agreement</a>
+      <a href="mailto:contact@siliconhillsproject.com">Contact</a>
+    </nav>
+  </footer>
+</body>
+</html>

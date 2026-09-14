@@ -1,13 +1,70 @@
 {
   "cleanUrls": true,
   "redirects": [
-    { "source": "/contact", "destination": "/get-involved", "permanent": true },
-    { "source": "/contact.html", "destination": "/get-involved", "permanent": true },
-    { "source": "/support", "destination": "/get-involved", "permanent": true },
-    { "source": "/support.html", "destination": "/get-involved", "permanent": true },
-    { "source": "/SHP%20Notes/Publications%20and%20Writings/Note%20to%20Innovators%20and%20Investors", "destination": "/letter", "permanent": true },
-    { "source": "/SHP%20Notes/Publications%20and%20Writings/Note%20to%20Innovators%20and%20Investors.html", "destination": "/letter", "permanent": true },
-    { "source": "/SHP%20notes/Publications%20and%20Writings/Note%20to%20Innovators%20and%20Investors", "destination": "/letter", "permanent": true },
-    { "source": "/SHP%20notes/Publications%20and%20Writings/Note%20to%20Innovators%20and%20Investors.html", "destination": "/letter", "permanent": true }
+    {
+      "source": "/SHP%20Notes/Publications%20and%20Writings/Note%20to%20Innovators%20and%20Investors",
+      "destination": "/letter",
+      "permanent": true
+    },
+    {
+      "source": "/SHP%20Notes/Publications%20and%20Writings/Note%20to%20Innovators%20and%20Investors.html",
+      "destination": "/letter",
+      "permanent": true
+    },
+    {
+      "source": "/SHP%20notes/Publications%20and%20Writings/Note%20to%20Innovators%20and%20Investors",
+      "destination": "/letter",
+      "permanent": true
+    },
+    {
+      "source": "/SHP%20notes/Publications%20and%20Writings/Note%20to%20Innovators%20and%20Investors.html",
+      "destination": "/letter",
+      "permanent": true
+    },
+    {
+      "source": "/mission",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/mission.html",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/get-involved",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/get-involved.html",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/support",
+      "destination": "/sponsorships",
+      "permanent": true
+    },
+    {
+      "source": "/support.html",
+      "destination": "/sponsorships",
+      "permanent": true
+    },
+    {
+      "source": "/notes",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/notes.html",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/notes/",
+      "destination": "/blog",
+      "permanent": true
+    }
   ]
 }

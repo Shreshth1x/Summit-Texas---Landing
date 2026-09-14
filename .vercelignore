@@ -1,9 +1,12 @@
 .git/
 .vercel/
+.env*
 .playwright-mcp/
 output/
 outputs/
 tmp/
+tests/
+tools/
 assets/asset-4.svg
 EF_SPONSORSHIP_BRIEF.md
 Summit_House_Partnership_Model_Internal_Working_Draft.docx

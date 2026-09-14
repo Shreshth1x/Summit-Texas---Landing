@@ -4,22 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Silicon Hills Project</title>
-  <meta name="description" content="Building the Summit House in West Campus at UT Austin.">
+  <meta name="description" content="An independent, not-for-profit, non-dilutive builderspace at UT Austin.">
   <link rel="canonical" href="https://www.siliconhillsproject.com/">
   <meta property="og:title" content="Silicon Hills Project">
-  <meta property="og:description" content="Building the Summit House in West Campus at UT Austin.">
+  <meta property="og:description" content="An independent, not-for-profit, non-dilutive builderspace at UT Austin.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.siliconhillsproject.com/">
   <meta property="og:site_name" content="Silicon Hills Project">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Silicon Hills Project">
-  <meta name="twitter:description" content="Building the Summit House in West Campus at UT Austin.">
+  <meta name="twitter:description" content="An independent, not-for-profit, non-dilutive builderspace at UT Austin.">
   <link rel="icon" type="image/png" href="assets/favicon.png?v=blacklogo-1">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=53">
+  <link rel="stylesheet" href="styles.css?v=54">
+  <link rel="stylesheet" href="/simple-pages.css?v=7">
+  <link rel="preload" as="image" href="/assets/wood-grain.webp">
+  <link rel="stylesheet" href="/wood-loader.css?v=3">
+  <link rel="stylesheet" href="/wood-hover.css?v=3">
+  <link rel="stylesheet" href="/page-transitions.css?v=2">
+  <script src="/page-transitions.js?v=4"></script>
 
   <noscript>
     <style>
@@ -30,31 +36,46 @@
 <body class="landing-page is-loading">
   <script>
     (function () {
-      var shouldSettle = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var shouldSettle = false;
 
       try {
-        shouldSettle = shouldSettle || new URL(window.location.href).searchParams.get("skip-intro") === "1";
+        shouldSettle = Boolean(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
       } catch (error) {
-        /* The regular boot path will resolve the state below. */
+        /* Show the final page if the accessibility preference cannot be read. */
+        shouldSettle = true;
       }
 
       try {
-        shouldSettle = shouldSettle || window.sessionStorage.getItem("shp:skip-intro") === "1";
-      } catch (error) {
-        /* Navigation timing remains available below. */
-      }
-
-      try {
+        var params = new URL(window.location.href).searchParams;
         var navigation = window.performance && window.performance.getEntriesByType
-          ? window.performance.getEntriesByType("navigation")[0]
-          : null;
-        shouldSettle = shouldSettle || Boolean(navigation && navigation.type === "back_forward");
+          ? window.performance.getEntriesByType("navigation")[0] : null;
+        var navigationType = navigation && navigation.type;
+        shouldSettle = shouldSettle || navigationType === "back_forward"
+          || (navigationType !== "reload" && params.get("skip-intro") === "1");
       } catch (error) {
         /* The regular boot path will resolve the state below. */
       }
+
+      /* Home links skip once. Refresh always assembles, even before the skip
+         query is cleaned up. History restores show the finished composition. */
 
       document.body.classList.remove("is-loading");
-      document.body.classList.add(shouldSettle ? "is-home-settled" : "is-home-ready");
+      document.body.classList.add("is-home-settled");
+      window.__shpWoodIntroRequested = !shouldSettle;
+      document.body.dataset.woodState = shouldSettle ? "settled" : "pending";
+      if (shouldSettle) document.body.classList.add("is-home-return");
+      if (!shouldSettle) {
+        document.body.classList.add("wood-intro-pending");
+        window.__shpWoodIntroTimer = window.setTimeout(function () {
+          window.__shpWoodIntroRequested = false;
+          if (window.SHPWoodLoader) {
+            window.SHPWoodLoader.finish();
+          } else {
+            document.body.classList.remove("wood-intro-pending", "wood-intro-running");
+            document.body.dataset.woodState = "settled";
+          }
+        }, 1800);
+      }
     })();
   </script>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -64,117 +85,39 @@
   <main class="home-page" id="main-content">
     <section class="home-screen logo-only-screen" aria-labelledby="home-title">
       <h1 class="visually-hidden" id="home-title">Silicon Hills Project</h1>
-      <nav class="logo-mosaic" data-logo-mosaic aria-label="Explore the Silicon Hills Project">
-        <a href="/notes" class="logo-mosaic__tile logo-mosaic__tile--a logo-mosaic__tile--neutral" data-peel-tile>
-          <span class="logo-mosaic__fill logo-mosaic__fill--notes hero-art__tile--filldown" style="--d: 0ms" aria-hidden="true"></span>
-          <span class="logo-mosaic__pixel-wave" data-wave-direction="forward" aria-hidden="true"></span>
-          <span class="logo-mosaic__meta">01 / From the project</span>
-          <span class="logo-mosaic__title">SHP Notes</span>
-          <span class="logo-mosaic__arrow" aria-hidden="true">→</span>
+      <div class="logo-mosaic" data-logo-mosaic>
+        <a href="/about" class="logo-mosaic__tile logo-mosaic__tile--a logo-mosaic__tile--neutral" data-peel-tile data-block-id="a" data-block-side="left" aria-label="About the Silicon Hills Project">
+          <span class="logo-mosaic__fill logo-mosaic__fill--notes" aria-hidden="true"></span>
         </a>
-        <a href="/letter" class="logo-mosaic__tile logo-mosaic__tile--b" data-peel-tile aria-label="Note to Innovators and Investors">
-          <span class="logo-mosaic__fill logo-mosaic__fill--orange-soft hero-art__tile--filldown" style="--d: 588ms" aria-hidden="true"></span>
-          <span class="logo-mosaic__meta">02 / Note to innovators + investors</span>
-          <span class="logo-mosaic__title">Letter</span>
-          <span class="logo-mosaic__arrow" aria-hidden="true">→</span>
+        <a href="/about" class="logo-mosaic__tile logo-mosaic__tile--b" data-peel-tile data-block-id="b" data-block-side="right" aria-label="About the Silicon Hills Project">
+          <span class="logo-mosaic__fill logo-mosaic__fill--orange-soft" aria-hidden="true"></span>
         </a>
-        <a href="https://forms.gle/cpnMY6kZ5T8prHWN9" class="logo-mosaic__tile logo-mosaic__tile--c" data-peel-tile>
-          <svg class="logo-mosaic__line-field logo-mosaic__line-field--dense" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <line pathLength="1" x1="0" x2="100" y1="0" y2="0" style="--d:1176ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="3.85" y2="3.85" style="--d:1322ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="7.69" y2="7.69" style="--d:1187ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="11.54" y2="11.54" style="--d:1333ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="15.38" y2="15.38" style="--d:1197ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="19.23" y2="19.23" style="--d:1343ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="23.08" y2="23.08" style="--d:1208ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="26.92" y2="26.92" style="--d:1354ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="30.77" y2="30.77" style="--d:1218ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="34.62" y2="34.62" style="--d:1364ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="38.46" y2="38.46" style="--d:1228ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="42.31" y2="42.31" style="--d:1375ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="46.15" y2="46.15" style="--d:1239ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="50" y2="50" style="--d:1385ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="53.85" y2="53.85" style="--d:1249ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="57.69" y2="57.69" style="--d:1395ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="61.54" y2="61.54" style="--d:1260ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="65.38" y2="65.38" style="--d:1406ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="69.23" y2="69.23" style="--d:1270ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="73.08" y2="73.08" style="--d:1416ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="76.92" y2="76.92" style="--d:1281ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="80.77" y2="80.77" style="--d:1427ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="84.62" y2="84.62" style="--d:1291ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="88.46" y2="88.46" style="--d:1437ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="92.31" y2="92.31" style="--d:1302ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="96.15" y2="96.15" style="--d:1448ms;--lndur:261ms;--off:100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="100" y2="100" style="--d:1312ms;--lndur:261ms;--off:100"></line>
-          </svg>
-          <span class="logo-mosaic__meta">03 / Students + founders</span>
-          <span class="logo-mosaic__title">Join Summit House</span>
-          <span class="logo-mosaic__arrow" aria-hidden="true">↗</span>
+        <a href="/about" class="logo-mosaic__tile logo-mosaic__tile--c" data-peel-tile data-block-id="c" data-block-side="right" aria-label="About the Silicon Hills Project">
+          <span class="logo-mosaic__fill" aria-hidden="true"></span>
         </a>
-        <a href="/get-involved" class="logo-mosaic__tile logo-mosaic__tile--d" data-peel-tile>
-          <span class="logo-mosaic__fill logo-mosaic__fill--orange-soft-strong hero-art__tile--fillup" style="--d: 452ms" aria-hidden="true"></span>
-          <span class="logo-mosaic__meta">06 / Build with us</span>
-          <span class="logo-mosaic__title">Get involved</span>
-          <span class="logo-mosaic__arrow" aria-hidden="true">→</span>
+        <a href="/about" class="logo-mosaic__tile logo-mosaic__tile--d" data-peel-tile data-block-id="d" data-block-side="left" aria-label="About the Silicon Hills Project">
+          <span class="logo-mosaic__fill logo-mosaic__fill--orange-soft-strong" aria-hidden="true"></span>
         </a>
-        <a href="/sponsorships" class="logo-mosaic__tile logo-mosaic__tile--e" data-peel-tile>
-          <svg class="logo-mosaic__line-field logo-mosaic__line-field--sparse" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <line pathLength="1" x1="0" x2="100" y1="0" y2="0" style="--d:1695ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="4.55" y2="4.55" style="--d:1677ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="9.09" y2="9.09" style="--d:1660ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="13.64" y2="13.64" style="--d:1643ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="18.18" y2="18.18" style="--d:1625ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="22.73" y2="22.73" style="--d:1608ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="27.27" y2="27.27" style="--d:1590ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="31.82" y2="31.82" style="--d:1573ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="36.36" y2="36.36" style="--d:1556ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="40.91" y2="40.91" style="--d:1538ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="45.45" y2="45.45" style="--d:1521ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="50" y2="50" style="--d:1503ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="54.55" y2="54.55" style="--d:1486ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="59.09" y2="59.09" style="--d:1469ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="63.64" y2="63.64" style="--d:1451ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="68.18" y2="68.18" style="--d:1434ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="72.73" y2="72.73" style="--d:1416ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="77.27" y2="77.27" style="--d:1399ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="81.82" y2="81.82" style="--d:1382ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="86.36" y2="86.36" style="--d:1364ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="90.91" y2="90.91" style="--d:1347ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="95.45" y2="95.45" style="--d:1329ms;--lndur:348ms;--off:-100"></line>
-            <line pathLength="1" x1="0" x2="100" y1="100" y2="100" style="--d:1312ms;--lndur:348ms;--off:-100"></line>
-          </svg>
-          <span class="logo-mosaic__meta">05 / Companies + funds</span>
-          <span class="logo-mosaic__title">Sponsor</span>
-          <span class="logo-mosaic__arrow" aria-hidden="true">→</span>
+        <a href="/about" class="logo-mosaic__tile logo-mosaic__tile--e" data-peel-tile data-block-id="e" data-block-side="left" aria-label="About the Silicon Hills Project">
+          <span class="logo-mosaic__fill" aria-hidden="true"></span>
         </a>
-        <a href="/mission" class="logo-mosaic__tile logo-mosaic__tile--f logo-mosaic__tile--neutral" data-peel-tile data-mission-link>
-          <span class="logo-mosaic__fill logo-mosaic__fill--mission hero-art__tile--fillup" style="--d: 0ms" aria-hidden="true"></span>
-          <span class="logo-mosaic__pixel-wave" data-wave-direction="reverse" aria-hidden="true"></span>
-          <span class="logo-mosaic__meta">04 / Why this exists</span>
-          <span class="logo-mosaic__title">Our mission</span>
-          <span class="logo-mosaic__arrow" aria-hidden="true">→</span>
+        <a href="/about" class="logo-mosaic__tile logo-mosaic__tile--f logo-mosaic__tile--neutral" data-peel-tile data-block-id="f" data-block-side="right" aria-label="About the Silicon Hills Project">
+          <span class="logo-mosaic__fill logo-mosaic__fill--mission" aria-hidden="true"></span>
         </a>
-        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7486579369260249088/" class="logo-mosaic__tile logo-mosaic__tile--g" data-peel-tile>
-          <span class="logo-mosaic__fill logo-mosaic__fill--launch hero-art__tile--swipeR" style="--d: 905ms" aria-hidden="true"></span>
-          <span class="logo-mosaic__meta">07 / The announcement</span>
-          <span class="logo-mosaic__title">Launch post</span>
-          <span class="logo-mosaic__arrow" aria-hidden="true">↗</span>
+        <a href="/about" class="logo-mosaic__tile logo-mosaic__tile--g" data-peel-tile data-block-id="g" data-block-side="bottom" aria-label="About the Silicon Hills Project">
+          <span class="logo-mosaic__fill logo-mosaic__fill--launch" aria-hidden="true"></span>
         </a>
-        <a href="/mission" class="logo-mosaic__core" data-logo-core data-mission-link aria-label="Read the Silicon Hills Project mission">
-          <span class="logo-mosaic__core-ghost" aria-hidden="true">
-            <img src="assets/silicon-hills-lockup-stacked.svg" alt="">
-          </span>
+        <a href="/about" class="logo-mosaic__core" data-logo-core data-block-id="core" data-block-side="right" data-mission-link aria-label="About the Silicon Hills Project">
           <span class="logo-mosaic__core-lockup">
             <img src="assets/silicon-hills-lockup-stacked.svg" alt="Silicon Hills Project">
           </span>
-          <span class="logo-mosaic__core-edge" aria-hidden="true"></span>
         </a>
-      </nav>
+      </div>
     </section>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-  <script src="script.js?v=26"></script>
+  <script src="/wood-loader.js?v=7"></script>
+  <script defer src="/wood-hover.js?v=2"></script>
+  <script defer src="script.js?v=30"></script>
 </body>
 </html>

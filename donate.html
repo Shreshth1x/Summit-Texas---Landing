@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate · Silicon Hills Project</title>
+  <meta name="description" content="Support the Silicon Hills Project and help ambitious builders keep building.">
+  <link rel="canonical" href="https://www.siliconhillsproject.com/donate">
+  <meta property="og:title" content="Donate · Silicon Hills Project">
+  <meta property="og:description" content="Help ambitious builders keep building.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.siliconhillsproject.com/donate">
+  <meta property="og:site_name" content="Silicon Hills Project">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" type="image/png" href="/assets/favicon.png?v=blacklogo-1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=54">
+  <link rel="stylesheet" href="/simple-pages.css?v=7">
+  <link rel="stylesheet" href="/donate.css?v=2">
+  <noscript><style>[data-donate-status] { display: none; }</style></noscript>
+  <script src="/donate.js?v=2" defer></script>
+  <link rel="stylesheet" href="/page-transitions.css?v=2">
+  <script src="/page-transitions.js?v=4"></script>
+</head>
+<body class="simple-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="simple-header">
+    <a class="simple-back" href="/about">About</a>
+  </header>
+
+  <main class="simple-main donate-main" id="main-content">
+    <h1 class="simple-title">Donate</h1>
+    <p class="donate-intro">Help ambitious builders keep building.</p>
+
+    <p class="donate-thanks" data-donate-thanks hidden>Thank you for supporting the Silicon Hills Project. Completed donations appear here once confirmed by Stripe.</p>
+
+    <section class="donate-overview" aria-labelledby="donate-total-label">
+      <div class="donate-total">
+        <h2 class="donate-total__label" id="donate-total-label">Total donated</h2>
+        <p class="donate-total__amount" data-donate-total aria-describedby="donate-total-label">—</p>
+        <p class="donate-total__count" data-donate-count>— contributions</p>
+      </div>
+      <div class="donate-action">
+        <a class="donate-checkout" data-donate-checkout href="https://donate.stripe.com/bJe9ASeypbJ2gyJ2kYaIM02">Donate with Stripe <span aria-hidden="true">↗</span></a>
+        <p class="donate-action__note">Choose your amount on Stripe. Add a public name or give anonymously.</p>
+      </div>
+    </section>
+
+    <section class="donate-contributions" aria-labelledby="donate-contributions-title">
+      <h2 id="donate-contributions-title">Recent contributions</h2>
+      <p class="donate-status" data-donate-status role="status" aria-live="polite">Loading contributions…</p>
+      <ul class="donate-list" data-donate-list aria-busy="true"></ul>
+      <p class="donate-empty" data-donate-empty hidden>Be the first to support our builders.</p>
+      <noscript><p class="donate-status">Donation totals need JavaScript to load. You can still donate with Stripe.</p></noscript>
+    </section>
+  </main>
+
+  <footer class="simple-footer">
+    <nav class="action-nav" aria-label="Site">
+      <a class="action-box" href="/donate" aria-current="page">Donate</a>
+      <a class="action-box" href="/sponsorships">Sponsor</a>
+      <a class="action-box" href="https://forms.gle/cpnMY6kZ5T8prHWN9">Apply</a>
+      <a class="action-box" href="mailto:contact@siliconhillsproject.com">Contact</a>
+      <a class="action-box" href="/blog">Blog</a>
+    </nav>
+  </footer>
+</body>
+</html>

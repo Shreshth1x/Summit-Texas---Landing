@@ -1,0 +1,51 @@
+/* Intact wooden rectangles assemble into their final layout. */
+body.landing-page { --wood-loader-ready: 1; }
+
+/* Material and logo are always fully drawn; only whole blocks translate. */
+body.landing-page .logo-mosaic .logo-mosaic__fill,
+body.landing-page .logo-mosaic .logo-mosaic__core-lockup {
+  animation: none;
+  clip-path: none;
+  opacity: 1;
+  transform: none;
+}
+
+body.landing-page .logo-mosaic [data-block-id] {
+  opacity: 1;
+  scale: 1;
+}
+
+/* Visibility is temporary only while waiting for backwards-filled WAAPI effects. */
+body.landing-page.wood-intro-pending .logo-mosaic [data-block-id] {
+  visibility: hidden;
+}
+
+body.landing-page.wood-intro-running {
+  overflow: hidden;
+}
+
+body.landing-page.wood-intro-running .logo-only-screen,
+body.landing-page.wood-intro-running .logo-mosaic {
+  overflow: visible;
+}
+
+body.landing-page.wood-intro-running .logo-mosaic [data-block-id] {
+  animation: none;
+  transition: none;
+  transform: none;
+  translate: none;
+  will-change: transform;
+}
+
+/* A reduced-motion preference exposes the final links even before JS responds. */
+@media (prefers-reduced-motion: reduce) {
+  body.landing-page .logo-mosaic [data-block-id] {
+    visibility: visible !important;
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    translate: none !important;
+    scale: 1 !important;
+    opacity: 1 !important;
+  }
+}

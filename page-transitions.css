@@ -1,0 +1,47 @@
+/* The browser holds the old page until the next document is ready. */
+@view-transition {
+  navigation: auto;
+}
+
+/* A single, short dissolve keeps content and the assembled home in place. */
+::view-transition-group(root) { animation-duration: 240ms; }
+::view-transition-image-pair(root) { isolation: isolate; }
+::view-transition-old(root),
+::view-transition-new(root) { mix-blend-mode: plus-lighter; }
+::view-transition-old(root) {
+  animation: shp-page-out 240ms cubic-bezier(0.2, 0, 0.2, 1) both;
+}
+::view-transition-new(root) {
+  animation: shp-page-in 240ms cubic-bezier(0.2, 0, 0.2, 1) both;
+}
+
+@keyframes shp-page-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes shp-page-out { from { opacity: 1; } to { opacity: 0; } }
+
+/* Progressive fallback starts with the first paint, never hides painted content.
+   Keep the warm background visible and reveal all page content together. */
+html[data-page-motion="fade"] .simple-page > .simple-header,
+html[data-page-motion="fade"] .simple-page > .simple-main,
+html[data-page-motion="fade"] .simple-page > .simple-footer,
+html[data-page-motion="fade"] .simple-page > .about-home,
+html[data-page-motion="fade"] body > .page,
+html[data-page-motion="fade"] .landing-page.is-home-return .home-page {
+  animation: shp-page-in 240ms cubic-bezier(0.2, 0, 0.2, 1) both;
+}
+
+.is-page-leaving,
+.is-page-leaving a { cursor: progress; }
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  ::view-transition-group(root),
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none !important; }
+  html[data-page-motion="fade"] .simple-page > .simple-header,
+  html[data-page-motion="fade"] .simple-page > .simple-main,
+  html[data-page-motion="fade"] .simple-page > .simple-footer,
+  html[data-page-motion="fade"] .simple-page > .about-home,
+  html[data-page-motion="fade"] body > .page,
+  html[data-page-motion="fade"] .landing-page.is-home-return .home-page { animation: none; }
+  .is-page-leaving, .is-page-leaving a { cursor: auto; }
+}

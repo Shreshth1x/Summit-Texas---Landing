@@ -1,0 +1,236 @@
+/* Wood on warm limestone, with the quiet texture of a plaster wall. */
+.simple-page,
+.landing-page {
+  --sand: #cec5b5;
+  --paper: #d9d0c0;
+  --basalt: #362e25;
+  --ink-dim: #554838;
+  --ink-faint: #a3937c;
+  --orange: #825329;
+  --orange-soft: #dfcfb8;
+  --orange-soft-strong: #d4bea0;
+  color-scheme: light;
+  background-color: var(--sand);
+  background-image:
+    radial-gradient(ellipse at 15% 15%, rgba(255, 252, 235, 0.16), transparent 70%),
+    linear-gradient(120deg, #d3caba, #c9bea9);
+  background-attachment: fixed;
+}
+
+.simple-page ::selection,
+.landing-page ::selection { background: #825329; color: #f5eddf; }
+.simple-page .grain,
+.landing-page .grain { opacity: 0.035; mix-blend-mode: multiply; }
+
+/* The five actions appear only after entering the project. */
+.simple-page {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+}
+
+.simple-header,
+.simple-main,
+.simple-footer {
+  width: min(100% - 3rem, 48rem);
+  margin-inline: auto;
+}
+
+.simple-header { padding-top: clamp(1.75rem, 5vh, 3rem); }
+.simple-back { color: var(--ink-dim); font-size: 0.8125rem; text-decoration: none; }
+.simple-back:hover { color: var(--basalt); }
+.simple-back:focus-visible { outline: 2px solid var(--orange); outline-offset: 5px; }
+
+.simple-main {
+  position: static;
+  flex: 1;
+  overflow: visible;
+  padding-block: clamp(3rem, 8vh, 6rem);
+}
+
+.simple-title {
+  margin-bottom: 2rem;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+}
+
+.about-copy {
+  color: var(--ink-dim);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  letter-spacing: -0.012em;
+}
+.about-copy p + p { margin-top: 1.1rem; }
+
+.about-page {
+  justify-content: center;
+  padding-block: clamp(3rem, 8vh, 5rem);
+  text-align: left;
+}
+
+.about-page .simple-main,
+.about-page .simple-footer,
+.about-page .about-home { width: min(100% - 3rem, 55rem); }
+.about-page .simple-main { flex: none; padding: 0; }
+.about-page .simple-title {
+  margin-bottom: clamp(1.75rem, 3vw, 2.25rem);
+  font-size: clamp(2rem, calc(2rem + 1vw), 2.625rem);
+  letter-spacing: -0.025em;
+}
+.about-page .about-copy { font-size: clamp(1.0625rem, calc(1rem + 0.5vw), 1.375rem); }
+.about-page .about-copy p + p { margin-top: clamp(1.1rem, 2vw, 1.45rem); }
+.about-page .simple-footer { margin-top: clamp(2.25rem, 4vw, 2.9rem); padding: 0; }
+.about-page .action-nav { gap: clamp(0.5rem, 1vw, 0.65rem); }
+.about-page .action-box {
+  min-height: clamp(3.5rem, 6vw, 4.5rem);
+  padding: clamp(0.9rem, 1.5vw, 1.125rem) clamp(0.8rem, 1.6vw, 1.25rem);
+  font-size: clamp(0.8125rem, calc(0.75rem + 0.35vw), 1.0625rem);
+}
+.about-page .about-home {
+  margin: clamp(1.5rem, 3vw, 2rem) auto 0;
+  color: var(--ink-dim);
+  font-size: clamp(0.8125rem, calc(0.75rem + 0.3vw), 1rem);
+  text-decoration: none;
+}
+.about-home:hover { color: var(--basalt); }
+.about-home:focus-visible { outline: 2px solid var(--orange); outline-offset: 5px; }
+
+.contact-copy { font-size: clamp(1.125rem, 3vw, 1.75rem); line-height: 1.5; }
+.contact-copy a { color: var(--basalt); text-decoration-color: var(--ink-faint); text-underline-offset: 0.3em; overflow-wrap: anywhere; }
+.contact-copy a:hover { text-decoration-color: var(--orange); }
+.contact-copy a:focus-visible { outline: 2px solid var(--orange); outline-offset: 6px; }
+
+.simple-footer { padding-bottom: clamp(1.5rem, 4vh, 3rem); }
+.action-nav { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.5rem; }
+.action-box {
+  display: flex;
+  min-height: 3.5rem;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--ink-faint);
+  border-radius: 0.25rem;
+  background: var(--paper);
+  color: var(--basalt);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.3;
+  text-decoration: none;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.action-box:hover { border-color: var(--orange); background: var(--orange-soft); }
+.action-box[aria-current="page"] { border-color: var(--orange); }
+.action-box:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+
+/* Keep the original box composition, with one clear way into the project. */
+.landing-page {
+  height: auto;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+}
+
+.landing-page .home-page {
+  position: relative;
+  inset: auto;
+  display: flex;
+  min-height: 100dvh;
+  flex-direction: column;
+  overflow: visible;
+}
+
+.landing-page .logo-only-screen {
+  flex: 1;
+  min-height: 0;
+  grid-template-columns: minmax(0, 1fr);
+  padding: 2rem 1.5rem;
+}
+
+.logo-only-screen .logo-mosaic {
+  /* Match the reference: the 8:5 composition fills about 82% of the screen height. */
+  width: min(100%, 131.2dvh, 76rem);
+  min-width: 0;
+  aspect-ratio: 8 / 5;
+  gap: 0.35rem;
+}
+
+.landing-page .logo-mosaic__tile {
+  --wood-tint: rgba(51, 28, 15, 0.35);
+  --wood-position: 50% 50%;
+  pointer-events: auto;
+  cursor: pointer;
+  border-color: rgba(229, 202, 163, 0.13);
+  background: #2b2119;
+}
+
+.landing-page .logo-mosaic__fill {
+  background-image: linear-gradient(var(--wood-tint), var(--wood-tint)), url('/assets/wood-grain.webp');
+  background-size: cover, 46rem auto;
+  background-position: center, var(--wood-position);
+  box-shadow: inset 0 1px 0 rgba(255, 231, 197, 0.12), inset 0 -1px 0 rgba(15, 8, 4, 0.2);
+}
+
+.landing-page .logo-mosaic__tile--a { --wood-tint: rgba(38, 21, 12, 0.5); --wood-position: 5% 25%; }
+.landing-page .logo-mosaic__tile--b { --wood-tint: rgba(168, 100, 37, 0.25); --wood-position: 80% 70%; }
+.landing-page .logo-mosaic__tile--c { --wood-tint: rgba(16, 12, 9, 0.57); --wood-position: 30% 90%; }
+.landing-page .logo-mosaic__tile--d { --wood-tint: rgba(194, 157, 105, 0.32); --wood-position: 10% 10%; }
+.landing-page .logo-mosaic__tile--e { --wood-tint: rgba(55, 49, 42, 0.36); --wood-position: 100% 0%; }
+.landing-page .logo-mosaic__tile--f { --wood-tint: rgba(72, 35, 15, 0.47); --wood-position: 85% 65%; }
+.landing-page .logo-mosaic__tile--g { --wood-tint: rgba(160, 87, 26, 0.36); --wood-position: 20% 80%; }
+
+.landing-page .logo-mosaic__core {
+  z-index: 3;
+  overflow: visible;
+  clip-path: none;
+  border-color: rgba(151, 109, 56, 0.65);
+  background-color: #bea27d;
+  background-image: linear-gradient(rgba(224, 201, 166, 0.85), rgba(218, 187, 142, 0.82)), url('/assets/wood-grain.webp');
+  background-size: cover, 50rem auto;
+  background-position: center, 60% 40%;
+  box-shadow: 0 0 28px 4px rgba(168, 115, 51, 0.2), inset 0 1px 0 rgba(255, 237, 206, 0.32);
+}
+
+.landing-page .logo-mosaic__core:hover,
+.landing-page .logo-mosaic__core:focus-visible {
+  border-color: #825329;
+  box-shadow: 0 0 36px 7px rgba(168, 115, 51, 0.28), inset 0 1px 0 rgba(255, 237, 206, 0.4);
+}
+
+.landing-page .logo-mosaic__core:focus-visible { outline: 2px solid #825329; outline-offset: 5px; }
+
+.landing-page .logo-mosaic__core img {
+  width: 70%;
+  height: 70%;
+  max-width: none;
+  object-fit: contain;
+}
+
+@media (max-width: 700px) and (orientation: portrait) {
+  .landing-page .logo-only-screen { padding: 2rem 1.5rem; }
+  .logo-only-screen .logo-mosaic { width: min(100%, 30rem); aspect-ratio: 4 / 5; }
+}
+
+@media (max-width: 560px) {
+  .about-copy { font-size: 1rem; }
+  .action-nav { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .action-box { grid-column: span 2; min-height: 3.25rem; padding-inline: 0.8rem; }
+  .action-box:nth-child(n + 4) { grid-column: span 3; }
+  .simple-main { padding-block: 3rem; }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .logo-only-screen .logo-mosaic { width: min(100%, calc((100dvh - 4rem) * 1.6), 40rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .action-box,
+  .landing-page .logo-mosaic__core { transition: none; }
+}

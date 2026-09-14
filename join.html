@@ -17,52 +17,46 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/join.css?v=2">
-  <script src="/join.js?v=2" defer></script>
+  <link rel="stylesheet" href="/styles.css?v=54">
+  <link rel="stylesheet" href="/simple-pages.css?v=8">
+  <link rel="stylesheet" href="/join.css?v=3">
+  <link rel="stylesheet" href="/page-transitions.css?v=2">
+  <script src="/page-transitions.js?v=4"></script>
+  <script src="/join.js?v=3" defer></script>
 </head>
-<body>
-  <a class="skip-link" href="#signup-form">Skip to signup</a>
+<body class="simple-page join-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="grain" aria-hidden="true"></div>
 
-  <header class="join-header">
-    <a class="join-brand" href="/" aria-label="Silicon Hills Project home">
-      <img src="/assets/silicon-hills-lockup-horizontal.svg" alt="Silicon Hills Project">
-    </a>
-    <a class="join-header__link" href="mailto:contact@siliconhillsproject.com">Questions?</a>
+  <header class="simple-header">
+    <a class="simple-back" href="/about">About</a>
   </header>
 
-  <main class="join-main">
-    <section class="join-intro" aria-labelledby="join-title">
-      <p class="join-kicker">Member access</p>
-      <h1 id="join-title">One agreement.<br>Then Slack.</h1>
-      <p class="join-lede">Membership currently costs $0 per month. Read the agreement, sign electronically, and we’ll email a one-time confirmation link. Open it to continue to Slack.</p>
+  <main class="simple-main join-main" id="main-content">
+    <header class="join-heading">
+      <h1 class="simple-title" id="join-title">Join</h1>
+      <p class="join-intro">Accept the member agreement, confirm your email, and continue to the Silicon Hills Project Slack.</p>
+    </header>
+
+    <section class="join-overview" aria-label="Membership overview">
+      <div class="join-rate">
+        <p class="join-rate__label">Current membership</p>
+        <p class="join-rate__amount">$0<span>/month</span></p>
+        <p class="join-rate__note">No payment method required.</p>
+      </div>
 
       <ol class="join-steps" aria-label="Signup steps">
-        <li>
-          <span class="join-steps__number">1</span>
-          <span><strong>Read</strong> Version 3.2</span>
-        </li>
-        <li>
-          <span class="join-steps__number">2</span>
-          <span><strong>Accept</strong> with your legal name</span>
-        </li>
-        <li>
-          <span class="join-steps__number">3</span>
-          <span><strong>Confirm</strong> through your email</span>
-        </li>
+        <li><span>1</span><p><strong>Read</strong> Agreement Version 3.2.</p></li>
+        <li><span>2</span><p><strong>Accept</strong> with your full legal name.</p></li>
+        <li><span>3</span><p><strong>Confirm</strong> through the email we send you.</p></li>
       </ol>
-
-      <dl class="join-facts">
-        <div><dt>Current rate</dt><dd>$0/month</dd></div>
-        <div><dt>Payment method</dt><dd>Not required</dd></div>
-        <div><dt>Agreement</dt><dd>Version 3.2</dd></div>
-      </dl>
     </section>
 
-    <section class="join-panel" aria-labelledby="form-title">
-      <div class="join-panel__heading">
+    <section class="join-agreement" aria-labelledby="form-title">
+      <div class="join-agreement__heading">
         <div>
-          <p class="join-panel__step">Your agreement</p>
-          <h2 id="form-title">Confirm your membership</h2>
+          <h2 id="form-title">Member access agreement</h2>
+          <p>Version 3.2 · Effective September 14, 2026</p>
         </div>
         <a class="agreement-link" href="/member-access-agreement/v3.2" target="_blank" rel="noopener">Read the full agreement</a>
       </div>
@@ -114,11 +108,13 @@
     </section>
   </main>
 
-  <footer class="join-footer">
-    <p>Silicon Hills Project, LLC</p>
-    <nav aria-label="Footer">
-      <a href="/member-access-agreement/v3.2">Agreement</a>
-      <a href="mailto:contact@siliconhillsproject.com">Contact</a>
+  <footer class="simple-footer">
+    <nav class="action-nav" aria-label="Site">
+      <a class="action-box" href="/donate">Donate</a>
+      <a class="action-box" href="/sponsorships">Sponsor</a>
+      <a class="action-box" href="https://forms.gle/cpnMY6kZ5T8prHWN9">Apply</a>
+      <a class="action-box" href="mailto:contact@siliconhillsproject.com">Contact</a>
+      <a class="action-box" href="/blog">Blog</a>
     </nav>
   </footer>
 </body>

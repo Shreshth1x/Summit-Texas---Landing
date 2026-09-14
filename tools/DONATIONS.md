@@ -21,6 +21,20 @@ The checkout explains that donation amounts appear publicly and donors can
 leave that field blank to appear as Anonymous. Billing names, emails,
 customer IDs, and transaction IDs are never sent to the browser.
 
+For a donor who later asks to hide their public name, add their verified live
+Checkout Session ID to the sensitive, server-only Vercel environment variable
+`DONATIONS_ANONYMOUS_SESSION_IDS`. It accepts comma-separated exact `cs_live_`
+IDs; leave it blank when there are no overrides. Configure it for each deployed
+environment that displays the counter, then redeploy. For local development,
+set it in an ignored `.env` file loaded by the dev server and restart the server.
+Never put real session IDs in source files, client configuration, or this document.
+
+The API returns Anonymous only for those exact sessions, without changing Stripe
+data or matching by donor name or amount. Donation amounts, counts, and refund
+handling are unchanged; other donors keep their names. IDs never appear in the
+API response. Malformed configured IDs fail closed, and privacy configuration
+changes invalidate the server's cached snapshot.
+
 The page polls every 10 seconds while visible and checks immediately on window
 focus, browser-history restoration, and visibility changes. Overlapping checks
 share the active request. The server caches successful responses for 10 seconds,

@@ -14,7 +14,9 @@ function loadDonationConfig() {
   return require("../config/donations.json");
 }
 
-function publicName(session) {
+function publicName(session, anonymousSessionIds) {
+  // Site-owned privacy overrides match exact sessions, never names or amounts.
+  if (anonymousSessionIds.has(session.id)) return "Anonymous";
   const field = Array.isArray(session.custom_fields)
     ? session.custom_fields.find(item => item.key === "publicname" && item.type === "text" && item.optional === true)
     : null;
@@ -28,7 +30,7 @@ function publicName(session) {
   return name && !name.includes("@") ? name : "Anonymous";
 }
 
-function contributionFrom(session, paymentLinkId) {
+function contributionFrom(session, paymentLinkId, anonymousSessionIds) {
   const linkId = typeof session.payment_link === "string" ? session.payment_link : session.payment_link?.id;
   if (linkId !== paymentLinkId || session.livemode !== true || session.mode !== "payment" ||
       session.status !== "complete" || session.payment_status !== "paid" || session.currency !== "usd") return null;
@@ -51,10 +53,10 @@ function contributionFrom(session, paymentLinkId) {
   if (!Number.isSafeInteger(charge.created) || charge.created <= 0) throw new Error("Invalid payment date");
   const date = new Date(charge.created * 1000);
   if (!Number.isFinite(date.getTime())) throw new Error("Invalid payment date");
-  return { name: publicName(session), amount, date: date.toISOString().slice(0, 10), created: charge.created };
+  return { name: publicName(session, anonymousSessionIds), amount, date: date.toISOString().slice(0, 10), created: charge.created };
 }
 
-async function readAllDonations({ paymentLinkId, secret, fetchImpl, now, signal, maxPages }) {
+async function readAllDonations({ paymentLinkId, secret, anonymousSessionIds, fetchImpl, now, signal, maxPages }) {
   let startingAfter;
   let totalAmount = 0;
   let contributionCount = 0;
@@ -88,7 +90,7 @@ async function readAllDonations({ paymentLinkId, secret, fetchImpl, now, signal,
         throw new Error("Invalid Stripe pagination");
       }
       seen.add(session.id);
-      const contribution = contributionFrom(session, paymentLinkId);
+      const contribution = contributionFrom(session, paymentLinkId, anonymousSessionIds);
       if (!contribution) continue;
       totalAmount += contribution.amount;
       if (!Number.isSafeInteger(totalAmount)) throw new Error("Donation total exceeds safe range");
@@ -177,10 +179,19 @@ function createDonationsHandler({
     try {
       const { paymentLinkId } = loadConfig() || {};
       const secret = (env.STRIPE_DONATIONS_READ_KEY || env.STRIPE_SECRET_KEY || "").trim();
+      const anonymousIds = [...new Set((env.DONATIONS_ANONYMOUS_SESSION_IDS || "")
+        .split(",").map(id => id.trim()).filter(Boolean))].sort();
       if (!/^plink_[a-zA-Z0-9]+$/.test(paymentLinkId || "") || !/^(rk|sk)_live_[a-zA-Z0-9]+$/.test(secret)) {
         throw new Error("Donation counter is not configured");
       }
-      const result = await snapshot({ paymentLinkId, secret, id: `${paymentLinkId}:${secret}` });
+      if (anonymousIds.some(id => !/^cs_live_[a-zA-Z0-9]+$/.test(id))) {
+        throw new Error("Invalid donation privacy configuration");
+      }
+      const result = await snapshot({
+        paymentLinkId, secret,
+        anonymousSessionIds: new Set(anonymousIds),
+        id: `${paymentLinkId}:${secret}:${anonymousIds.join(",")}`
+      });
       const remainingSeconds = Math.max(0, Math.floor((result.expiresAt - now()) / 1000));
       res.setHeader("Cache-Control", `public, max-age=0, s-maxage=${remainingSeconds}, must-revalidate`);
       res.statusCode = 200;

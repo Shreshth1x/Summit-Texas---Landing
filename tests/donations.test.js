@@ -146,6 +146,85 @@ test("only a voluntary publicname field is published; private identities and IDs
   assert.deepEqual(Object.keys(result.json).sort(), ["contributionCount", "contributions", "currency", "totalAmount", "updatedAt"]);
 });
 
+test("an exact session privacy override hides the public name without changing donation totals", async () => {
+  const anonymous = session("cs_live_OptedOut", {
+    custom_fields: [
+      { key: "publicname", type: "text", optional: true, text: { value: "Withdrawn Public Alias" } }
+    ]
+  });
+  const named = session("cs_live_StillNamed", { custom_fields: [
+    { key: "publicname", type: "text", optional: true, text: { value: "Another Public Donor" } }
+  ] });
+  const result = await request(handler({
+    env: { STRIPE_DONATIONS_READ_KEY: KEY, DONATIONS_ANONYMOUS_SESSION_IDS: "cs_live_OptedOut" },
+    fetchImpl: async () => page([anonymous, named])
+  }));
+  assert.equal(result.statusCode, 200);
+  assert.equal(result.json.totalAmount, 5000);
+  assert.equal(result.json.contributionCount, 2);
+  assert.deepEqual(result.json.contributions, [
+    { name: "Anonymous", amount: 2500, date: "2026-09-12" },
+    { name: "Another Public Donor", amount: 2500, date: "2026-09-12" }
+  ]);
+  assert.doesNotMatch(result.body, /Withdrawn Public Alias|DONATIONS_ANONYMOUS_SESSION_IDS|cs_live_/);
+});
+
+test("privacy overrides do not match another session by public name or donation amount", async () => {
+  const items = ["cs_live_Target", "cs_live_TargetOther"].map(id => session(id, {
+    custom_fields: [
+      { key: "publicname", type: "text", optional: true, text: { value: "Shared Public Alias" } }
+    ]
+  }));
+  const result = await request(handler({
+    env: { STRIPE_DONATIONS_READ_KEY: KEY, DONATIONS_ANONYMOUS_SESSION_IDS: "cs_live_Target" },
+    fetchImpl: async () => page(items)
+  }));
+  assert.equal(result.statusCode, 200);
+  assert.equal(result.json.contributionCount, items.length);
+  assert.equal(result.json.totalAmount, 5000);
+  assert.deepEqual(result.json.contributions.map(contribution => contribution.name), ["Anonymous", "Shared Public Alias"]);
+});
+
+test("invalid privacy override IDs fail closed without fetching Stripe or leaking IDs", async () => {
+  for (const value of ["cs_test_Example", "cs_live_", "not-a-session", "cs_live_Valid,invalid",
+    "cs_live_Invalid\nSuffix", "cs_live_Invalid?query=1"]) {
+    const result = await request(handler({
+      env: { STRIPE_DONATIONS_READ_KEY: KEY, DONATIONS_ANONYMOUS_SESSION_IDS: value },
+      fetchImpl: async () => assert.fail("Invalid privacy configuration must not fetch Stripe")
+    }));
+    assert.equal(result.statusCode, 503);
+    assert.deepEqual(result.json, { error: "Donation totals are temporarily unavailable." });
+    assert.equal(result.headers["Cache-Control"], "no-store");
+    assert.doesNotMatch(result.body, /cs_live_|cs_test_|privacy|session/);
+  }
+});
+
+test("normalized privacy configuration changes bypass cached names before the normal TTL", async () => {
+  const env = { STRIPE_DONATIONS_READ_KEY: KEY, DONATIONS_ANONYMOUS_SESSION_IDS: "  " };
+  let calls = 0;
+  const named = session("cs_live_PrivacyChange", { custom_fields: [
+    { key: "publicname", type: "text", optional: true, text: { value: "Public Alias" } }
+  ] });
+  const run = handler({ env, fetchImpl: async () => { calls += 1; return page([named]); } });
+  assert.equal((await request(run)).json.contributions[0].name, "Public Alias");
+  assert.equal(calls, 1);
+
+  env.DONATIONS_ANONYMOUS_SESSION_IDS = "cs_live_PrivacyChange,cs_live_Other";
+  const privateResult = await request(run);
+  assert.equal(privateResult.json.contributions[0].name, "Anonymous");
+  assert.equal(privateResult.json.totalAmount, 2500);
+  assert.equal(privateResult.json.contributionCount, 1);
+  assert.equal(calls, 2, "adding a privacy override must not reuse a previously public snapshot");
+
+  env.DONATIONS_ANONYMOUS_SESSION_IDS = " cs_live_Other , cs_live_PrivacyChange,cs_live_Other , ";
+  assert.equal((await request(run)).json.contributions[0].name, "Anonymous");
+  assert.equal(calls, 2, "equivalent sorted, deduplicated, trimmed IDs retain the same cache identity");
+
+  env.DONATIONS_ANONYMOUS_SESSION_IDS = "";
+  assert.equal((await request(run)).json.contributions[0].name, "Public Alias");
+  assert.equal(calls, 3);
+});
+
 test("counts all contributions but returns only the latest 20 by charge date", async () => {
   const items = Array.from({ length: 25 }, (_, i) => chargeSession(`cs_${i}`, { created: 1789200000 + i * 86400 }));
   const result = await request(handler({ fetchImpl: async () => page(items) }));

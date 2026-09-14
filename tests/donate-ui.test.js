@@ -107,8 +107,73 @@ test('visible donations refresh every ten seconds and render a newly paid contri
   assert.equal(f.nodes.total.textContent, '$25');
   assert.equal(f.nodes.count.textContent, '1 contribution');
   assert.equal(f.nodes.list.children.length, 1);
-  assert.equal(f.nodes.list.children[0].children[0].children[0].textContent, 'Public Donor');
+  assert.equal(f.nodes.list.children[0].children[0].textContent, 'Public Donor');
   assert.equal(f.nodes.empty.hidden, true);
+});
+
+test('contributions render as compact public-name and amount chips without dates or interpreted markup', async () => {
+  const f = fixture();
+  const publicName = '<img src=x onerror=alert(1)> & Friends';
+  const data = {
+    currency: 'usd', totalAmount: 2601, contributionCount: 2,
+    contributions: [
+      { name: publicName, amount: 2501, date: '2026-09-13' },
+      { name: 'Anonymous', amount: 100, date: '2026-09-12' }
+    ]
+  };
+  f.requests[0].respond(data);
+  await flush();
+
+  assert.equal(f.nodes.total.textContent, '$26.01');
+  assert.equal(f.nodes.count.textContent, '2 contributions');
+  assert.deepEqual(f.nodes.list.children.map(chip => ({
+    tag: chip.tag, className: chip.className,
+    children: chip.children.map(child => ({
+      tag: child.tag, className: child.className, text: child.textContent,
+      nestedChildren: child.children.length
+    }))
+  })), [
+    { tag: 'li', className: 'donate-chip', children: [
+      { tag: 'span', className: 'donate-chip__name', text: publicName, nestedChildren: 0 },
+      { tag: 'span', className: 'donate-chip__amount', text: '$25.01', nestedChildren: 0 }
+    ] },
+    { tag: 'li', className: 'donate-chip', children: [
+      { tag: 'span', className: 'donate-chip__name', text: 'Anonymous', nestedChildren: 0 },
+      { tag: 'span', className: 'donate-chip__amount', text: '$1', nestedChildren: 0 }
+    ] }
+  ]);
+  assert.equal(f.nodes.list.attributes['aria-busy'], 'false');
+});
+
+test('an unchanged poll preserves existing chips even when the API update timestamp changes', async () => {
+  const f = fixture();
+  f.requests[0].respond({ ...snapshot(2500), updatedAt: '2026-09-13T18:00:00Z' });
+  await flush();
+  const chip = f.nodes.list.children[0];
+  const name = chip.children[0];
+  await f.advance(10000);
+  f.requests[1].respond({ ...snapshot(2500), updatedAt: '2026-09-13T18:00:10Z' });
+  await flush();
+  assert.equal(f.nodes.list.children[0], chip, 'unchanged data must not rebuild the list');
+  assert.equal(chip.children[0], name);
+  assert.equal(f.nodes.status.textContent, '');
+  assert.equal(f.nodes.list.attributes['aria-busy'], 'false');
+});
+
+test('hidden contribution dates remain validated before replacing the last successful chips', async () => {
+  const f = fixture();
+  f.requests[0].respond(snapshot(2500));
+  await flush();
+  const chip = f.nodes.list.children[0];
+  await f.advance(10000);
+  const invalid = snapshot(3500);
+  invalid.contributions[0].date = '2026-02-30';
+  f.requests[1].respond(invalid);
+  await flush();
+  assert.equal(f.nodes.list.children[0], chip);
+  assert.equal(f.nodes.total.textContent, '$25');
+  assert.match(f.nodes.status.textContent, /Showing the last update/);
+  assert.equal(f.nodes.list.attributes['aria-busy'], 'false');
 });
 
 test('checkout return and focus refresh immediately without overlapping requests', async () => {

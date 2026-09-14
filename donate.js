@@ -19,9 +19,6 @@
     minimumFractionDigits: 0,
     maximumFractionDigits: 2
   });
-  const date = new Intl.DateTimeFormat('en-US', {
-    month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC'
-  });
   const number = new Intl.NumberFormat('en-US');
   let inFlight = false;
   let pollTimer;
@@ -61,20 +58,14 @@
     const rows = document.createDocumentFragment();
     for (const contribution of data.contributions) {
       const row = document.createElement('li');
-      row.className = 'donate-row';
-      const details = document.createElement('div');
-      const name = document.createElement('p');
-      name.className = 'donate-row__name';
+      row.className = 'donate-chip';
+      const name = document.createElement('span');
+      name.className = 'donate-chip__name';
       name.textContent = contribution.name;
-      const when = document.createElement('time');
-      when.className = 'donate-row__date';
-      when.dateTime = contribution.date;
-      when.textContent = date.format(new Date(`${contribution.date}T12:00:00Z`));
-      details.append(name, when);
-      const amount = document.createElement('p');
-      amount.className = 'donate-row__amount';
+      const amount = document.createElement('span');
+      amount.className = 'donate-chip__amount';
       amount.textContent = money.format(contribution.amount / 100);
-      row.append(details, amount);
+      row.append(name, amount);
       rows.append(row);
     }
 

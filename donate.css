@@ -40,6 +40,7 @@
 
 .donate-total__amount {
   margin: 0.75rem 0 0.5rem;
+  min-height: 1.15em;
   color: var(--basalt);
   font-size: clamp(2.75rem, 6vw, 4.25rem);
   font-weight: 400;
@@ -50,6 +51,7 @@
 }
 
 .donate-total__count {
+  min-height: 1.6em;
   color: var(--ink-dim);
   font-size: 0.85rem;
   line-height: 1.6;
@@ -89,65 +91,61 @@
 }
 
 .donate-contributions {
-  margin-top: clamp(3rem, 6vw, 4.5rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
 }
 
 .donate-contributions h2 {
-  margin-bottom: 1.5rem;
-  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--ink-dim);
+  font-size: 0.9375rem;
   font-weight: 400;
-  line-height: 1.4;
-  letter-spacing: -0.025em;
+  line-height: 1.5;
 }
 
 .donate-status,
 .donate-empty {
   color: var(--ink-dim);
-  font-size: 0.9rem;
-  line-height: 1.7;
+  font-size: 0.8125rem;
+  line-height: 1.6;
 }
 
-.donate-status:not(:empty) {
-  margin-bottom: 1rem;
-}
+.donate-status:not(:empty) { margin-bottom: 0.75rem; }
 
 .donate-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.625rem;
+  min-height: 3rem;
+  padding: 0;
   list-style: none;
 }
 
-.donate-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+.donate-chip {
+  display: inline-flex;
+  max-width: 100%;
+  min-height: 3rem;
   align-items: center;
-  gap: 1.5rem;
-  padding: 1.35rem 0;
-  border-top: 1px solid var(--ink-faint);
-}
-
-.donate-row:last-child {
-  border-bottom: 1px solid var(--ink-faint);
-}
-
-.donate-row__name {
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 0.8125rem 1rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: rgba(245, 237, 223, 0.42);
   color: var(--basalt);
-  font-size: 1rem;
-  line-height: 1.5;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.donate-chip__name {
+  min-width: 0;
   overflow-wrap: anywhere;
 }
 
-.donate-row__date {
-  display: block;
-  margin-top: 0.25rem;
-  color: var(--ink-dim);
-  font-size: 0.8rem;
-  line-height: 1.5;
-}
-
-.donate-row__amount {
-  color: var(--basalt);
-  font-size: 1.05rem;
+.donate-chip__amount {
+  flex-shrink: 0;
   font-variant-numeric: tabular-nums;
-  line-height: 1.5;
+  white-space: nowrap;
 }
 
 @media (max-width: 600px) {

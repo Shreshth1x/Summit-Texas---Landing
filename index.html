@@ -48,9 +48,14 @@
 
       try {
         var params = new URL(window.location.href).searchParams;
-        var navigation = window.performance && window.performance.getEntriesByType
-          ? window.performance.getEntriesByType("navigation")[0] : null;
+        var performanceObject = window.performance;
+        var navigation = performanceObject && performanceObject.getEntriesByType
+          ? performanceObject.getEntriesByType("navigation")[0] : null;
         var navigationType = navigation && navigation.type;
+        if (!navigationType && performanceObject && performanceObject.navigation) {
+          if (performanceObject.navigation.type === 1) navigationType = "reload";
+          else if (performanceObject.navigation.type === 2) navigationType = "back_forward";
+        }
         shouldSettle = shouldSettle || navigationType === "back_forward"
           || (navigationType !== "reload" && params.get("skip-intro") === "1");
       } catch (error) {
@@ -67,7 +72,15 @@
       if (shouldSettle) document.body.classList.add("is-home-return");
       if (!shouldSettle) {
         document.body.classList.add("wood-intro-pending");
-        window.__shpWoodIntroTimer = window.setTimeout(function () {
+        window.__shpWoodIntroFailOpen = function () {
+          if (window.__shpWoodIntroRecoveryTimer != null) {
+            window.clearTimeout(window.__shpWoodIntroRecoveryTimer);
+            window.__shpWoodIntroRecoveryTimer = null;
+          }
+          if (window.__shpWoodIntroRecoveryCleanup) {
+            window.__shpWoodIntroRecoveryCleanup();
+            window.__shpWoodIntroRecoveryCleanup = null;
+          }
           window.__shpWoodIntroRequested = false;
           if (window.SHPWoodLoader) {
             window.SHPWoodLoader.finish();
@@ -75,7 +88,32 @@
             document.body.classList.remove("wood-intro-pending", "wood-intro-running");
             document.body.dataset.woodState = "settled";
           }
-        }, 1800);
+        };
+        /* A tiny controller may arrive slowly without losing the intro. Count
+           hard-stall recovery only while the page is visible, so a background
+           tab cannot consume its first-view animation before activation. */
+        var armRecovery = function () {
+          if (document.hidden) return;
+          if (!window.__shpWoodIntroFailOpen || window.__shpWoodIntroRecoveryTimer != null) return;
+          window.__shpWoodIntroRecoveryTimer = window.setTimeout(function () {
+            window.__shpWoodIntroRecoveryTimer = null;
+            if (document.hidden) return;
+            if (window.__shpWoodIntroFailOpen) window.__shpWoodIntroFailOpen();
+          }, 10000);
+        };
+        var onRecoveryVisibilityChange = function () {
+          if (document.hidden) {
+            window.clearTimeout(window.__shpWoodIntroRecoveryTimer);
+            window.__shpWoodIntroRecoveryTimer = null;
+          } else {
+            armRecovery();
+          }
+        };
+        window.__shpWoodIntroRecoveryCleanup = function () {
+          document.removeEventListener("visibilitychange", onRecoveryVisibilityChange);
+        };
+        document.addEventListener("visibilitychange", onRecoveryVisibilityChange);
+        armRecovery();
       }
     })();
   </script>
@@ -123,7 +161,19 @@
     </section>
   </main>
 
-  <script src="/wood-loader.js?v=7"></script>
+  <script src="/wood-loader.js?v=8" onerror="window.__shpWoodIntroFailOpen &amp;&amp; window.__shpWoodIntroFailOpen()"></script>
+  <script>
+    /* Slow delivery must not cancel a requested intro. Fail open only when the
+       parser-blocking controller actually failed to define itself. */
+    if (!window.SHPWoodLoader && window.__shpWoodIntroFailOpen) {
+      window.__shpWoodIntroFailOpen();
+    }
+    if (window.__shpWoodIntroRecoveryCleanup) {
+      window.__shpWoodIntroRecoveryCleanup();
+      window.__shpWoodIntroRecoveryCleanup = null;
+    }
+    window.__shpWoodIntroFailOpen = null;
+  </script>
   <script defer src="/wood-hover.js?v=2"></script>
   <script defer src="script.js?v=30"></script>
 </body>

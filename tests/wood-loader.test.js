@@ -8,9 +8,12 @@ const vm = require('node:vm');
 const { createWoodLoader, BLOCK_SEQUENCE, entryOffset, ENTRY_GAP } = require('../wood-loader.js');
 
 const homeHtml = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
-const primer = [...homeHtml.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)]
-  .map(match => match[1]).find(script => script.includes('__shpWoodIntroRequested'));
+const inlineScripts = [...homeHtml.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map(match => match[1]);
+const primer = inlineScripts.find(script => script.includes('__shpWoodIntroRequested'));
+const loaderGuard = inlineScripts.find(script => script.includes('!window.SHPWoodLoader')
+  && script.includes('__shpWoodIntroFailOpen'));
 assert.ok(primer, 'home page must contain its pre-render intro primer');
+assert.ok(loaderGuard, 'home page must fail open when the controller script cannot load');
 
 function deferred() {
   let resolve, reject;
@@ -82,7 +85,6 @@ function fixture({ requested = true, reduced = false, hidden = false } = {}) {
       decode() { return this.decoded.promise; }
     }
   });
-  window.__shpWoodIntroTimer = window.setTimeout(() => {}, 1800);
   const controller = createWoodLoader(window, document);
   const runTimer = delay => {
     const entry = [...timers].find(([, timer]) => timer.delay === delay);
@@ -95,11 +97,13 @@ function fixture({ requested = true, reduced = false, hidden = false } = {}) {
 }
 async function flush() { for (let index = 0; index < 8; index++) await Promise.resolve(); }
 async function begin(f) { f.controller.start(); f.images[0].decoded.resolve(); await flush(); }
-function prime(f, { url = 'https://www.siliconhillsproject.com/', navigationType = 'navigate' } = {}) {
+function prime(f, { url = 'https://www.siliconhillsproject.com/', navigationType = 'navigate', legacyNavigationType } = {}) {
   f.classes.clear(); f.classes.add('is-loading'); f.timers.clear();
-  f.window.__shpWoodIntroTimer = null;
+  f.window.__shpWoodIntroFailOpen = null;
   f.window.location = { href: url };
-  f.window.performance = { getEntriesByType: () => [{ type: navigationType }] };
+  f.window.performance = legacyNavigationType == null
+    ? { getEntriesByType: () => [{ type: navigationType }] }
+    : { getEntriesByType: () => [], navigation: { type: legacyNavigationType } };
   vm.runInNewContext(primer, { window: f.window, document: f.document, URL });
 }
 function vector(transform) {
@@ -153,7 +157,6 @@ test('assembly measures all blocks once before eight opaque transform-only effec
   const originalStyles = f.blocks.map(block => ({ ...block.style }));
   await begin(f);
   assert.equal(f.controller.state, 'assembling');
-  assert.equal(f.window.__shpWoodIntroTimer, null);
   assert.equal(f.animations.length, 8);
   assert.ok(f.blocks.every(block => block.reads === 1));
   assert.ok(f.log.slice(0, 8).every(event => event.startsWith('read:')));
@@ -225,9 +228,8 @@ test('unsupported focus-visible selectors leave a stable keyboard target', async
   assertSettled(f);
 });
 
-test('resize, visibility, history lifecycle, Escape, and live reduced motion restore the final layout', async () => {
+test('visibility loss, history lifecycle, Escape, and live reduced motion restore the final layout', async () => {
   const interruptions = [
-    f => { f.window.innerWidth = 390; f.window.dispatch('resize'); },
     f => { f.document.hidden = true; f.document.dispatch('visibilitychange'); },
     f => f.window.dispatch('pagehide'),
     f => f.window.dispatch('pageshow', { persisted: true }),
@@ -244,29 +246,77 @@ test('resize, visibility, history lifecycle, Escape, and live reduced motion res
 });
 
 test('interruption during decode prevents delayed asset success from restarting assembly', async () => {
-  for (const interrupt of [f => f.blocks[2].dispatch('focusin'), f => { f.window.innerHeight = 844; f.window.dispatch('resize'); }]) {
-    const f = fixture();
-    f.controller.start();
-    interrupt(f);
-    assertSettled(f);
-    f.images[0].decoded.resolve();
-    await flush();
-    assert.equal(f.animations.length, 0);
-    await f.controller.start();
-    assert.equal(f.images.length, 1);
-  }
+  const f = fixture();
+  f.controller.start();
+  f.blocks[2].dispatch('focusin');
+  assertSettled(f);
+  f.images[0].decoded.resolve();
+  await flush();
+  assert.equal(f.animations.length, 0);
+  await f.controller.start();
+  assert.equal(f.images.length, 1);
 });
 
-test('initial mobile resize events with unchanged dimensions do not cancel preflight or assembly', async () => {
+test('transient viewport changes during preflight and assembly do not cancel the intro', async () => {
   const f = fixture();
+  f.controller.start();
   f.window.innerWidth = 390;
   f.window.innerHeight = 844;
-  f.controller.start();
   f.window.dispatch('resize');
   assert.equal(f.controller.state, 'pending');
   f.images[0].decoded.resolve();
   await flush();
+  assert.equal(f.controller.state, 'assembling');
+  assert.equal(f.animations.length, 8);
+  assert.ok(f.animations.every(animation => !animation.cancelled));
+  const rightEntry = f.animations.find(animation => animation.element.dataset.blockSide === 'right');
+  assert.ok(rightEntry.element.rect.left + vector(rightEntry.frames[0].transform).x > f.window.innerWidth);
+  f.window.innerWidth = 844;
+  f.window.innerHeight = 390;
   f.window.dispatch('resize');
+  assert.equal(f.controller.state, 'assembling');
+  assert.equal(f.animations.length, 8);
+  assert.ok(f.animations.every(animation => !animation.cancelled));
+  f.runTimer(100);
+  await flush();
+  assert.equal(f.controller.state, 'assembling');
+  assert.equal(f.animations.length, 16);
+  assert.ok(f.animations.slice(0, 8).every(animation => animation.cancelled));
+  assert.ok(f.animations.slice(8).every(animation => !animation.cancelled));
+  assert.ok(f.blocks.every(block => block.reads === 2));
+  const restartedRightEntry = f.animations.slice(8)
+    .find(animation => animation.element.dataset.blockSide === 'right');
+  assert.equal(restartedRightEntry.element.rect.left + vector(restartedRightEntry.frames[0].transform).x,
+    f.window.innerWidth + ENTRY_GAP);
+  f.controller.finish();
+  assertSettled(f);
+});
+
+test('an initially hidden page waits and assembles when it first becomes visible', async () => {
+  const f = fixture({ hidden: true });
+  prime(f);
+  assert.equal([...f.timers.values()].some(timer => timer.delay === 10000), false,
+    'background time must not consume the stalled-controller recovery budget');
+  f.window.SHPWoodLoader = f.controller;
+  const started = f.controller.start();
+  vm.runInNewContext(loaderGuard, { window: f.window, document: f.document });
+  await flush();
+  assert.equal(f.controller.state, 'pending');
+  assert.equal(f.animations.length, 0);
+  const preflightStartedWhileHidden = f.images.length === 1;
+  if (preflightStartedWhileHidden) {
+    f.images[0].decoded.resolve();
+    await flush();
+    assert.equal(f.controller.state, 'pending');
+    assert.equal(f.animations.length, 0);
+  }
+  f.document.hidden = false;
+  f.document.dispatch('visibilitychange');
+  await flush();
+  assert.equal(f.images.length, 1);
+  if (!preflightStartedWhileHidden) f.images[0].decoded.resolve();
+  await started;
+  await flush();
   assert.equal(f.controller.state, 'assembling');
   assert.equal(f.animations.length, 8);
   assert.ok(f.animations.every(animation => !animation.cancelled));
@@ -290,7 +340,6 @@ test('skips, missing CSS or block support, and malformed block identity fail ope
   const cases = [
     f => { f.window.__shpWoodIntroRequested = false; },
     f => { f.motion.matches = true; },
-    f => { f.document.hidden = true; },
     f => { f.window.getComputedStyle = () => ({ getPropertyValue: () => '' }); },
     f => { f.blocks[0].animate = undefined; },
     f => { f.blocks.pop(); },
@@ -318,14 +367,22 @@ test('bad geometry and partial animation setup errors expose every block and can
   assert.ok(partial.animations.length > 0 && partial.animations.length < 8);
 });
 
-test('asset failure before or after the bounded preflight settles without stale callbacks', async () => {
+test('wood decode failure before or after the bounded preflight cannot skip or cancel assembly', async () => {
   const early = fixture(); early.controller.start();
   early.images[0].decoded.reject(new Error('404'));
-  await flush(); assertSettled(early); assert.equal(early.animations.length, 0);
+  await flush();
+  assert.equal(early.controller.state, 'assembling');
+  assert.equal(early.animations.length, 8);
+  assert.ok(early.animations.every(animation => !animation.cancelled));
+  early.controller.finish(); assertSettled(early);
   const late = fixture(); late.controller.start(); late.runTimer(300);
   await flush(); assert.equal(late.controller.state, 'assembling');
   late.images[0].decoded.reject(new Error('404'));
-  await flush(); assertSettled(late);
+  await flush();
+  assert.equal(late.controller.state, 'assembling');
+  assert.equal(late.animations.length, 8);
+  assert.ok(late.animations.every(animation => !animation.cancelled));
+  late.controller.finish(); assertSettled(late);
 });
 
 test('watchdog bounds unresolved effects, while unrelated events do not interrupt assembly', async () => {
@@ -365,18 +422,65 @@ test('Home skip is one-use, actual reload overrides its query, and history or re
   const history = fixture(); prime(history, { navigationType: 'back_forward' });
   assert.equal(history.window.__shpWoodIntroRequested, false);
   await history.controller.start(); assertSettled(history);
+  const legacyReload = fixture();
+  prime(legacyReload, { url: 'https://www.siliconhillsproject.com/?skip-intro=1', legacyNavigationType: 1 });
+  assert.equal(legacyReload.window.__shpWoodIntroRequested, true);
+  await begin(legacyReload); assert.equal(legacyReload.controller.state, 'assembling'); legacyReload.controller.finish();
+  const legacyHistory = fixture(); prime(legacyHistory, { legacyNavigationType: 2 });
+  assert.equal(legacyHistory.window.__shpWoodIntroRequested, false);
+  await legacyHistory.controller.start(); assertSettled(legacyHistory);
   const reduced = fixture({ reduced: true });
   prime(reduced, { url: 'https://www.siliconhillsproject.com/?skip-intro=1', navigationType: 'reload' });
   assert.equal(reduced.window.__shpWoodIntroRequested, false);
   await reduced.controller.start(); assertSettled(reduced);
 });
 
-test('blocked storage is irrelevant and the primer watchdog prevents a late controller from hiding content', async () => {
+test('blocked storage is irrelevant and a controller arriving after 1800ms still assembles', async () => {
   const blocked = fixture();
   Object.defineProperty(blocked.window, 'sessionStorage', { get() { throw new Error('storage blocked'); } });
   prime(blocked); await begin(blocked); blocked.controller.finish(); assertSettled(blocked);
-  const late = fixture(); prime(late); late.runTimer(1800);
-  assert.equal(late.window.__shpWoodIntroRequested, false);
-  assert.equal(late.body.dataset.woodState, 'settled');
-  await late.controller.start(); assertSettled(late); assert.equal(late.animations.length, 0);
+  const late = fixture(); prime(late);
+  assert.equal([...late.timers.values()].some(timer => timer.delay <= 1800), false,
+    'the primer must not impose an 1800ms controller deadline');
+  assert.equal(late.window.__shpWoodIntroRequested, true);
+  await begin(late);
+  assert.equal(late.controller.state, 'assembling');
+  assert.equal(late.animations.length, 8);
+  assert.ok(late.animations.every(animation => !animation.cancelled));
+  late.controller.finish(); assertSettled(late);
+
+  const stalled = fixture({ hidden: true }); prime(stalled);
+  assert.equal([...stalled.timers.values()].some(timer => timer.delay === 10000), false);
+  stalled.document.hidden = false;
+  stalled.document.dispatch('visibilitychange');
+  stalled.runTimer(10000);
+  assert.equal(stalled.window.__shpWoodIntroRequested, false);
+  assert.equal(stalled.body.dataset.woodState, 'settled');
+  await stalled.controller.start(); assertSettled(stalled);
+  assert.equal(stalled.animations.length, 0);
+});
+
+test('the stalled-controller deadline cannot consume an intro while the page is hidden', () => {
+  const f = fixture(); prime(f);
+  f.document.hidden = true;
+  f.runTimer(10000);
+  assert.equal(f.window.__shpWoodIntroRequested, true);
+  assert.equal(f.body.dataset.woodState, 'pending');
+  f.document.dispatch('visibilitychange');
+  f.document.hidden = false;
+  f.document.dispatch('visibilitychange');
+  f.runTimer(10000);
+  assert.equal(f.window.__shpWoodIntroRequested, false);
+  assert.equal(f.body.dataset.woodState, 'settled');
+});
+
+test('a genuine controller-script failure uses the post-script guard to fail open', () => {
+  const f = fixture();
+  prime(f);
+  assert.equal(typeof f.window.__shpWoodIntroFailOpen, 'function');
+  vm.runInNewContext(loaderGuard, { window: f.window, document: f.document });
+  assert.equal(f.window.__shpWoodIntroRequested, false);
+  assert.equal(f.window.__shpWoodIntroFailOpen, null);
+  assert.equal(f.body.dataset.woodState, 'settled');
+  assert.ok(!f.classes.has('wood-intro-pending') && !f.classes.has('wood-intro-running'));
 });

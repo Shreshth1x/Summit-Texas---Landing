@@ -2,11 +2,13 @@
 const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
+const { Readable } = require('node:stream');
+const { pathToFileURL } = require('node:url');
 
 const root = path.resolve(__dirname, '..');
 const port = Number(process.env.PORT || 4179);
 // Keep the local read credential separate from Vercel's generated env pull.
-for (const filename of ['.env.local', '.env.donations.local']) {
+for (const filename of ['.env.local', '.env.donations.local', '.env.admin.local']) {
   try { process.loadEnvFile(path.join(root, filename)); }
   catch (error) { if (error.code !== 'ENOENT') throw error; }
 }
@@ -23,6 +25,29 @@ const types = {
 };
 const privateDirectories = new Set(['api', 'tools', 'tests', 'tmp', 'output', 'outputs', 'node_modules']);
 
+// Run Vercel's Web-standard middleware and functions locally.
+const loadModule = relative => import(pathToFileURL(path.join(root, relative)).href);
+const webFunctions = { '/api/admin-login': 'api/admin-login.mjs', '/api/admin-logout': 'api/admin-logout.mjs' };
+
+function toWebRequest(req) {
+  const headers = new Headers();
+  for (const [name, value] of Object.entries(req.headers)) {
+    if (value !== undefined) headers.set(name, Array.isArray(value) ? value.join(', ') : value);
+  }
+  const init = { method: req.method, headers };
+  if (!['GET', 'HEAD'].includes(req.method)) Object.assign(init, { body: Readable.toWeb(req), duplex: 'half' });
+  return new Request(`http://${req.headers.host || `127.0.0.1:${port}`}${req.url}`, init);
+}
+
+async function sendWebResponse(res, response) {
+  const headers = {};
+  response.headers.forEach((value, name) => { if (name !== 'set-cookie') headers[name] = value; });
+  const cookies = response.headers.getSetCookie();
+  if (cookies.length) headers['set-cookie'] = cookies;
+  res.writeHead(response.status, headers);
+  res.end(Buffer.from(await response.arrayBuffer()));
+}
+
 function reply(res, status, message) {
   res.writeHead(status, { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' });
   res.end(message);
@@ -35,6 +60,14 @@ const server = http.createServer(async (req, res) => {
     catch (_) { return reply(res, 400, 'Invalid URL'); }
 
     if (pathname === '/api/donations') return await donations(req, res);
+    if (webFunctions[pathname]) {
+      const handler = (await loadModule(webFunctions[pathname]))[req.method];
+      if (!handler) {
+        res.setHeader('Allow', 'POST');
+        return reply(res, 405, 'Method not allowed');
+      }
+      return await sendWebResponse(res, await handler(toWebRequest(req)));
+    }
     if (!['GET', 'HEAD'].includes(req.method)) {
       res.setHeader('Allow', 'GET, HEAD');
       return reply(res, 405, 'Method not allowed');
@@ -45,6 +78,13 @@ const server = http.createServer(async (req, res) => {
     if (redirect) {
       res.writeHead(redirect.permanent ? 308 : 307, { Location: redirect.destination });
       return res.end();
+    }
+
+    const middleware = await loadModule('middleware.js');
+    if (middleware.config.matcher.includes(pathname)) {
+      const response = await middleware.default(toWebRequest(req));
+      if (response) return await sendWebResponse(res, response);
+      res.setHeader('X-Robots-Tag', 'noindex');
     }
 
     const parts = pathname.split('/').filter(Boolean);

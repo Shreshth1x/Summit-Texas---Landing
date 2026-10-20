@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login · Silicon Hills Project</title>
+  <meta name="description" content="Admin access to the Silicon Hills Project directories.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" type="image/png" href="/assets/favicon.png?v=blacklogo-1">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=54">
+  <link rel="stylesheet" href="/simple-pages.css?v=11">
+  <link rel="stylesheet" href="/admin.css?v=1">
+  <link rel="stylesheet" href="/page-transitions.css?v=2">
+  <script src="/page-transitions.js?v=4"></script>
+  <script src="/admin-login.js?v=1" defer></script>
+</head>
+<body class="simple-page admin-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="simple-header">
+    <a class="simple-back" href="/about">About</a>
+  </header>
+
+  <main class="simple-main admin-main" id="main-content">
+    <h1 class="simple-title">Admin Login</h1>
+    <p class="admin-intro">The member and company directories are visible to Silicon Hills Project admins only.</p>
+
+    <form id="admin-login-form" class="admin-login" action="/api/admin-login" method="post">
+      <input type="hidden" name="next" value="/members">
+      <div class="form-field">
+        <label for="password">Admin password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" maxlength="200" required>
+      </div>
+
+      <button class="admin-submit" type="submit">
+        <span>Log in</span>
+        <span aria-hidden="true">↗</span>
+      </button>
+
+      <div class="form-status" role="status" aria-live="polite" tabindex="-1"></div>
+    </form>
+  </main>
+
+  <footer class="simple-footer">
+    <nav class="action-nav" aria-label="Site">
+      <a class="action-box" href="/donate">Donate</a>
+      <a class="action-box" href="/sponsorships">Sponsor</a>
+      <a class="action-box" href="https://forms.gle/cpnMY6kZ5T8prHWN9">Apply</a>
+      <a class="action-box" href="mailto:contact@siliconhillsproject.com">Contact</a>
+      <a class="action-box" href="/blog">Blog</a>
+      <a class="action-box" href="/refer">Refer a Member</a>
+      <a class="action-box" href="/members">Member Directory</a>
+      <a class="action-box" href="/companies">Company Directory</a>
+    </nav>
+  </footer>
+</body>
+</html>

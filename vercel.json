@@ -17,6 +17,13 @@
   ],
   "headers": [
     {
+      "source": "/(members|companies|admin-login)",
+      "headers": [
+        { "key": "Cache-Control", "value": "private, no-store" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    },
+    {
       "source": "/join",
       "headers": [
         {

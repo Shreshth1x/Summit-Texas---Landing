@@ -1,0 +1,191 @@
+/* Admin login and the private directories, in the shared limestone palette. */
+.admin-page {
+  --error: #8f2f21;
+}
+
+.admin-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.admin-logout {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-dim);
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.admin-logout:hover { color: var(--basalt); }
+
+.admin-main .simple-title { margin-bottom: 1.25rem; }
+
+.admin-intro {
+  max-width: 39rem;
+  margin-bottom: 3rem;
+  color: var(--ink-dim);
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: -0.012em;
+}
+
+/* Login */
+.admin-login {
+  max-width: 26rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--ink-faint);
+}
+
+.form-field { margin-bottom: 1.5rem; }
+
+.form-field label {
+  display: block;
+  margin-bottom: 0.55rem;
+  color: var(--basalt);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.form-field input {
+  display: block;
+  width: 100%;
+  min-height: 3.35rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--ink-faint);
+  border-radius: 0.25rem;
+  background: rgba(255, 252, 235, 0.28);
+  color: var(--basalt);
+  font: inherit;
+  font-size: 1rem;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+
+.form-field input:hover,
+.form-field input:focus {
+  border-color: var(--orange);
+  background: rgba(255, 252, 235, 0.48);
+}
+
+.admin-submit {
+  display: inline-flex;
+  min-height: 3.25rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1.125rem;
+  border: 1px solid var(--orange);
+  border-radius: 0.25rem;
+  background: var(--paper);
+  color: var(--basalt);
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: background-color 180ms ease;
+}
+
+.admin-submit:hover { background: var(--orange-soft); }
+
+.form-field input:focus-visible,
+.admin-submit:focus-visible,
+.admin-logout:focus-visible,
+.directory-entry a:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 4px;
+}
+
+.admin-page .form-status {
+  display: none;
+  margin-top: 1.5rem;
+  padding: 1rem 1.1rem;
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+.admin-page .form-status:not(:empty) { display: block; }
+.admin-page .form-status--error { background: rgba(247, 226, 219, 0.78); color: var(--error); }
+
+/* Directories */
+.directory__head,
+.directory-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 0.6fr);
+  gap: 0.5rem 1.5rem;
+}
+
+.directory__head {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--ink-faint);
+  color: var(--ink-dim);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.directory__list { list-style: none; }
+
+.directory-entry {
+  padding-block: 1.5rem;
+  border-bottom: 1px solid var(--ink-faint);
+}
+
+.directory-entry__name {
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+}
+
+.directory-entry__meta {
+  margin-top: 0.25rem;
+  color: var(--ink-dim);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.directory-entry__detail {
+  color: var(--ink-dim);
+  font-size: 0.875rem;
+  line-height: 1.75;
+}
+
+.directory-entry__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.directory-entry a {
+  color: var(--basalt);
+  text-decoration-color: var(--orange);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+
+.directory__empty {
+  padding-block: 2rem;
+  border-bottom: 1px solid var(--ink-faint);
+  color: var(--ink-dim);
+  font-size: 0.875rem;
+  line-height: 1.75;
+}
+
+.directory__list:has(.directory-entry) + .directory__empty { display: none; }
+
+@media (max-width: 600px) {
+  .admin-intro { margin-bottom: 2.5rem; }
+  .directory__head { display: none; }
+  .directory-entry { grid-template-columns: minmax(0, 1fr); border-top: 0; }
+  .directory__list { border-top: 1px solid var(--ink-faint); }
+  .directory-entry__links { flex-direction: row; gap: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-field input,
+  .admin-submit { transition: none; }
+}

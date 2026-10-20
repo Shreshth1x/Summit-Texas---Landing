@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Directory · Silicon Hills Project</title>
+  <meta name="description" content="Silicon Hills Project company directory. Admins only.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" type="image/png" href="/assets/favicon.png?v=blacklogo-1">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=54">
+  <link rel="stylesheet" href="/simple-pages.css?v=11">
+  <link rel="stylesheet" href="/admin.css?v=1">
+  <link rel="stylesheet" href="/page-transitions.css?v=2">
+  <script src="/page-transitions.js?v=4"></script>
+</head>
+<body class="simple-page admin-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="simple-header admin-header">
+    <a class="simple-back" href="/about">About</a>
+    <form action="/api/admin-logout" method="post">
+      <button class="admin-logout" type="submit">Log out</button>
+    </form>
+  </header>
+
+  <main class="simple-main admin-main" id="main-content">
+    <h1 class="simple-title">Company Directory</h1>
+    <p class="admin-intro">Companies founded by and working with Silicon Hills Project members. Visible to admins only.</p>
+
+    <section class="directory" aria-label="Companies">
+      <div class="directory__head" aria-hidden="true">
+        <span>Company</span>
+        <span>What they do</span>
+        <span>Links</span>
+      </div>
+
+      <ul class="directory__list">
+        <!-- Copy this block once per company, inside the list:
+        <li class="directory-entry">
+          <div>
+            <h2 class="directory-entry__name">Company Name</h2>
+            <p class="directory-entry__meta">Sector · Stage</p>
+          </div>
+          <p class="directory-entry__detail">One line on what the company does. Founders: Name, Name.</p>
+          <p class="directory-entry__links">
+            <a href="https://example.com" target="_blank" rel="noopener noreferrer">Website</a>
+            <a href="https://www.linkedin.com/company/example" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </p>
+        </li>
+        -->
+      </ul>
+
+      <p class="directory__empty">No companies added yet.</p>
+    </section>
+  </main>
+
+  <footer class="simple-footer">
+    <nav class="action-nav" aria-label="Site">
+      <a class="action-box" href="/donate">Donate</a>
+      <a class="action-box" href="/sponsorships">Sponsor</a>
+      <a class="action-box" href="https://forms.gle/cpnMY6kZ5T8prHWN9">Apply</a>
+      <a class="action-box" href="mailto:contact@siliconhillsproject.com">Contact</a>
+      <a class="action-box" href="/blog">Blog</a>
+      <a class="action-box" href="/refer">Refer a Member</a>
+      <a class="action-box" href="/members">Member Directory</a>
+      <a class="action-box" href="/companies" aria-current="page">Company Directory</a>
+    </nav>
+  </footer>
+</body>
+</html>

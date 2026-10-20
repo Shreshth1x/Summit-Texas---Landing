@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refer a Member · Silicon Hills Project</title>
+  <meta name="description" content="Refer a builder to the Silicon Hills Project at UT Austin.">
+  <link rel="canonical" href="https://www.siliconhillsproject.com/refer">
+  <meta property="og:title" content="Refer a Member · Silicon Hills Project">
+  <meta property="og:description" content="Refer a builder to the Silicon Hills Project at UT Austin.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.siliconhillsproject.com/refer">
+  <meta property="og:site_name" content="Silicon Hills Project">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" type="image/png" href="/assets/favicon.png?v=blacklogo-1">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=54">
+  <link rel="stylesheet" href="/simple-pages.css?v=9">
+  <link rel="stylesheet" href="/refer.css?v=1">
+  <link rel="stylesheet" href="/page-transitions.css?v=2">
+  <script src="/page-transitions.js?v=4"></script>
+  <script src="/refer.js?v=1" defer></script>
+</head>
+<body class="simple-page refer-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="simple-header">
+    <a class="simple-back" href="/about">About</a>
+  </header>
+
+  <main class="simple-main refer-main" id="main-content">
+    <h1 class="simple-title">Refer a Member</h1>
+    <p class="refer-intro">Know a builder who belongs at Summit House? Tell us about them. Once your referral is reviewed, we’ll email you an update on its status.</p>
+
+    <!-- Set data-endpoint to the Apps Script web app URL. See tools/REFERRALS.md. -->
+    <form id="refer-form" class="refer-form" method="post" novalidate data-endpoint="https://script.google.com/macros/s/AKfycbxet0O2j4SjYZpcnA1Q8PGM1aLbI8ABJCbY2qbtyq-o0LpMM21Pu2XRWHTbaPTOxaLM/exec">
+      <fieldset>
+        <legend>About you</legend>
+        <div class="form-field">
+          <label for="referrerName">Your name</label>
+          <input id="referrerName" name="referrerName" type="text" autocomplete="name" maxlength="120" required>
+        </div>
+        <div class="form-field">
+          <label for="referrerEmail">Your email</label>
+          <input id="referrerEmail" name="referrerEmail" type="email" autocomplete="email" inputmode="email" maxlength="254" aria-describedby="referrerEmail-help" required>
+          <p class="field-help" id="referrerEmail-help">We’ll send the referral status update here.</p>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Who you’re referring</legend>
+        <div class="form-field">
+          <label for="refereeName">Their name</label>
+          <input id="refereeName" name="refereeName" type="text" autocomplete="off" maxlength="120" required>
+        </div>
+        <div class="form-field">
+          <label for="reason">Why are you referring them?</label>
+          <input id="reason" name="reason" type="text" autocomplete="off" maxlength="240" aria-describedby="reason-help" required>
+          <p class="field-help" id="reason-help">One sentence is enough.</p>
+        </div>
+        <div class="form-field">
+          <label for="link">LinkedIn, portfolio, or project link</label>
+          <input id="link" name="link" type="url" inputmode="url" autocomplete="off" maxlength="500" placeholder="https://" required>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="refereeEmail">Their email</label>
+            <input id="refereeEmail" name="refereeEmail" type="email" inputmode="email" autocomplete="off" maxlength="254" required>
+          </div>
+          <div class="form-field">
+            <label for="refereePhone">Their phone number</label>
+            <input id="refereePhone" name="refereePhone" type="tel" inputmode="tel" autocomplete="off" maxlength="40" required>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="form-trap" aria-hidden="true">
+        <label for="website">Website</label>
+        <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
+      <button class="refer-submit" type="submit">
+        <span>Submit referral</span>
+        <span aria-hidden="true">↗</span>
+      </button>
+
+      <div class="form-status" role="status" aria-live="polite" tabindex="-1"></div>
+      <noscript><p class="form-status form-status--error">JavaScript is required to submit a referral. You can also email <a href="mailto:contact@siliconhillsproject.com">contact@siliconhillsproject.com</a>.</p></noscript>
+    </form>
+  </main>
+
+  <footer class="simple-footer">
+    <nav class="action-nav" aria-label="Site">
+      <a class="action-box" href="/donate">Donate</a>
+      <a class="action-box" href="/sponsorships">Sponsor</a>
+      <a class="action-box" href="https://forms.gle/cpnMY6kZ5T8prHWN9">Apply</a>
+      <a class="action-box" href="mailto:contact@siliconhillsproject.com">Contact</a>
+      <a class="action-box" href="/blog">Blog</a>
+      <a class="action-box action-box--wide" href="/refer" aria-current="page">Refer a Member</a>
+    </nav>
+  </footer>
+</body>
+</html>

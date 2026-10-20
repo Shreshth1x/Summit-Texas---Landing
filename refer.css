@@ -1,0 +1,139 @@
+/* One continuous document in the shared limestone palette, like Sponsor. */
+.refer-page {
+  --error: #8f2f21;
+  --success: #315a43;
+}
+
+.refer-main .simple-title { margin-bottom: 1.25rem; }
+
+.refer-intro {
+  max-width: 39rem;
+  margin-bottom: 3rem;
+  color: var(--ink-dim);
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: -0.012em;
+}
+
+.refer-form fieldset {
+  margin: 0;
+  padding: 2rem 0 0.75rem;
+  border: 0;
+  border-top: 1px solid var(--ink-faint);
+}
+
+.refer-form legend {
+  float: left;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  padding: 0;
+  font-size: 1.375rem;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.03em;
+}
+
+.refer-form legend + * { clear: left; }
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 1.5rem;
+}
+
+.form-field { margin-bottom: 1.5rem; }
+
+.form-field label {
+  display: block;
+  margin-bottom: 0.55rem;
+  color: var(--basalt);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.form-field input {
+  display: block;
+  width: 100%;
+  min-height: 3.35rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--ink-faint);
+  border-radius: 0.25rem;
+  background: rgba(255, 252, 235, 0.28);
+  color: var(--basalt);
+  font: inherit;
+  font-size: 1rem;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+
+.form-field input:hover,
+.form-field input:focus {
+  border-color: var(--orange);
+  background: rgba(255, 252, 235, 0.48);
+}
+
+.form-field input:focus-visible,
+.refer-submit:focus-visible,
+.refer-page .form-status a:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 4px;
+}
+
+.field-help {
+  margin-top: 0.45rem;
+  color: var(--ink-dim);
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+
+.form-trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.refer-submit {
+  display: inline-flex;
+  min-height: 3.25rem;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  padding: 0.875rem 1.125rem;
+  border: 1px solid var(--orange);
+  border-radius: 0.25rem;
+  background: var(--paper);
+  color: var(--basalt);
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: background-color 180ms ease, opacity 180ms ease;
+}
+
+.refer-submit:hover { background: var(--orange-soft); }
+.refer-submit:disabled { cursor: wait; opacity: 0.58; }
+
+.refer-page .form-status {
+  display: none;
+  margin-top: 1.5rem;
+  padding: 1rem 1.1rem;
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+.refer-page .form-status:not(:empty) { display: block; }
+.refer-page .form-status--success { background: rgba(231, 240, 234, 0.72); color: var(--success); }
+.refer-page .form-status--error { background: rgba(247, 226, 219, 0.78); color: var(--error); }
+.refer-page .form-status a { color: inherit; }
+
+@media (max-width: 600px) {
+  .refer-intro { margin-bottom: 2.5rem; }
+  .form-row { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-field input,
+  .refer-submit { transition: none; }
+}

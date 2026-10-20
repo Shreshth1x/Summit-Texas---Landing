@@ -136,6 +136,7 @@
 .action-box:hover { border-color: var(--orange); background: var(--orange-soft); }
 .action-box[aria-current="page"] { border-color: var(--orange); }
 .action-box:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+.action-nav .action-box.action-box--wide { grid-column: 1 / -1; }
 
 /* Keep the original box composition, with one clear way into the project. */
 .landing-page {

@@ -1,6 +1,7 @@
 /* Google Apps Script backing the Refer a Member form. Setup: tools/REFERRALS.md */
 
 const SHEET_NAME = 'Referrals';
+const NOTIFICATION_EMAIL = 'contact@siliconhillsproject.com';
 const HEADERS = [
   'Submitted', 'Referrer name', 'Referrer email', 'Referee name', 'Reason',
   'Link', 'Referee email', 'Referee phone', 'Status'
@@ -35,6 +36,7 @@ function doPost(e) {
 
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
+  let reviewUrl;
   try {
     const sheet = getSheet();
     sheet.appendRow([
@@ -42,10 +44,42 @@ function doPost(e) {
       ...Object.keys(LIMITS).map((key) => sanitize(values[key])),
       'Pending'
     ]);
+    reviewUrl = getReviewUrl(sheet, sheet.getLastRow());
   } finally {
     lock.releaseLock();
   }
+
+  sendReferralNotification(values, reviewUrl);
   return reply({ ok: true });
+}
+
+function sendReferralNotification(values, reviewUrl) {
+  const lines = [
+    'A new member referral is awaiting review.',
+    '',
+    'Referee: ' + values.refereeName,
+    'Referred by: ' + values.referrerName + ' (' + values.referrerEmail + ')',
+    'Reason: ' + values.reason,
+    'Link: ' + values.link,
+    'Referee email: ' + values.refereeEmail,
+    'Referee phone: ' + values.refereePhone,
+    '',
+    'Review this referral: ' + reviewUrl
+  ];
+
+  MailApp.sendEmail({
+    to: NOTIFICATION_EMAIL,
+    subject: 'New member referral awaiting review',
+    body: lines.join('\n'),
+    name: 'Silicon Hills Project referrals',
+    replyTo: values.referrerEmail
+  });
+}
+
+function getReviewUrl(sheet, row) {
+  return sheet.getParent().getUrl()
+    + '#gid=' + sheet.getSheetId()
+    + '&range=A' + row + ':I' + row;
 }
 
 function getSheet() {

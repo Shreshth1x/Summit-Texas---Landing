@@ -2,7 +2,9 @@
 
 The Refer a Member page (`refer.html`) posts each referral to a Google Apps
 Script web app, which appends a row to a Google Sheet. New rows start with the
-status `Pending`; update that column as referrals are reviewed, then email the
+status `Pending`. After saving the row, the script automatically emails
+`contact@siliconhillsproject.com` with the submitted details and a link to the
+new row. Update the status column as referrals are reviewed, then email the
 referrer at the address in the row.
 
 ## Setup
@@ -12,14 +14,16 @@ referrer at the address in the row.
    with `tools/referrals-apps-script.gs`, and save.
 3. Select **Deploy → New deployment**, choose type **Web app**, set
    **Execute as: Me** and **Who has access: Anyone**, then deploy and
-   authorize.
+   authorize access to both Google Sheets and email sending.
 4. Copy the web app URL (it ends in `/exec`) into the `data-endpoint`
    attribute of `#refer-form` in `refer.html`, then commit and deploy.
 
 The script creates a `Referrals` tab with headers on the first submission.
 
-When you change the script later, use **Deploy → Manage deployments → Edit**
-and pick a new version, so the URL stays the same.
+When you change the script later, use **Deploy → Manage deployments → Edit**,
+pick **New version**, and deploy it so the URL stays the same. Google may ask
+you to authorize the email permission the first time this notification version
+is deployed.
 
 Until `data-endpoint` is set, the form tells visitors to email
 contact@siliconhillsproject.com instead.

@@ -148,6 +148,87 @@
   white-space: nowrap;
 }
 
+.house-support {
+  margin-top: clamp(4rem, 8vw, 6rem);
+}
+
+.house-support .simple-title {
+  margin-bottom: 1rem;
+}
+
+.house-support__intro {
+  margin: 0 0 2rem;
+  color: var(--ink-dim);
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  line-height: 1.6;
+}
+
+.house-support__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.house-support__card {
+  display: flex;
+  min-width: 0;
+  min-height: 14rem;
+  flex-direction: column;
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  border: 1px solid var(--ink-faint);
+  border-radius: 0.75rem;
+  background: var(--paper);
+  color: var(--basalt);
+  text-decoration: none;
+  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.house-support__card:hover {
+  border-color: var(--orange);
+  background: var(--orange-soft);
+  transform: translateY(-2px);
+}
+
+.house-support__card:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 4px;
+}
+
+.house-support__eyebrow {
+  margin-bottom: 0.65rem;
+  color: var(--ink-dim);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.house-support__card h3 {
+  margin: 0;
+  color: var(--basalt);
+  font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.house-support__description {
+  margin-top: 0.8rem;
+  color: var(--ink-dim);
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.house-support__action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1.5rem;
+  color: var(--basalt);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
 @media (max-width: 600px) {
   .donate-overview {
     grid-template-columns: minmax(0, 1fr);
@@ -157,10 +238,15 @@
   .donate-intro {
     margin-bottom: 2rem;
   }
+
+  .house-support__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .donate-checkout {
+  .donate-checkout,
+  .house-support__card {
     transition: none;
   }
 }

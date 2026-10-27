@@ -22,7 +22,7 @@
 .simple-page .grain,
 .landing-page .grain { opacity: 0.035; mix-blend-mode: multiply; }
 
-/* The five actions appear only after entering the project. */
+/* The actions appear only after entering the project. */
 .simple-page {
   display: flex;
   flex-direction: column;
@@ -115,8 +115,8 @@
 .contact-copy a:focus-visible { outline: 2px solid var(--orange); outline-offset: 6px; }
 
 .simple-footer { padding-bottom: clamp(1.5rem, 4vh, 3rem); }
-/* Fifteen columns: five boxes on the first row, three wider boxes filling the second. */
-.action-nav { display: grid; grid-template-columns: repeat(15, minmax(0, 1fr)); gap: 0.5rem; }
+/* Four evenly sized actions per row. */
+.action-nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.5rem; }
 .action-box {
   display: flex;
   min-height: 3.5rem;
@@ -137,8 +137,6 @@
 .action-box:hover { border-color: var(--orange); background: var(--orange-soft); }
 .action-box[aria-current="page"] { border-color: var(--orange); }
 .action-box:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
-.action-nav .action-box { grid-column: span 3; }
-.action-nav .action-box:nth-child(n + 6) { grid-column: span 5; }
 
 /* Keep the original box composition, with one clear way into the project. */
 .landing-page {
@@ -231,11 +229,7 @@
 
 @media (max-width: 560px) {
   .about-copy { font-size: 1rem; }
-  .action-nav { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-  .action-nav .action-box,
-  .action-nav .action-box:nth-child(n + 6) { grid-column: span 2; }
-  .action-nav .action-box:nth-child(4),
-  .action-nav .action-box:nth-child(5) { grid-column: span 3; }
+  .action-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .action-box { min-height: 3.25rem; padding-inline: 0.8rem; }
   .simple-main { padding-block: 3rem; }
 }

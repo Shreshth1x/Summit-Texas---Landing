@@ -1,0 +1,74 @@
+STATION Austin
+Asset: /Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/station-austin-wordmark.png
+Size: [400, 195]
+Page: https://play.google.com/store/apps/details?id=com.mightybell.stationaustin
+Source: https://play-lh.googleusercontent.com/e6rmxMCXXenLA5gLeBcGX-NnP-sCKJRwVQIjtMXWlqhKprXEGKTdsIXslWu_9DTltCaBrO69njfCCTB8nJBJ=w480-h960
+Notes: Current official app icon from Google Play listing. Cropped original cream margin to 400x195; no recoloring or redraw. STATION Austin carries forward Capital Factory community/programming; launched March 10, 2026. Brand remains orange on original cream background. Main stationaustin.org raw asset collection returned 403; official app listing supplied the public mark.
+
+Genesis — UT Austin's startup fund
+Asset: /Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/genesis-logo-light-background.png
+Size: [257, 270]
+Page: https://www.genesisut.com/
+Source: https://www.genesisut.com/genesis-logo.png
+Notes: Official homepage logo PNG is white. Homepage light-theme image uses CSS class invert; slide asset exactly reproduces that RGB inversion while retaining alpha. Source original preserved. 257x270 is native resolution; adequate for small map badge.
+
+Texas Convergent
+Asset: /Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/texas-convergent-logo-trimmed.png
+Size: [507, 446]
+Page: https://txconvergent.org/
+Source: https://txconvergent.org/images/txc.png
+Notes: Official homepage navigation mark. Original colors. Only empty margin trimmed. Alternate official favicon also saved as texas-convergent-icon.png from https://txconvergent.org/logo.png.
+
+Antler
+Asset: /Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/antler-logo.png
+Size: [1200, 287]
+Page: https://www.antler.co/
+Source: https://www.antler.co/ [inline navigation SVG with alt="Antler logo"]
+Notes: Exact official navigation SVG extracted, no path changes. SVG inherited currentColor from .text-color_red; explicit style color #ed4746 added for standalone rendering using official CSS --swatch--red:#ed4746. Resolved standalone SVG is antler-logo.svg. Official style source: https://cdn.prod.website-files.com/68c1084e137e63873a526f0f/css/antler-lumos.shared.eb1f1a439.min.css.
+
+Texas Innovation Center
+Asset: /Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/texas-innovation-center-logo.png
+Size: [1200, 174]
+Page: https://texasinnovationcenter.utexas.edu/
+Source: https://texasinnovationcenter.utexas.edu/templates/txic-2023/images/NS_KO_formal_Texas_Innovation_Center.svg
+Notes: Exact current official homepage wordmark. WHITE knockout with transparent background; display on a dark backing. Rasterized at 1200px wide without recoloring or path edits.
+
+The University of Texas at Austin
+Asset: /Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/ut-austin-shield.png
+Size: [216, 272]
+Page: https://brand.utexas.edu/identity/primary-identity
+Source: https://umac.utexas.edu/wp-content/themes/bellmont/dist/images/utexas-primary-horizontal-logo.svg
+Notes: Official university horizontal lockup, original burnt orange. Full raster ut-austin-original.png retained (1200x337). Shield crop is unchanged original left component, for separate editable labels Longhorn Startup and LEA Co-Lab. This is the university mark, NOT a program-specific logo; no individual current logos were located for those programs. LEA current directory: https://undergraduates.utexas.edu/launchpad/ut-opportunities/student-orgs. Longhorn Startup is listed at https://www.utexas.edu/entrepreneurship.
+
+Silicon Hills Project
+Asset: /Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/silicon-hills-lockup-stacked.png
+Size: [1200, 544]
+Page: local project asset supplied by user workspace
+Source: None
+Notes: Copied exact existing /Users/shreshth/Developer/SummitTexas-landing/assets/silicon-hills-lockup-stacked.svg and rasterized. Black with transparent background. No redesign.
+
+Silicon Hills Project
+Asset: /Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/silicon-hills-mark.png
+Size: [1200, 949]
+Page: local project asset supplied by user workspace
+Source: None
+Notes: Copied exact existing /Users/shreshth/Developer/SummitTexas-landing/assets/silicon-hills-mark.svg and rasterized. Black with transparent background. No redesign.
+
+{
+  "id": "capital_factory_texas_fund",
+  "organization": "Capital Factory \u2014 Texas Fund",
+  "source_page": "https://capitalfactory.com/",
+  "factual_source": "https://capitalfactory.com/texas-fund",
+  "factual_basis": "Capital Factory describes the Texas Fund as its flagship venture fund making cash investments into deep and frontier technology from seed through Series C. Current live official site supports broader founder / funding placement. Distinguish Texas Fund investing business from STATION Austin community.",
+  "image_url": "https://capitalfactory.com/brand/cf-seal-gold.svg",
+  "original_file": "cf-seal-gold.svg",
+  "slide_file": "cf-seal-gold.png",
+  "file": "/Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/cf-seal-gold.png",
+  "dimensions_px": [
+    1200,
+    1193
+  ],
+  "sha256": "cc50edb85bdaa54309d2cc08fde82e66c39d489922eb215d3e584c46b96854d4",
+  "retrieved_at": "2026-08-31",
+  "notes": "Official current homepage footer seal, exact gold SVG; rasterized without recoloring or path edits. Official current homepage wordmarks also available: cf-wordmark-gold.png (gold) and cf-wordmark-white.png (white), each rasterized from same-named SVG URLs under https://capitalfactory.com/brand/. Use editable caption Texas Fund or investment business to differentiate from STATION Austin."
+}

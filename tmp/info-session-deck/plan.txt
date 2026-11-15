@@ -1,0 +1,13 @@
+Communication job: Give prospective student builders enough context to understand why Silicon Hills Project exists, how Summit House fits into Austin's existing support network, and whether they want to join.
+
+Output: 12-slide editable 16:9 PowerPoint. No website edits, no deployment, no commit. Applications is an intentional section divider; confirmed process belongs in presenter material and has not been invented.
+
+Visual route: No template picker callable in the current tool catalog. Use Codex Grid default composition references: slide-01 (sparse large-type narrative), slide-08 (image + text), slide-17 (three-stop history timeline), slide-22 (dominant evidence and interpretation). White canvas, black Helvetica Neue, thin rules, muted gray secondary type. One light-blue emphasis for Summit House on the qualitative map; original logo colors retained. Body 24-32px; headline 48px+; cover 88px.
+
+Narrative: Silicon Hills origins -> documented venture returns -> current capital -> map of support -> our specific contribution -> audience -> house -> community expectations -> application handoff -> conditional future -> Q&A.
+
+Map axes: Broad founder community to student-focused; programs and funding to ongoing shared workspace. Qualitative primary-format positioning, not numeric measurement. Co-Lab and Texas Innovation Center intentionally shown near Summit. Antler recognized as full-time in-person, not later-stage-only. STATION Austin labeled as current community organization; Capital Factory remains a separate firm. Summit House labeled planned. Co-Lab hours/access unverified.
+
+Imagery: User-owned Silicon Hills mark; official organization logos with provenance manifest; two concept illustrations extracted from earlier user-owned alumni deck. Label both explicitly as illustrative, not site photos. Do not imply organization partnerships or endorsements.
+
+Evidence: Historical primary references, current Carta and Dealroom data, official organization descriptions, current public Silicon Hills mission, local sponsorship brief. Sources and interpretation caveats in speaker notes, key measurement scopes on slide faces.

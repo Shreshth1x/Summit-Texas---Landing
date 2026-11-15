@@ -1,0 +1,240 @@
+SLIDE 1
+Open with the audience: students who spend their free time building things and want a consistent community around the work. Summit House is the first house proposed by Silicon Hills Project. Do not present the house as already open unless the presenter has confirmed that status.
+[Sources]
+https://www.siliconhillsproject.com/mission
+/Users/shreshth/Developer/SummitTexas-landing/assets/silicon-hills-mark.svg (project brand asset)
+[/Sources]
+
+SLIDE 2
+Austin did not become a technology center by accident: leaders connected a research university, industry, government and entrepreneurs. The nickname refers to semiconductor activity and the area’s hills; do not give an unsupported precise coinage date. MCC selected Austin in 1983. Dell’s official company founding date is 1984, although his early dorm activity began before then. SEMATECH formed in August 1987 but selected Austin in January 1988 and occupied its Austin site in April 1988.
+[Sources]
+https://www.austintechnologycouncil.org/history-of-austin-tech/
+https://ic2.utexas.edu/wp-content/uploads/echeverri-2017-austin-entrepreneurial-genesis-report.pdf
+https://www.dell.com/en-us/lp/dt/timeline
+https://www.gao.gov/assets/rced-90-37.pdf (printed pp. 10–11)
+[/Sources]
+
+SLIDE 3
+The entity is Austin Ventures; the result is for Fund IV, not the whole firm. Washington State Investment Board reports $15,000,000 paid in, $126,322,781 distributions, no remaining market value, an 8.4x total value multiple and 73.23% net IRR for its Fund IV stake. Say: one public investor received about $8.40 back for every dollar contributed. The multiple includes principal. Optional short historical bridge: Austin lost 17,000 technology jobs during the dot-com crash. By 2015, Austin Ventures had failed to raise a successor fund. These setbacks do not establish that today’s ecosystem is failing.
+[Sources]
+https://www.sib.wa.gov/docs/reports/quarterly/ir123125.pdf (PDF p. 7; report as of December 31, 2025)
+https://services.austintexas.gov/edims/document.cfm?id=227523 (17,000 local technology jobs eliminated)
+https://fortune.com/2015/02/20/the-death-of-austin-ventures/ (successor-fund point only)
+[/Sources]
+
+SLIDE 4
+Avoid claiming Austin has no seed money or that funding is collapsing. Carta ranks Austin third by dollars for US pre-seed financings in Q2 2026, behind the Bay Area and New York City; its dataset covers companies on Carta and pre-seed SAFEs/convertible notes. Dealroom’s 79% measures venture dollars in rounds of $100M+, not a count of founders or a formal stage. Its chart’s trailing-four-quarter endpoint is Q2 2026 (the implied calendar window is Q3 2025–Q2 2026). These statistics describe funding markets. They do not prove that students struggle to find peers; that diagnosis is the project’s thesis and should be illustrated with the presenter’s real experience.
+[Sources]
+https://carta.com/data/state-of-pre-seed-q2-2026/ (August 13, 2026)
+https://dealroom.co/guides/austin (stage-by-round-size section; updated July 24, 2026)
+https://dealroom.co/charts/austin-stage-scaleup?embed=triple
+[/Sources]
+
+SLIDE 5
+This is an editorial positioning diagram, not a statistical scatterplot. Horizontal axis: primary audience, broader founder community to student-focused. Vertical: primary engagement format, programs and funding to ongoing shared workspace. Positions do not represent measured scores, rankings, exclusivity or absence of other services. Offerings overlap. Summit is a planned offering. Co-Lab intentionally appears close to Summit: UT lists it as coworking for student startups, but current access arrangements/hours were not verified. Texas Innovation Center provides coworking and commercialization support, primarily for UT faculty and STEM graduate students; public hours are 9 AM–4 PM weekdays. STATION Austin launched in March 2026 carrying forward Capital Factory’s community/programming; Capital Factory still exists separately. Antler is an in-person full-time residency open to solo, pre-company founders. Longhorn Startup has historically included coworking benefits; this is primary-format placement, not a claim that it has no workspace. Do not claim the upper-right is empty. The opening we see is a particular combination: student peers, West Campus, 24/7 space and an ongoing curated community. Logos identify organizations only; no partnership or endorsement is implied. UT parent mark identifies Co-Lab and Longhorn Startup; it is not a fabricated program logo.
+
+Logo provenance:
+{
+  "purpose": "Reference logos for student information-session ecosystem map. Marks identify organizations; no affiliation or endorsement implied.",
+  "assets": [
+    {
+      "id": "station_austin",
+      "organization": "STATION Austin",
+      "source_page": "https://play.google.com/store/apps/details?id=com.mightybell.stationaustin",
+      "official_context_page": "https://stationaustin.org/",
+      "image_url": "https://play-lh.googleusercontent.com/e6rmxMCXXenLA5gLeBcGX-NnP-sCKJRwVQIjtMXWlqhKprXEGKTdsIXslWu_9DTltCaBrO69njfCCTB8nJBJ=w480-h960",
+      "original_file": "station-austin-logo.png",
+      "slide_file": "station-austin-wordmark.png",
+      "notes": "Current official app icon from Google Play listing. Cropped original cream margin to 400x195; no recoloring or redraw. STATION Austin carries forward Capital Factory community/programming; launched March 10, 2026. Brand remains orange on original cream background. Main stationaustin.org raw asset collection returned 403; official app listing supplied the public mark.",
+      "file": "/Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/station-austin-wordmark.png",
+      "dimensions_px": [
+        400,
+        195
+      ],
+      "sha256": "031ac48725b56d341b3b1943c3a5c9b33fd0f69175e55e525999f4809dac5c14",
+      "retrieved_at": "2026-08-31"
+    },
+    {
+      "id": "genesis",
+      "organization": "Genesis \u2014 UT Austin's startup fund",
+      "source_page": "https://www.genesisut.com/",
+      "image_url": "https://www.genesisut.com/genesis-logo.png",
+      "original_file": "genesis-logo.png",
+      "slide_file": "genesis-logo-light-background.png",
+      "notes": "Official homepage logo PNG is white. Homepage light-theme image uses CSS class invert; slide asset exactly reproduces that RGB inversion while retaining alpha. Source original preserved. 257x270 is native resolution; adequate for small map badge.",
+      "file": "/Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/genesis-logo-light-background.png",
+      "dimensions_px": [
+        257,
+        270
+      ],
+      "sha256": "dda27d791e03f6a1e848f7615ff621bf14797f8a1c5d7a1177c2e610112438f2",
+      "retrieved_at": "2026-08-31"
+    },
+    {
+      "id": "texas_convergent",
+      "organization": "Texas Convergent",
+      "source_page": "https://txconvergent.org/",
+      "image_url": "https://txconvergent.org/images/txc.png",
+      "original_file": "texas-convergent-logo.png",
+      "slide_file": "texas-convergent-logo-trimmed.png",
+      "notes": "Official homepage navigation mark. Original colors. Only empty margin trimmed. Alternate official favicon also saved as texas-convergent-icon.png from https://txconvergent.org/logo.png.",
+      "file": "/Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/texas-convergent-logo-trimmed.png",
+      "dimensions_px": [
+        507,
+        446
+      ],
+      "sha256": "00bb27673490c5894a9632f65981f6ff0550cbb056cdd27faa2176c82c02e2b2",
+      "retrieved_at": "2026-08-31"
+    },
+    {
+      "id": "antler",
+      "organization": "Antler",
+      "source_page": "https://www.antler.co/",
+      "image_url": "https://www.antler.co/ [inline navigation SVG with alt=\"Antler logo\"]",
+      "original_file": "antler-original.svg",
+      "slide_file": "antler-logo.png",
+      "notes": "Exact official navigation SVG extracted, no path changes. SVG inherited currentColor from .text-color_red; explicit style color #ed4746 added for standalone rendering using official CSS --swatch--red:#ed4746. Resolved standalone SVG is antler-logo.svg. Official style source: https://cdn.prod.website-files.com/68c1084e137e63873a526f0f/css/antler-lumos.shared.eb1f1a439.min.css.",
+      "file": "/Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/antler-logo.png",
+      "dimensions_px": [
+        1200,
+        287
+      ],
+      "sha256": "91d9257cc875f35379c3fa0ed3a9b05046e8e59ec212be04a71f9b65b8cf5b33",
+      "retrieved_at": "2026-08-31"
+    },
+    {
+      "id": "texas_innovation_center",
+      "organization": "Texas Innovation Center",
+      "source_page": "https://texasinnovationcenter.utexas.edu/",
+      "image_url": "https://texasinnovationcenter.utexas.edu/templates/txic-2023/images/NS_KO_formal_Texas_Innovation_Center.svg",
+      "original_file": "texas-innovation-center-logo.svg",
+      "slide_file": "texas-innovation-center-logo.png",
+      "notes": "Exact current official homepage wordmark. WHITE knockout with transparent background; display on a dark backing. Rasterized at 1200px wide without recoloring or path edits.",
+      "file": "/Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/texas-innovation-center-logo.png",
+      "dimensions_px": [
+        1200,
+        174
+      ],
+      "sha256": "834c39f576d958b20d834adfa1bcaf4ce503af265ef85e4b5ea8ff53467feaf7",
+      "retrieved_at": "2026-08-31"
+    },
+    {
+      "id": "ut_austin",
+      "organization": "The University of Texas at Austin",
+      "source_page": "https://brand.utexas.edu/identity/primary-identity",
+      "source_page_final_url": "https://umac.utexas.edu/brand-center/",
+      "image_url": "https://umac.utexas.edu/wp-content/themes/bellmont/dist/images/utexas-primary-horizontal-logo.svg",
+      "original_file": "ut-austin-original.svg",
+      "slide_file": "ut-austin-shield.png",
+      "notes": "Official university horizontal lockup, original burnt orange. Full raster ut-austin-original.png retained (1200x337). Shield crop is unchanged original left component, for separate editable labels Longhorn Startup and LEA Co-Lab. This is the university mark, NOT a program-specific logo; no individual current logos were located for those programs. LEA current directory: https://undergraduates.utexas.edu/launchpad/ut-opportunities/student-orgs. Longhorn Startup is listed at https://www.utexas.edu/entrepreneurship.",
+      "file": "/Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/ut-austin-shield.png",
+      "dimensions_px": [
+        216,
+        272
+      ],
+      "sha256": "d11142468a8c6fba8c26b30ac04e87b316d0465566c803ff0179b1ef46d412da",
+      "retrieved_at": "2026-08-31"
+    },
+    {
+      "id": "silicon_hills_lockup",
+      "organization": "Silicon Hills Project",
+      "source_page": "local project asset supplied by user workspace",
+      "image_url": null,
+      "original_file": "silicon-hills-lockup-stacked.svg",
+      "slide_file": "silicon-hills-lockup-stacked.png",
+      "notes": "Copied exact existing /Users/shreshth/Developer/SummitTexas-landing/assets/silicon-hills-lockup-stacked.svg and rasterized. Black with transparent background. No redesign.",
+      "file": "/Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/silicon-hills-lockup-stacked.png",
+      "dimensions_px": [
+        1200,
+        544
+      ],
+      "sha256": "a5fa3df46cefff06fa9f400d6ecea8e2a5133756fb6a4e95ebf36ab08f784cea",
+      "retrieved_at": "2026-08-31"
+    },
+    {
+      "id": "silicon_hills_mark",
+      "organization": "Silicon Hills Project",
+      "source_page": "local project asset supplied by user workspace",
+      "image_url": null,
+      "original_file": "silicon-hills-mark.svg",
+      "slide_file": "silicon-hills-mark.png",
+      "notes": "Copied exact existing /Users/shreshth/Developer/SummitTexas-landing/assets/silicon-hills-mark.svg and rasterized. Black with transparent background. No redesign.",
+      "file": "/Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/silicon-hills-mark.png",
+      "dimensions_px": [
+        1200,
+        949
+      ],
+      "sha256": "b17b4ddd7374435743da0c949585cf9a35fce17c4c90dbd3f6b884bea0d5cc9e",
+      "retrieved_at": "2026-08-31"
+    }
+  ],
+  "unavailable_program_specific_logos": [
+    "Longhorn Startup",
+    "LEA Co-Lab"
+  ],
+  "optional_dell_logo": "Not collected: official timeline raw fetch returned 403; no asset needed for core map."
+}
+[Sources]
+https://news.capitalfactory.com/release/56d81ac2-2bce-4ff3-855f-daee4c37fc56
+https://sites.google.com/capitalfactory.com/newmembersite/physical-space/coworking
+https://www.antler.co/location/us
+https://discoverytoimpact.utexas.edu/texasinnovationcenter/
+https://undergraduates.utexas.edu/launchpad/ut-opportunities/student-orgs
+https://exl.cns.utexas.edu/build-skills/entrepreneurship
+https://utdirect.utexas.edu/apps/student/coursedocs/nlogon/download/11079027/ (historical 2021 syllabus; not proof of current benefits)
+https://txconvergent.org/
+https://www.genesisut.com/
+https://www.genesisut.com/faq
+https://www.siliconhillsproject.com/mission
+/Users/shreshth/Developer/SummitTexas-landing/EF_SPONSORSHIP_BRIEF.md
+/Users/shreshth/Developer/SummitTexas-landing/tmp/info-session-deck/assets/logos-provenance.json
+[/Sources]
+
+SLIDE 6
+This is the project’s mission and proposed contribution, not an empirically established claim that no other program serves student builders. Add the presenter’s actual story about why Silicon Hills Project was restarted here; no organizational restart history has been invented. The map shows overlap. The thesis is that this particular combination deserves to exist and can make it easier to build and stay in Austin.
+[Sources]
+https://www.siliconhillsproject.com/mission
+/Users/shreshth/Developer/SummitTexas-landing/EF_SPONSORSHIP_BRIEF.md (house, pre-accelerator focus and curated community)
+[/Sources]
+
+SLIDE 7
+This describes the intended audience rather than final eligibility or selection rules. The existing brief explicitly includes people who may not yet think of themselves as founders. Do not announce cohort size, fees, selection stages, equity terms or eligibility rules here unless the presenter supplies their final version.
+[Sources]
+/Users/shreshth/Developer/SummitTexas-landing/EF_SPONSORSHIP_BRIEF.md:13-15,37-41
+https://www.siliconhillsproject.com/mission
+[/Sources]
+
+SLIDE 8
+This is a concept illustration from the earlier user-owned alumni deck, not a site photo, construction plan, promise of fit-out, or image of the actual address. The existing sponsorship brief describes a nine-bedroom West Campus house converted to office, collaborative and light hardware project rooms. Nobody lives in the first house. Public site wording is future tense; keep launch date/access status unannounced unless confirmed. Do not infer a wet lab, heavy machine shop, licensed lab, or residential program.
+[Sources]
+/Users/shreshth/Developer/SummitTexas-landing/EF_SPONSORSHIP_BRIEF.md:11-15
+https://www.siliconhillsproject.com/mission
+/Users/shreshth/Developer/SummitTexas-landing/outputs/Silicon_Hills_Project_UT_Alumni_Deck.pptx, slide 2, concept image (extracted media image2.png; prior notes label illustrative)
+[/Sources]
+
+SLIDE 9
+Present this as the culture we want to create. It is not a formal attendance rule or promise of specific mentoring/programming. The existing brief proposes small groups, recurring accountability and targeted help, but dates and commitments remain for the team to confirm. The image is a concept illustration from the prior alumni deck, not real participants or the actual property.
+[Sources]
+https://www.siliconhillsproject.com/mission
+/Users/shreshth/Developer/SummitTexas-landing/EF_SPONSORSHIP_BRIEF.md:43-55
+/Users/shreshth/Developer/SummitTexas-landing/outputs/Silicon_Hills_Project_UT_Alumni_Deck.pptx, slide 3, concept image (extracted media image3.png; prior notes label illustrative)
+[/Sources]
+
+SLIDE 10
+APPLICATION STRUCTURE HANDOFF: The presenter has not supplied the final application structure. This is an intentional section divider, not a completed process slide. Add the confirmed eligibility, stages, deadlines, interviews, selection criteria, capacity, costs and timing in your spoken remarks or replace this slide with your own process slides. Do not infer those terms from older internal briefs. Current public join links are available via get-involved, but the form may not represent the final selection process.
+[Sources]
+User instructions in this conversation: application structure not supplied.
+https://www.siliconhillsproject.com/get-involved
+[/Sources]
+
+SLIDE 11
+The public mission is conditional: if the first house works, grow more houses and later founder houses where teams may live and build together. Those future residential houses are different from the nonresidential Summit House pilot. No expansion dates, fundraising outcomes, jobs, investment allocations or company counts are promised here.
+[Sources]
+https://www.siliconhillsproject.com/mission
+[/Sources]
+
+SLIDE 12
+Invite questions and conversation about what the audience is building. The get-involved route links to student interest, partnerships and operator roles. It is not represented here as the final cohort application deadline or selection process.
+[Sources]
+https://www.siliconhillsproject.com/get-involved
+[/Sources]
